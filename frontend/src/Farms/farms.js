@@ -1,23 +1,29 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import 'whatwg-fetch'
-import cookie from 'react-cookies'
-import FarmInline from "./FarmInline";
-import FarmCreate from "./FarmCreate";
 
+class FarmTr extends React.Component {
 
-class Farms extends React.Component {
+    render() {
+        const {farm} = this.props
+        return (
+            <tr>
+                <td>{farm.id}</td>
+                <td>{farm.title}</td>
+                <td>{farm.area}</td>
+                <td><button className='btn btn-primary'>Edit</button></td>
+            </tr>
+        )
+    }
+}
+
+class FarmsTable extends React.Component{
 
     constructor(props) {
-        super(props);
-        this.togglePostListClass = this.togglePostListClass.bind(this);
-        this.handleNewFarm = this.handleNewFarm.bind(this);
+        super(props)
+        this.state = {
+            farms: []
+        }
     }
-
-    state = {
-            posts: [],
-            postsListClass: "card"
-        };
 
     loadFarms() {
         const endpoint = '/api/farms/';
@@ -36,103 +42,48 @@ class Farms extends React.Component {
         }).then(function(responseData){
             console.log(responseData);
             thisComp.setState({
-                posts: responseData
+                farms: responseData
             })
         }).catch(function(error){
             console.log("error", error)
-        })
-    }
-
-    createFarm() {
-        const endpoint = '/api/farms/';
-        const csrfToken = cookie.load('csrftoken');
-        let thisComp = this;
-        let data = {
-              'active': true,
-              'user':"",
-              'area':"",
-              'crops':""
-        };
-        if (csrfToken !== undefined){
-            let lookupOptions = {
-                method:"POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CRSFToken': csrfToken
-                },
-                body: JSON.stringify(data),
-                credentials: 'include'
-            }
-        }
-
-        fetch(endpoint, lookupOptions).
-        then(function (response) {
-            return response.json()
-        }).then(function(responseData){
-            console.log(responseData);
-            thisComp.setState({
-                posts: responseData
-            })
-        }).catch(function(error){
-            console.log("error", error)
-        })
-    }
-
-    handleNewFarm(postItemData) {
-        console.log(postItemData);
-        let currentPosts = this.state.posts;
-        currentPosts.push(postItemData);
-        this.setState({
-            posts:currentPosts
         })
     }
 
     componentDidMount() {
         this.setState({
-            posts: [],
-            postsListClass: "card"
-        });
+            farms: []
+        })
         this.loadFarms()
     }
 
-    togglePostListClass(event){
-        event.preventDefault();
-        let currentListClass = this.state.postsListClass;
-        if (currentListClass === "") {
-           this.setState({
-               postsListClass: "card",
-           })
-        } else {
-            this.setState({
-                postsListClass: ""
-            })
-        }
-
-    }
-
-
-    render() {
-        const {posts} = this.state;
-        const {postListClass} = this.state;
-        const csrfToken = cookie.load('csrftoken');
+    render(){
+        const {farms} = this.state;
         return (
             <div>
-                <h1>Hello Farm</h1>
-                {(csrfToken !== undefined && csrfToken !== null) ?
-                    <FarmCreate newFarmItemCreated={this.handleNewPost} />
-                    : ""
-                }
-                <br /><br />
-                <button onClick={this.togglePostListClass}>Toggle Class</button>
-                {posts.length > 0 ? posts.map((postItem, index)=>{
-                    return(
-                        <FarmInline post={postItem} elClass="{postListClass}" />
-                    )
-                    }):<p>No posts Found</p>}
-                <FarmInline title="'Test Title"/>
+            <h2>Farms</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                            <th>#</th>
+                            <th>Farm</th>
+                            <th>Area</th>
+                            <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {farms.length > 0 ? farms.map((postItem, index)=>{
+                            return(
+                                <FarmTr farm={postItem} elClass="{postListClass}" />
+                            )
+                            }):<p>No posts Found</p>}
+                        </tbody>
+                    </table>
+                </div>       
             </div>
+            
         )
     }
 }
 
-export default Farms;
+export default FarmsTable

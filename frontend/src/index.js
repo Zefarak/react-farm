@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Farms from "./Farms/farms";
 
+import Index from "./Index/Index";
 
-class  App extends React.Component {
+class App extends React.Component {
     render() {
         return (
-            <Farms />
+            <Index />
         )
     }
 }

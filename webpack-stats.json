@@ -1,1 +1,1 @@
-{"status":"error","publicPath":"http://localhost:3000/frontend/","error":"ModuleNotFoundError","message":"Module not found: Error: Can't resolve 'moment' in 'C:\\Users\\Zefarak\\Desktop\\react-farm\\frontend\\src\\Farms'"}
+{"status":"done","publicPath":"http://localhost:3000/frontend/","chunks":{"main":[{"name":"main.js","publicPath":"http://localhost:3000/frontend/main.js","path":"C:\\Users\\user\\Desktop\\react-farm\\frontend\\static\\frontend\\main.js"}]}}
