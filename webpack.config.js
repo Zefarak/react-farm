@@ -5,7 +5,7 @@ var path = require('path');
 var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
 
-var ip = 'localhost'
+var ip = 'localhost';
 
 module.exports = {
   module: {

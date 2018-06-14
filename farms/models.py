@@ -37,9 +37,11 @@ class Crop(TimeStampModel):
     
 
 class Farm(TimeStampTitleModel):
+    date_test = models.DateField(null=True)
     active = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     area = models.PositiveIntegerField(default=0)
+    slug = models.SlugField(null=True)
     # crops = models.ManyToManyField(Crop, limit_choices_to={'fieldfarm__user': user}, blank=True, null=True)
 
 

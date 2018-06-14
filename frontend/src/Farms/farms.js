@@ -1,16 +1,23 @@
 import React from 'react';
 import 'whatwg-fetch'
+import  { Link } from 'react-router-dom';
 
 class FarmTr extends React.Component {
 
     render() {
-        const {farm} = this.props
+        const {farm} = this.props;
         return (
             <tr>
                 <td>{farm.id}</td>
                 <td>{farm.title}</td>
                 <td>{farm.area}</td>
-                <td><button className='btn btn-primary'>Edit</button></td>
+                <td>
+                    <h1><Link maintainScrollPosition={false} to={{
+                   pathname:`/farms/${farm.slug}`,
+                   state: {fromDashboard: false}
+               }}>{farm.title}</Link></h1>
+                </td>
+
             </tr>
         )
     }
@@ -19,7 +26,7 @@ class FarmTr extends React.Component {
 class FarmsTable extends React.Component{
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             farms: []
         }
@@ -49,10 +56,12 @@ class FarmsTable extends React.Component{
         })
     }
 
+
+
     componentDidMount() {
         this.setState({
             farms: []
-        })
+        });
         this.loadFarms()
     }
 
@@ -61,8 +70,8 @@ class FarmsTable extends React.Component{
         return (
             <div>
             <h2>Farms</h2>
-                <div class="table-responsive">
-                    <table class="table table-striped table-sm">
+                <div className="table-responsive">
+                    <table className="table table-striped table-sm">
                         <thead>
                             <tr>
                             <th>#</th>

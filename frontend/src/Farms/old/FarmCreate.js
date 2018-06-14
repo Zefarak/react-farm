@@ -100,7 +100,6 @@ class  FarmCreate extends React.Component {
     clearForm() {
         if (event) {
             event.preventDefault()
-
         }
         this.postCreateForm.reset()
     }

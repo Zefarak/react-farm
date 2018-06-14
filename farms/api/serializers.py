@@ -8,6 +8,7 @@ class FarmSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
 class CropSerializer(serializers.ModelSerializer):
 
     class Meta:
