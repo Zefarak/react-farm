@@ -1,5 +1,6 @@
 import React from 'react';
-import 'whatwg-fetch'
+import 'whatwg-fetch';
+import  { Link } from 'react-router-dom';
 
 class FarmDetail extends React.Component {
 
@@ -13,7 +14,8 @@ class FarmDetail extends React.Component {
     }
 
     loadData(slug){
-        const endpoint = '/api/farms/slug/${slug}';
+        const endpoint = '/api/farms/slug/'+ slug;
+        console.log(endpoint)
         let thisComp = this;
         let lookupOption = {
             method: 'GET',
@@ -24,6 +26,7 @@ class FarmDetail extends React.Component {
         fetch(endpoint, lookupOption).then(function (response) {
            return response.json()
         }).then(function (responseData) {
+            console.log(responseData)
             thisComp.setState({
                 farm: responseData,
                 doneLoading: true
@@ -54,10 +57,14 @@ class FarmDetail extends React.Component {
     render(){
         const {slug} = this.state;
         const {doneLoading} = this.state;
-        const {post} = this.state;
+        const {farm} = this.state;
          return (
             <div>
-                <p>{doneLoading === true? <p>{post.title}</p>:"Not Found"}</p>
+                <p><Link maintainScrollPosition={false} to={{
+                   pathname:`/`,
+                   state: {fromDashboard: false}
+               }}>Back</Link> </p>
+                <p>{doneLoading === true? <p>{farm.title}</p>:"Not Found"}</p>
             </div>
         )
     }

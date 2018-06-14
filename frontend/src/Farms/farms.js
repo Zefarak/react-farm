@@ -11,11 +11,11 @@ class FarmTr extends React.Component {
                 <td>{farm.id}</td>
                 <td>{farm.title}</td>
                 <td>{farm.area}</td>
-                <td>
-                    <h1><Link maintainScrollPosition={false} to={{
+                <td><a className='btn btn-default'><Link maintainScrollPosition={false} to={{
                    pathname:`/farms/${farm.slug}`,
                    state: {fromDashboard: false}
-               }}>{farm.title}</Link></h1>
+               }}>Επεξεργασία</Link></a>
+                    
                 </td>
 
             </tr>
@@ -68,31 +68,40 @@ class FarmsTable extends React.Component{
     render(){
         const {farms} = this.state;
         return (
-            <div>
-            <h2>Farms</h2>
-                <div className="table-responsive">
-                    <table className="table table-striped table-sm">
-                        <thead>
-                            <tr>
-                            <th>#</th>
-                            <th>Farm</th>
-                            <th>Area</th>
-                            <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {farms.length > 0 ? farms.map((postItem, index)=>{
-                            return(
-                                <FarmTr farm={postItem} elClass="{postListClass}" />
-                            )
-                            }):<p>No posts Found</p>}
-                        </tbody>
-                    </table>
-                </div>       
+            <div id="page-wrapper">
+                <div className="row">
+                    <div className="col-lg-12">
+                        <h1 className="page-header">Χωράγια</h1>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-lg-9 col-md-9">
+                        <table className="table table-striped">
+                            <thead className="thead-dark">
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Farm</th>
+                                <th scope="col">Area</th>
+                                <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {farms.length > 0 ? farms.map((postItem, index)=>{
+                                return(
+                                    <FarmTr farm={postItem} elClass="{postListClass}" />
+                                )
+                                }):<p>No posts Found</p>}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                        <a href='' className='btn btn-success'>Προσθήκη</a>
+                    </div>
+                </div>
             </div>
             
         )
     }
-}
+} 
 
 export default FarmsTable
