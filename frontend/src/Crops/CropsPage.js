@@ -6,13 +6,15 @@ import Navbar from '../Index/Navbar';
 class BodyTr extends React.Component {
     
     render() {
-        const {crop} = this.props
+        const {crop} = this.props;
         return (
 
             <tr>
+                <td>#</td>
                 <td>{crop.title}</td>
                 <td>{crop.area}</td>
                 <td>{crop.qty}</td>
+                <td><button className='btn btn-primary'>Edit</button></td>
             </tr>
         )
     }
@@ -24,37 +26,44 @@ class CropsPageBody extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            crops: Null
+            crops: []
         }
     }
 
     loadCrops(){
         const endpoint = '/api/farms/crops/'
-        const thisComp = this;
+        let thisComp = this;
         let lookupOptions = {
             method: 'GET',
             headers: {
                 'Conteny-Type': 'application/json'
             }
         }
-        fetch(endpoint, lookupOptions).then(function(response){
-            response.json()
+        fetch(endpoint, lookupOptions).
+        then(function (response) {
+            return response.json()
         }).then(function(responseData){
+            console.log(responseData);
             thisComp.setState({
                 crops: responseData
             })
         }).catch(function(error){
-            console.log('error', error)
+            console.log("error", error)
         })
     }
 
-    componentDidMount(){
+    componentDidMount() {
+        this.setState({
+            crops: []
+        });
+        console.log('first')
         this.loadCrops()
     }
 
     render(){
+        const {crops} = this.state;
         return (
-            <div className='page-wrapper'>
+            <div id='page-wrapper'>
                 <div className="row">
                     <div className="col-lg-12">
                         <h1 className="page-header">Καλλιέργιες</h1>
@@ -82,15 +91,7 @@ class CropsPageBody extends React.Component {
                                     </tr> 
                                 }
 
-
-
-
-
-                            {crops.length > 0 ? crops.map((postItem, index)=>{
-                                return(
-                                    <FarmTr farm={postItem} elClass="{postListClass}" />
-                                )
-                                }):<p>No posts Found</p>}
+                            
                             </tbody>
                         </table>
                     </div>
@@ -107,9 +108,8 @@ class CropsPageBody extends React.Component {
 class CropsPage extends React.Component {
 
     constructor(props) {
-        super(pros)
+        super(props)
     }
-
 
 
     render() {

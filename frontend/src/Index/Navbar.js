@@ -253,7 +253,10 @@ class Navbar extends React.Component{
                                   }}>Χωράφια</Link></a>     
                               </li>  
                               <li>
-                                  <a href="">Καλλιεργιες</a>
+                                  <a><Link maintainScrollPosition={false} to={{
+                                      pathname:`/καλλιέργιες/`,
+                                      state:{fromDashboard: false}
+                                  }}>Kαλλιέργιες</Link></a>
                               </li>
                               <li>
                                   <a href="">Δέντρα</a>

@@ -9,6 +9,7 @@ urlpatterns = [
     path('', view=homepage),
 
     path('χωράφια/', TemplateView.as_view(template_name='index.html')),
+    path('καλλιέργιες/', TemplateView.as_view(template_name='index.html')),
     re_path(r'^farms/', TemplateView.as_view(template_name='index.html')),
 
 

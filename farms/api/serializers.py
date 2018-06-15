@@ -19,11 +19,11 @@ class TreeSerializer(serializers.ModelSerializer):
 
 
 class CropSerializer(serializers.ModelSerializer):
-    title = TreeSerializer(read_only=True)
-
+    title = serializers.StringRelatedField()
+    
     class Meta:
         model = Crop
-        fields = "__all__"
+        fields = ['title', 'area', 'qty']
 
 
 class FarmDetailSerializer(serializers.ModelSerializer):
