@@ -12,10 +12,24 @@ class FarmDetail extends React.Component {
         this.state = {
             slug: null,
             farm: null,
-            doneLoading: false
+            crops: null,
+            doneLoading: false,
+            crop_items: []
         }
     }
 
+    loadCropItems() {
+        const crop_items = []
+        const {farm} = this.state;
+        if ( farm.crops.length > 0 ){
+            for (var i = 0; i < farm.crops.length; i++) {
+                crop_items.push(farm.crops[i].title.title)
+            }
+        }
+        this.setState({
+            crop_items: crop_items
+        })
+    }
 
     loadData(slug){
         const endpoint = '/api/farms/slug/'+ slug;
@@ -40,11 +54,14 @@ class FarmDetail extends React.Component {
                     farm: responseData,
                     doneLoading: true
                 })
+            thisComp.loadCropItems()
         }).catch(function (error) {
             console.log('error', error)
         })
 
     }
+
+    
 
     componentDidMount() {
         this.setState({
@@ -60,68 +77,75 @@ class FarmDetail extends React.Component {
             });
             console.log(slug);
             this.loadData(slug)
+            
         }
+        
     }
 
     render(){
-        const {slug} = this.state;
+        const {crop_items} = this.state;
         const {doneLoading} = this.state;
         const {farm} = this.state;
         return (
             <div id="wrapper">
                 <Navbar />
                 <div id="page-wrapper">
-                  {doneLoading === true ?
+                    {doneLoading === true ?
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <h1 className="page-header">{farm.title}</h1>
+                            </div>
+                        </div>
+                    :
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <h1 className="page-header">Loading</h1>
+                            </div>
+                        </div>
+                    }
                     <div className="row">
-                        <div className="col-lg-12">
-                            <h1 className="page-header">{farm.title}</h1>
-                        </div>
-                    </div>
-                 :<div className="row">
-                        <div className="col-lg-12">
-                            <h1 className="page-header">Loading</h1>
-                        </div>
-                    </div>
-                 }
-                <div className="row">
-                    <div className="col-lg-9 col-md-9">
-                        <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                        <ul className="list-group list-group-flush">
-                            <li className="list-group-item">Cras justo odio</li>
-                            <li className="list-group-item">Dapibus ac facilisis in</li>
-                            <li className="list-group-item">Vestibulum at eros</li>
-                        </ul>
-                        <div className="card-body">
-                            <a href="#" className="card-link">Card link</a>
-                            <a href="#" className="card-link">Another link</a>
-                        </div>
-                    </div>
-
-                    </div>
+                        {doneLoading === true ?
+                            <div className="col-lg-9 col-md-9">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h5 className="card-title">{farm.title}</h5>
+                                        <p className="card-text">Στρέμματα {farm.area}</p>
+                                    </div>
+                                    <h4>Καλλιέργιες</h4>
+                                    <ul className="list-group list-group-flush">
+                                        {crop_items.length > 0 ? crop_items.map((postItem, index)=>{
+                                            return(
+                                                <li className="list-group-item">{postItem}</li>
+                                            )
+                                            }):<li className="list-group-item">Damn</li>
+                                        }
+                                    </ul>
+                                    <div className="card-body">
+                                        <a href="#" className="card-link">{farm.timestamp}</a>
+                                        <a href="#" className="card-link">{farm.edited}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        : "No found" 
+                        }
                     <div className='col-lg-3 col-md-3'>
-                         <p><Link maintainScrollPosition={false} to={{
+                        <a className='btn btn-warning'><Link maintainScrollPosition={false} to={{
                            pathname:`/`,
                            state: {fromDashboard: false}
-                       }}>Back</Link> </p>
+                            }}>Back</Link> 
+                        </a>
                         <p>{doneLoading === true?
                             <div>
                                 <p>{farm.title}</p> {farm.owner === true ? <FarmUpdate farm={farm} />: ""}
                             </div>
                             :"Not Found"}
-                            </p>
-                        <div>
-
-
-
-                    </div>
-                    </div>
+                        </p>
+                    <div>
                 </div>
             </div>
+                </div>
             </div>
+        </div>
 
         )
     }
