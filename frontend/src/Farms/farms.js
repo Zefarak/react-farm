@@ -71,7 +71,7 @@ class FarmsTable extends React.Component{
             <div id="page-wrapper">
                 <div className="row">
                     <div className="col-lg-12">
-                        <h1 className="page-header">Χωράγια</h1>
+                        <h1 className="page-header">Χωράφια</h1>
                     </div>
                 </div>
                 <div className="row">
