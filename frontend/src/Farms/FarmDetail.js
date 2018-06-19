@@ -19,7 +19,7 @@ class FarmDetail extends React.Component {
     }
 
     loadCropItems() {
-        const crop_items = []
+        const crop_items = [];
         const {farm} = this.state;
         if ( farm.crops.length > 0 ){
             for (var i = 0; i < farm.crops.length; i++) {

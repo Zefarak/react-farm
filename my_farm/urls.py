@@ -10,10 +10,13 @@ urlpatterns = [
 
     path('χωράφια/', TemplateView.as_view(template_name='index.html')),
     path('καλλιέργιες/', TemplateView.as_view(template_name='index.html')),
+    path('καλλιέργιες/δημιουργία', TemplateView.as_view(template_name='index.html')),
+
     re_path(r'^farms/', TemplateView.as_view(template_name='index.html')),
 
 
     path('api/farms/', include('farms.urls')),
+
     
 
 

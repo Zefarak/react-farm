@@ -5,6 +5,8 @@ import Index from "./Index/Index";
 import FarmDetail from "./Farms/FarmDetail";
 import FarmsPage from './Farms/FarmsPage';
 import CropsPage from './Crops/CropsPage';
+import CropsCreate from './Crops/CropsCreate';
+
 
 class App extends React.Component {
 
@@ -16,6 +18,8 @@ class App extends React.Component {
                     <Route exact path="/farms/:slug" component={FarmDetail} />
 
                     <Route exact path='/καλλιέργιες' component={CropsPage} />
+                    <Route exact path='/καλλιέργιες/δημιουργία' component={CropsCreate} />
+
                     <Route component={Index} />
                 </Switch>
             </BrowserRouter>

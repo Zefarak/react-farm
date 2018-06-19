@@ -1,7 +1,7 @@
 import React from 'react';
 import 'whatwg-fetch'
 import Navbar from '../Index/Navbar';
-
+import  { Link } from 'react-router-dom';
 
 class BodyTr extends React.Component {
     
@@ -24,21 +24,21 @@ class BodyTr extends React.Component {
 class CropsPageBody extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             crops: []
         }
     }
 
     loadCrops(){
-        const endpoint = '/api/farms/crops/'
+        const endpoint = '/api/farms/crops/';
         let thisComp = this;
         let lookupOptions = {
             method: 'GET',
             headers: {
                 'Conteny-Type': 'application/json'
             }
-        }
+        };
         fetch(endpoint, lookupOptions).
         then(function (response) {
             return response.json()
@@ -56,7 +56,7 @@ class CropsPageBody extends React.Component {
         this.setState({
             crops: []
         });
-        console.log('first')
+        console.log('first');
         this.loadCrops()
     }
 
@@ -96,7 +96,11 @@ class CropsPageBody extends React.Component {
                         </table>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                        <a href='' className='btn btn-success'>Προσθήκη</a>
+                        <Link className="btn btn-primary" maintainScrollPosition={false} to={{
+                                pathname:`/καλλιέργιες/δημιουργία`,
+                                state: {fromDashboard: false}
+                            }}>Επεξεργασία
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -11,10 +11,14 @@ class FarmTr extends React.Component {
                 <td>{farm.id}</td>
                 <td>{farm.title}</td>
                 <td>{farm.area}</td>
-                <td><a className='btn btn-default'><Link maintainScrollPosition={false} to={{
-                   pathname:`/farms/${farm.slug}`,
-                   state: {fromDashboard: false}
-               }}>Επεξεργασία</Link></a>
+                <td>
+                    <a className='btn btn-default'>
+                        <Link maintainScrollPosition={false} to={{
+                            pathname:`/farms/${farm.slug}`,
+                            state: {fromDashboard: false}
+                        }}>Επεξεργασία
+                        </Link>
+                    </a>
                     
                 </td>
 
