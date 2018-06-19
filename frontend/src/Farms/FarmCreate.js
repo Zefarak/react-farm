@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import 'whatwg-fetch';
 import cookie from 'react-cookies';
 import moment from 'moment';
+import Navbar from '../Index/Navbar';
 
 class FarmCreate extends Component {
 
@@ -65,12 +66,12 @@ class FarmCreate extends Component {
 
     handleSubmit(event){
         event.preventDefault();
-        console.log(event);
         let data = this.state;
         this.createFarm(data)
     }
 
     componentDidMount(){
+
         this.setState({
             title: null,
             area:40,
@@ -83,24 +84,35 @@ class FarmCreate extends Component {
     render() {
         const {date_test} = this.state;
         return (
-            <form method='POST' className='form'>
-                <div className='form-control'>
-                    <input onChange={this.handleInputChange} type='text' name='title' placeholder='Title' required />
+            <div className='wrapper'>
+                <Navbar />
+                <div className="row">
+                    <h4>Δημιούργησε νέο χωράφι</h4>
                 </div>
-                <div className='form-control'>
-                    <label for='area'>Area</label>
-                    <input onChange={this.handleInputChange} type='text' name='Area' placeholder='50' required />
+                <div className='row'>
+                    <div className='col-lg-6'>
+                        <form method='POST' className='form'>
+                            <div className='form-control'>
+                                <input onChange={this.handleInputChange} type='text' name='title' placeholder='Title' required />
+                            </div>
+                            <div className='form-control'>
+                                <label for='area'>Area</label>
+                                <input onChange={this.handleInputChange} type='text' name='Area' placeholder='50' required />
+                            </div>
+                            <div className='form-control'>
+                                <label for='active'>Status</label>
+                                <input onChange={this.handleCheckboxChange} type='checkbox' name='active' value={this.state.active} required />
+                            </div>
+                            <div className="form-control">
+                                <label>Date test</label>
+                                <input onChange={this.handleInputChange} type="date" name="date_test" value={date_test}  />
+                            </div>
+                            <button onClick={this.handleSubmit} className='btn btn-success'>Save</button>
+                        </form>
+                    </div>
                 </div>
-                <div className='form-control'>
-                    <label for='active'>Status</label>
-                    <input onChange={this.handleCheckboxChange} type='checkbox' name='active' value={this.state.active} required />
-                </div>
-                <div className="form-control">
-                    <label>Date test</label>
-                    <input onChange={this.handleInputChange} type="date" name="date_test" value={date_test}  />
-                </div>
-                <button onClick={this.handleSubmit} className='btn btn-success'>Save</button>
-            </form>
+            </div>
+            
         )
     }
 }

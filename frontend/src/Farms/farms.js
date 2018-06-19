@@ -99,7 +99,11 @@ class FarmsTable extends React.Component{
                         </table>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                        <a href='' className='btn btn-success'>Προσθήκη</a>
+                        <Link className='btn btn-primary' maintainScrollPosition={false} to={{
+                            pathname: `/χωράφια/δημιουργία`,
+                            state: {fromDashboard: false}
+                        }}>Δημιουργία</Link>
+                        
                     </div>
                 </div>
             </div>

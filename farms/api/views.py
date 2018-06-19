@@ -1,5 +1,5 @@
 from rest_framework import generics
-from .serializers import FarmSerializer, CropSerializer, TreeSerializer, FarmDetailSerializer
+from .serializers import FarmSerializer, CropSerializer, CropCreateSerializer, TreeSerializer, FarmDetailSerializer
 from .serializers import TestFarmSerializer
 from ..models import Farm, Crop, Tree
 
@@ -29,6 +29,11 @@ class FarmApiSlugDetailView(generics.RetrieveUpdateDestroyAPIView):
 class CropApiView(generics.ListCreateAPIView):
     queryset = Crop.objects.all()
     serializer_class = CropSerializer
+
+
+class CropApiCreate(generics.CreateAPIView):
+    queryset = Crop.objects.all()
+    serializer_class = CropCreateSerializer
 
 
 class TreeApiView(generics.ListCreateAPIView):
