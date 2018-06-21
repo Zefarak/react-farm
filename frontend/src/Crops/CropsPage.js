@@ -31,7 +31,7 @@ class CropsPageBody extends React.Component {
     }
 
     loadCrops(){
-        const endpoint = '/api/farms/crops/';
+        const endpoint = '/api/crops/';
         let thisComp = this;
         let lookupOptions = {
             method: 'GET',

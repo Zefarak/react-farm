@@ -41,6 +41,10 @@ class TreeApiView(generics.ListCreateAPIView):
     serializer_class = TreeSerializer
 
 
+class TreeApiViewCreate(generics.CreateAPIView):
+    queryset = Tree.objects.all()
+    serializer_class = TreeSerializer
+
 
 
 

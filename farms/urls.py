@@ -2,20 +2,20 @@ from django.urls import path, include
 
 from .api.views import (FarmApiView, FarmApiCreate, FarmApiDetailView, FarmApiSlugDetailView,
                         CropApiView, CropApiCreate,
-                        TreeApiView 
+                        TreeApiView, TreeApiViewCreate
                         )
 from .api.views import TestFarmApi
 
 urlpatterns = [
-    path('', FarmApiView.as_view()),
+    path('farms/', FarmApiView.as_view()),
 
     # path('χωράφια/')
 
 
 
-    path('<int:pk>', FarmApiDetailView.as_view()),
-    path('slug/<slug:slug>', FarmApiSlugDetailView.as_view()),
-    path('create', FarmApiCreate.as_view()),
+    path('farms/<int:pk>', FarmApiDetailView.as_view()),
+    path('farms/slug/<slug:slug>', FarmApiSlugDetailView.as_view()),
+    path('farms/create', FarmApiCreate.as_view()),
 
     # crops
     path('crops/', CropApiView.as_view()),
@@ -23,6 +23,7 @@ urlpatterns = [
 
 
     path('trees/', TreeApiView.as_view()),
+    path('trees/create/', TreeApiViewCreate.as_view()),
 
 
     # test api

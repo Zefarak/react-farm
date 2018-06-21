@@ -21,7 +21,7 @@ class CropsCreate extends React.Component {
     }
 
     loadData(){
-        const endpoint = '/api/farms/trees/';
+        const endpoint = '/api/trees/';
         let thisComp = this;
         let lookupOptions = {
             method: 'GET',
@@ -44,7 +44,7 @@ class CropsCreate extends React.Component {
 
     
     createData(data) {
-        const endpoint = '/api/farms/crops/create/';
+        const endpoint = '/api/crops/create/';
         const csrfToken = cookie.load('csrftoken');
         let lookupOptions = {
             method: 'POST',
@@ -54,7 +54,7 @@ class CropsCreate extends React.Component {
                 
             },
             body: JSON.stringify(data)
-        }
+        };
         fetch(endpoint, lookupOptions).then(function(response){
             return response.json()
         }).then(function(responseData){
@@ -72,13 +72,13 @@ class CropsCreate extends React.Component {
         this.setState({
             [key]: value,
             [event.target.name]: event.target.value
-        })
+        });
         console.log(value)
         
     }
 
     handleSubmit(event){
-        event.preventDefault()
+        event.preventDefault();
         let data = this.state;
         this.createData(data)
     }

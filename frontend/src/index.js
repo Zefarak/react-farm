@@ -8,6 +8,8 @@ import FarmCreate from './Farms/FarmCreate';
 import CropsPage from './Crops/CropsPage';
 import CropsCreate from './Crops/CropsCreate';
 
+import TreePage from './Trees/TreePage';
+
 
 class App extends React.Component {
 
@@ -19,6 +21,8 @@ class App extends React.Component {
 
                     <Route exact path='/χωράφια' component={FarmsPage} />
                     <Route exact path='/χωράφια/δημιουργία/' component={FarmCreate} />
+                    <Route exact path='/δέντρα/' component={TreePage} />
+
                     
                     <Route exact path='/καλλιέργιες' component={CropsPage} />
                     <Route exact path='/καλλιέργιες/δημιουργία/' component={CropsCreate} />
