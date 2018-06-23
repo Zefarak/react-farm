@@ -21,4 +21,6 @@ urlpatterns = [
 
 
     path('api/', include('farms.urls')),
+    path('api/v1/', include('users.urls')),
+    
 ]

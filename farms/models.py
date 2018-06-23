@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from users.models import CustomUser
 # Create your models here.
 
 
@@ -39,7 +39,7 @@ class Crop(TimeStampModel):
 class Farm(TimeStampTitleModel):
     date_test = models.DateField(null=True)
     active = models.BooleanField(default=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    #user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     area = models.PositiveIntegerField(default=0)
     slug = models.SlugField(null=True)
     crops = models.ManyToManyField(Crop)
