@@ -14,7 +14,7 @@ urlpatterns = [
     path('καλλιέργιες/δημιουργία/', TemplateView.as_view(template_name='index.html')),
 
     path('δέντρα/', TemplateView.as_view(template_name='index.html')),
-    path('trees/update/', TemplateView.as_view(template_name='index.html')),
+    path('trees/<int:id>/', TemplateView.as_view(template_name='index.html')),
 
 
     re_path(r'^farms/', TemplateView.as_view(template_name='index.html')),

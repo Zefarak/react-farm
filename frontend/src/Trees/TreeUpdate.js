@@ -51,7 +51,7 @@ class TreeUpdate extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }
+        };
 
         fetch(endpoint, lookupOptions)
         .then(function(response) {

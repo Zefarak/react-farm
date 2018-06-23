@@ -3,6 +3,8 @@ import 'whatwg-fetch';
 import cookie from 'react-cookies';
 import Navbar from "../Index/Navbar";
 import {Link} from "react-router-dom"
+
+
 class BodyTr extends React.Component {
 
     render() {
@@ -14,22 +16,69 @@ class BodyTr extends React.Component {
                 <td>{tree.title}</td>
                 <td>{tree.description}</td>
                 <td>1</td>
-                <td><button className='btn btn-primary'>Edit</button></td>
+                <td><a className='btn btn-primary'>
+                    <Link maintainScrollPosition={false} to={{
+                        pathname: `trees/${tree.id}`,
+                        state: {fromDashboard: false}
+                    }}>επεξεργασία</Link>
+                </a>
+                </td>
             </tr>
         )
     }
 }
 
 class TreeBodyPage extends React.Component {
+
     constructor(props){
         super(props);
+        this.togglePostListClass = this.togglePostListClass.bind(this);
+        this.handleNewPost = this.handleNewPost.bind(this);
+        this.loadMoreTrees = this.loadMorePosts.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
             trees: [],
-            title: null,
-            description: null
+            next: null,
+            previous: null,
+            count: 0
         }
+    }
+
+    loadMoreTrees() {
+        const {next} = this.state;
+        if (next !== null) {
+            this.loadTrees(next)
+        }
+    }
+
+    loadTrees(nextEndpoint) {
+        let endpoint = '/api/trees/';
+        if (nextEndpoint !== undefined) {
+            endpoint = nextEndpoint
+        }
+        let thisComp = this;
+        let lookupOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        fetch(endpoint, lookupOptions)
+            .then(function (response) {
+                return response.json()
+            }).then(function(responseData) {
+                thisComp.setState({
+                    trees: thisComp.state.trees.concat(responseData.results),
+                    next: responseData.next,
+                    previous: responseData.previous,
+                    count: responseData.count
+                })
+        }).catch(function (error) {
+            console.log('error', error)
+        })
+
     }
 
     loadData() {
@@ -104,6 +153,7 @@ class TreeBodyPage extends React.Component {
             description: null
         });
         this.loadData();
+        console.log('here')
     }
 
     render() {
