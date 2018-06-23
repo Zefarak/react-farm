@@ -1,6 +1,28 @@
 import React from 'react';
 import 'whatwg-fetch';
 import cookie from 'react-cookies';
+import Navbar from '../Index/Navbar';
+
+class BodyTr extends React.Component {
+
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        const {tree} = this.props;
+        return (
+            <tr>
+                <td>1</td>
+                <td>{tree.title}</td>
+                <td>{tree.description}</td>
+                <td><button className='btn btn-success'>Edit</button></td>
+            </tr>
+        )
+    }
+}
+
+
 
 class TreeUpdate extends React.Component {
 
@@ -13,11 +35,32 @@ class TreeUpdate extends React.Component {
         this.treeTitleRef = React.createRef();
         this.treeDescREf = React.createRef();
         this.state = {
+            trees: [],
             status: false,
             title: null,
             description: null,
             errors: {}
         }
+    }
+
+    loadData() {
+        const endpoint = '/api/trees/';
+        const thisComp = thiis;
+        let lookupOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        fetch(endpoint, lookupOptions)
+        .then(function(response) {
+            return response.json()
+        }).then(function(responseData) {
+            thisComp.setState({
+                trees: responseData
+            })
+        })
     }
 
     createTree(data) {
@@ -118,7 +161,8 @@ class TreeUpdate extends React.Component {
         this.setState({
                 status: false,
                 title: null,
-                description: null
+                description: null,
+                trees: []
             })
     }
 
@@ -134,6 +178,55 @@ class TreeUpdate extends React.Component {
             this.defaultState()
         }
         this.treeTitleRef.current.focus()
+    }
+
+    render() {
+        return (
+            <div className=''>
+                <Navbar />
+                <div id='page-wrapper'>
+                    <div className='row'>
+                        <div className='col-lg-12'>
+                            <h1 className='page-header'>Δέντρα</h1>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col-lg-9 col-md-9'>
+                            <table className="table table-striped">
+                                <thead className="thead-dark">
+                                    <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Δέντρο</th>
+                                    <th scope="col">Σημειώσεις</th>
+                                    <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {trees.length > 0 ? trees.map((item, index)=>{
+                                        return (
+                                            <BodyTr tree={item} />
+                                        )
+                                    }) :
+                                        <tr>
+                                            <td>No Data</td>
+                                        </tr> 
+                                    }
+
+                                
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className='col-lg-3 col-md-3'>
+                        <Link className="btn btn-primary" maintainScrollPosition={false} to={{
+                                pathname:`/καλλιέργιες/δημιουργία`,
+                                state: {fromDashboard: false}
+                            }}>Επεξεργασία
+                        </Link>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
 

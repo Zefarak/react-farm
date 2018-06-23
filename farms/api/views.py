@@ -45,7 +45,9 @@ class TreeApiViewCreate(generics.CreateAPIView):
     queryset = Tree.objects.all()
     serializer_class = TreeSerializer
 
-
+class TreeApiUpdateView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Tree.objects.all()
+    serializer_class = TreeSerializer
 
 
 # tests
