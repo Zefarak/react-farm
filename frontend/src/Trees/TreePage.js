@@ -16,11 +16,11 @@ class BodyTr extends React.Component {
                 <td>{tree.title}</td>
                 <td>{tree.description}</td>
                 <td>1</td>
-                <td><a className='btn btn-primary'>
+                <td><a className='btn btn-default'>
                     <Link maintainScrollPosition={false} to={{
-                        pathname: `trees/${tree.id}`,
+                        pathname: `/trees/${tree.id}`,
                         state: {fromDashboard: false}
-                    }}>επεξεργασία</Link>
+                    }}>επεξεργασία{tree.id}</Link>
                 </a>
                 </td>
             </tr>
@@ -32,53 +32,17 @@ class TreeBodyPage extends React.Component {
 
     constructor(props){
         super(props);
-        this.togglePostListClass = this.togglePostListClass.bind(this);
-        this.handleNewPost = this.handleNewPost.bind(this);
-        this.loadMoreTrees = this.loadMorePosts.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.treeTitleRef = React.createRef();
+        this.treeDescRef = React.createRef();
+        this.clearForm = this.clearForm.bind(this)
         this.state = {
             trees: [],
             next: null,
             previous: null,
             count: 0
         }
-    }
-
-    loadMoreTrees() {
-        const {next} = this.state;
-        if (next !== null) {
-            this.loadTrees(next)
-        }
-    }
-
-    loadTrees(nextEndpoint) {
-        let endpoint = '/api/trees/';
-        if (nextEndpoint !== undefined) {
-            endpoint = nextEndpoint
-        }
-        let thisComp = this;
-        let lookupOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-
-        fetch(endpoint, lookupOptions)
-            .then(function (response) {
-                return response.json()
-            }).then(function(responseData) {
-                thisComp.setState({
-                    trees: thisComp.state.trees.concat(responseData.results),
-                    next: responseData.next,
-                    previous: responseData.previous,
-                    count: responseData.count
-                })
-        }).catch(function (error) {
-            console.log('error', error)
-        })
-
     }
 
     loadData() {
@@ -90,7 +54,8 @@ class TreeBodyPage extends React.Component {
                 'Content-Type': 'application/json'
             }
         };
-        fetch(endpoint, lookupOption).then(function (response) {
+        fetch(endpoint, lookupOption)
+        .then(function (response) {
             return response.json()
         }).then(function (responseData) {
             thisComp.setState({
@@ -101,7 +66,7 @@ class TreeBodyPage extends React.Component {
         })
     }
 
-    postData(data){
+    createTree(data){
         console.log(data);
         const endpoint = '/api/trees/create/';
         let thisComp = this;
@@ -114,19 +79,31 @@ class TreeBodyPage extends React.Component {
             },
             body: JSON.stringify(data)
         };
-        fetch(endpoint, lookupOptions).then(function (response) {
+        fetch(endpoint, lookupOptions)
+        .then(function (response) {
             return response.json()
         }).then(function (responseData) {
-            thisComp.loadAfterPost()
+            thisComp.clearForm();
+            thisComp.loadData()
         }).catch(function (error) {
             console.log('error', error)
         })
 
     }
 
-    loadAfterPost() {
-        this.loadData();
+
+    clearForm(event) {
+        if (event) {
+        event.preventDefault();
+        }
+        this.treeCreateForm.reset();
     }
+
+    clearFormRef() {
+        this.treeTitleRef.current = '';
+        this.treeDescRef.current = '';
+    }
+
 
     handleChange(event){
         event.preventDefault();
@@ -142,7 +119,7 @@ class TreeBodyPage extends React.Component {
     handleSubmit(event){
         event.preventDefault();
         const data = this.state;
-        this.postData(data);
+        this.createTree(data);
 
     }
 
@@ -150,10 +127,10 @@ class TreeBodyPage extends React.Component {
         this.setState({
             trees: ['1'],
             title: null,
-            description: null
+            description: ' '
         });
         this.loadData();
-        console.log('here')
+        
     }
 
     render() {
@@ -191,16 +168,17 @@ class TreeBodyPage extends React.Component {
                     </div>
                     <div className='col-lg-6 col-md-6'>
                         <h4>Δημιουργία</h4>
-                        <form method="post" className="form" role="form">
+                        <form onSubmit={this.handleSubmit} ref={(el)=>this.treeCreateForm = el} className="form" role="form">
                             <div className="form-group">
                                 <label className="control-label">Τίτλος</label>
-                                <input name="title" onChange={this.handleChange} className="form-control" type="text" />
+                                <input ref={this.treeTitleRef} name="title" onChange={this.handleChange} className="form-control" type="text" />
                             </div>
                             <div className="form-group">
                                 <label className="control-label">Περιγραφή</label>
-                                <input name='description' onChange={this.handleChange}  className="form-control" type="text" />
+                                <input ref={this.treeDescRef} name='description' onChange={this.handleChange}  className="form-control" type="text" />
                             </div>
                             <button onClick={this.handleSubmit} className="btn-success ">Δημιουργία</button>
+                            <button className='btn btn-warning' onClick={this.clearForm}>Καθαρισμός</button>
                         </form>
 
                     </div>

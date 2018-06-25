@@ -66,7 +66,8 @@ class FarmDetail extends React.Component {
     componentDidMount() {
         this.setState({
             slug: null,
-            farm: null
+            farm: null, 
+            
         });
         if (this.props.match){
             const {slug} = this.props.match.params;
