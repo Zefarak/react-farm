@@ -8,7 +8,7 @@ class TreeForm extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
             title: '',
@@ -17,7 +17,34 @@ class TreeForm extends React.Component {
     }
 
     createData(data){
+        const endpoint = '/api/trees/create/';
+        const csrfToken = cookie.load('csrftoken')
         
+    }
+
+    updateTree(data){
+        console.log('before post happens', data)
+        const {tree} = this.props;
+        const endpoint = `/api/trees/${tree.id}/`;
+        const csrfToken = cookie.load('csrftoken');
+        let thisComp = this;
+        let lookupOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify(data)
+        }
+        
+        fetch(endpoint, lookupOptions)
+        .then(function(response){
+            return response.json()
+        }).then(function(responseData){
+            console.log('response data', responseData)
+        }).catch(function(error){
+            console.log('error', error)
+        })
     }
 
     handleChange(event) {
@@ -31,9 +58,10 @@ class TreeForm extends React.Component {
     }
 
     handleSubmit(event) {
+        console.log('handle')
         event.preventDefault();
         let data = this.state
-        this.createData(data)
+        this.updateTree(data)
     }
 
 
@@ -66,17 +94,17 @@ class TreeForm extends React.Component {
                 </div>
                 <div className="row">
                     <div className="col-lg-6 col-md-6">
-                        <form  className="form" role="form">
+                        <form onSubmit={this.handleSubmit} className="form" role="form">
                             <div className="form-group">
                                 <label className="control-label">Τίτλος</label>
-                                <input name="title" value={title} className="form-control" type="text" />
+                                <input onChange={this.handleChange} name="title" value={title} className="form-control" type="text" />
                             </div>
                             <div className="form-group">
                                 <label className="control-label">Περιγραφή</label>
-                                <input  name='description' value={description} className="form-control" type="text" />
+                                <input onChange={this.handleChange}  name='description' value={description} className="form-control" type="text" />
                             </div>
-                                <button className="btn-success ">Δημιουργία</button>
-                                <button className='btn btn-warning' >Καθαρισμός</button>
+                            <button onClick={this.handleSubmit} className="btn-success ">Δημιουργία</button>
+                            <button className='btn btn-warning' >Καθαρισμός</button>
                         </form>
                     </div>
                 </div>

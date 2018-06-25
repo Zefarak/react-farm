@@ -53,8 +53,10 @@ class CropsCreate extends React.Component {
                 'X-CSRFToken': csrfToken,
                 
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            credentials: 'include'
         };
+        
         fetch(endpoint, lookupOptions).then(function(response){
             return response.json()
         }).then(function(responseData){

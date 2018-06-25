@@ -23,10 +23,10 @@ class CropSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Crop
-        fields = ['title', 'area', 'qty']
+        fields = ['title', 'area', 'qty', 'user']
+
 
 class CropCreateSerializer(serializers.ModelSerializer):
-    
     
     class Meta:
         model = Crop
