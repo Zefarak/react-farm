@@ -17,7 +17,7 @@ class App extends React.Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/farms/:slug" component={FarmDetail} />
+                    <Route exact path="/farms/:id" component={FarmDetail} />
 
                     <Route exact path='/χωράφια' component={FarmsPage} />
                     <Route exact path='/χωράφια/δημιουργία/' component={FarmCreate} />

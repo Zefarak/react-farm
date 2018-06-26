@@ -31,7 +31,7 @@ class Crop(TimeStampModel):
     title = models.ForeignKey(Tree, on_delete=models.CASCADE)
     qty = models.PositiveIntegerField(default=0)
     area = models.PositiveIntegerField(default=0)
-    user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='crops')
 
     def __str__(self):
         return self.title.title
@@ -43,6 +43,7 @@ class Farm(TimeStampTitleModel):
     #user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     area = models.PositiveIntegerField(default=0)
     slug = models.SlugField(null=True)
-    crops = models.ManyToManyField(Crop)
-
+    crops = models.ManyToManyField(Crop, blank=True)
+    user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='farms')
+    is_public = models.BooleanField(default=False)
 

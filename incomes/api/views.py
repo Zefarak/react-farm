@@ -2,6 +2,8 @@ from rest_framework import generics, permissions
 
 from ..models import Invoice
 from .serializers import InvoiceSerializer
+from .permissions import IsOwnerOrReadOnly
+
 
 class InvoiceApiView(generics.ListCreateAPIView):
     queryset = Invoice.objects.all()
@@ -14,5 +16,5 @@ class InvoiceApiView(generics.ListCreateAPIView):
 class InvoiceDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
-
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 

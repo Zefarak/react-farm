@@ -1,29 +1,48 @@
-from rest_framework import generics
-from .serializers import FarmSerializer, CropSerializer, CropCreateSerializer, TreeSerializer, FarmDetailSerializer
+from rest_framework import generics, permissions
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+from .serializers import (FarmListSerializer, FarmDetailSerializer,
+                          CropSerializer, CropCreateSerializer,
+                          TreeSerializer
+                          )
 from .serializers import TestFarmSerializer
+from .permissions import IsOwnerOrReadOnly
 from ..models import Farm, Crop, Tree
+
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'farms': reverse('farms', request=request, format=format),
+        'crops': reverse('crops', request=request, format=format),
+        'trees': reverse('trees', request=request, format=format),
+        'invoice': reverse('invoice', request=request, format=format),
+        'users': reverse('users', request=request, format=format),
+    })
 
 
 class FarmApiView(generics.ListCreateAPIView):
     queryset = Farm.objects.all()
-    serializer_class = FarmSerializer
+    serializer_class = FarmListSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-
-class FarmApiCreate(generics.CreateAPIView):
-    queryset = Farm.objects.all()
-    serializer_class = FarmSerializer
-
+    def get_queryset(self):
+        queryset = Farm.objects.filter(user=self.request.user)
+        return queryset
+    
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+    
 
 class FarmApiDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Farm.objects.all()
     serializer_class = FarmDetailSerializer
+    permissions = [permissions.IsAuthenticatedOrReadOnly,]
 
-
-class FarmApiSlugDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Farm.objects.all()
-    serializer_class = FarmDetailSerializer
-    lookup_field = 'slug'
-
+    def get_queryset(self):
+        queryset = Farm.objects.filter(user=self.request.user)
+        return queryset
 
 
 class CropApiView(generics.ListCreateAPIView):
