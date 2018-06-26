@@ -10,7 +10,6 @@ class FarmSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class TreeSerializer(serializers.ModelSerializer):
     
     class Meta:

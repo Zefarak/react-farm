@@ -20,7 +20,9 @@ urlpatterns = [
     re_path(r'^farms/', TemplateView.as_view(template_name='index.html')),
 
 
+    path('api-auth/', include('rest_framework.urls')),
     path('api/', include('farms.urls')),
     path('api/', include('users.urls')),
+    path('api/', include('incomes.urls')),
     
 ]
