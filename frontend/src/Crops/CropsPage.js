@@ -2,6 +2,7 @@ import React from 'react';
 import 'whatwg-fetch'
 import Navbar from '../Index/Navbar';
 import  { Link } from 'react-router-dom';
+import CropForm from './CropForm';
 
 class BodyTr extends React.Component {
     
@@ -39,6 +40,7 @@ class CropsPageBody extends React.Component {
                 'Conteny-Type': 'application/json'
             }
         };
+
         fetch(endpoint, lookupOptions).
         then(function (response) {
             return response.json()
@@ -70,7 +72,7 @@ class CropsPageBody extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-lg-9 col-md-9">
+                    <div className="col-lg-6 col-md-6">
                         <table className="table table-striped">
                             <thead className="thead-dark">
                                 <tr>
@@ -90,17 +92,11 @@ class CropsPageBody extends React.Component {
                                         <td>No Data</td>
                                     </tr> 
                                 }
-
-                            
                             </tbody>
                         </table>
                     </div>
-                    <div className='col-lg-3 col-md-3'>
-                        <Link className="btn btn-primary" maintainScrollPosition={false} to={{
-                                pathname:`/καλλιέργιες/δημιουργία`,
-                                state: {fromDashboard: false}
-                            }}>Επεξεργασία
-                        </Link>
+                    <div className='col-lg-6 col-md-6'>
+                        <CropForm />
                     </div>
                 </div>
             </div>
