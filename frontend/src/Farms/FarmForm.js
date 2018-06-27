@@ -14,9 +14,11 @@ class FarmForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleMulti = this.handleMulti.bind(this);
         this.state = {
-            title: null,
-            area: null,
-            crops_data: []
+            title: '',
+            area: '',
+            crops: [],
+            crops_data: [],
+            doneLoading: false
         }
     }
 
@@ -36,7 +38,8 @@ class FarmForm extends React.Component {
             return response.json()
         }).then(function(responseData){
             thisComp.setState({
-                crops_data: responseData
+                crops_data: responseData,
+                doneLoading: true
             })
         }).catch(function(error){
             console.log('loadCropsError', error)
@@ -69,6 +72,30 @@ class FarmForm extends React.Component {
         })
     }
 
+    updateFarm(data) {
+        const {farm} = this.props;
+        const endpoint = `/api/farms/${farm.i}/`;
+        const thisComp = this;
+        const csrfToken = cookie.load('csrftoken')
+        let lookupOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify(data),
+            credentials: 'include'
+        }
+
+        fetch(endpoint, lookupOptions)
+        .then(function(response){
+            return response.json()
+        }).then(function(responseData){
+            
+        }).catch(function(error){
+            console.log('error update', error)
+        })
+    }
     
     handleChange(event) {
         event.preventDefault();
@@ -98,27 +125,47 @@ class FarmForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         let data = this.state;
-        this.createFarm(data)
+        const {farm} = this.props;
+        if (farm !== undefined) {
+            this.updateFarm(data)
+        } else {
+            this.createFarm(data)
+        }   
     }
 
 
 
     componentDidMount() {
-        this.setState({
-            crops: []
-        })
+        const {farm} = this.props;
+        if (farm !== undefined) {
+            this.setState({
+                title: farm.title,
+                area: farm.area,
+                crops: farm.crops, 
+                doneLoading: false
+            })
+        } else {
+            this.setState({
+                crops: [],
+                title: '',
+                area: '',
+                doneLoading: false
+            })  
+        }
         this.loadCrops()
     }
 
     render() {
-        const {farm} = this.props;
         const {crops_data} = this.state;
+        const {title} = this.state;
+        const {area} =  this.state;
+        const {doneLoading} = this.state;
         return (
             <div>
                 <div className="row">
                     <div className="col-lg-12">
-                        {farm !== undefined ?
-                        <h1 className="page-header">{crop.title}</h1> 
+                        {title !== '' ?
+                        <h1 className="page-header">{title}</h1> 
                         : <h1 className="page-header">Δημιουργία Χωραφιού</h1>    
                         }
                     </div>
@@ -128,11 +175,23 @@ class FarmForm extends React.Component {
                         <form onSubmit={this.handleSubmit} className="form" role="form">
                             <div className="form-group">
                                 <label className='control-label'>Τίτλος</label>
-                                <input onChange={this.handleChange} name="title" className="form-control" type="text" />
+                                <input 
+                                onChange={this.handleChange}
+                                name="title" 
+                                className="form-control" 
+                                type="text" 
+                                value={title}
+                                />
                             </div>
                             <div className="form-group">
                                 <label className='control-label'>Στρέμματα</label>
-                                <input onChange={this.handleChange} name="area" className="form-control" type="number" />
+                                <input
+                                 onChange={this.handleChange} 
+                                 name="area" 
+                                 className="form-control" 
+                                 type="number" 
+                                 value={area}
+                                 />
                             </div>
                             <div className='form-group'>
                                 <select onChange={this.handleMulti} multiple className="form-control" name="crops">
@@ -152,6 +211,7 @@ class FarmForm extends React.Component {
                     </div>
                 </div>
             </div>
+            
         )
     }
 }

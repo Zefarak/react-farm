@@ -10,34 +10,10 @@ class CropForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
             trees: [],
-            user: null,
             area: 1,
             qty: 1,
             title: null
         }
-    }
-
-    loadUser() {
-        const endpoint = '/api/users/current/';
-        const thisComp = this;
-        let lookupOption = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-
-        fetch(endpoint, lookupOption)
-        .then(function(response){
-            return response.json()
-        }).then(function(responseData) {
-            console.log('user', responseData)
-            thisComp.setState({
-                user: responseData
-            })
-        }).catch(function(error){
-            console.log('error', error)
-        })
     }
 
     loadTrees() {
@@ -63,15 +39,16 @@ class CropForm extends React.Component {
     }
 
     createCrop(data) {
-        const endpoint = 'api/crops/create';
-        const csrfToken = cookie.load('csrfToken');
+        const endpoint = '/api/crops/';
+        const csrfToken = cookie.load('csrftoken');
         const thisComp = this;
         let lookupOption = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             }
-        }
+        },
+        credentials: 'include'
     }
 
     componentDidMount() {
@@ -95,7 +72,7 @@ class CropForm extends React.Component {
             })
         }
         this.loadTrees();
-        this.loadUser();
+        
     }
 
     handleSubmit(event) {
@@ -107,7 +84,6 @@ class CropForm extends React.Component {
     render() {
         const {crop} = this.props;
         const {trees} = this.state;     
-        const {user} = this.state;   
         return (
             <div>
                 <div className="row">

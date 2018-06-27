@@ -32,7 +32,9 @@ class Crop(TimeStampModel):
     qty = models.PositiveIntegerField(default=0)
     area = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='crops')
-
+    objects = models.Manager()
+    
+    
     def __str__(self):
         return self.title.title
     

@@ -27,8 +27,6 @@ class CropCreateSerializer(serializers.ModelSerializer):
 
 
 
-
-
 # tests
 
 class TestFarmSerializer(serializers.ModelSerializer):

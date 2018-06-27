@@ -1,7 +1,7 @@
 import React from 'react';
 import 'whatwg-fetch';
 import  { Link } from 'react-router-dom';
-import FarmUpdate from './FarmUpdate'
+
 import cookie from 'react-cookies';
 import Navbar from "../Index/Navbar";
 import FarmForm from "./FarmForm";
@@ -14,6 +14,7 @@ class FarmBody extends React.Component {
 
     render() {
         const {farm} = this.props;
+        const crops = farm.crops;
         return (
             <div className="card">
                 <div className="card-header">
@@ -21,8 +22,15 @@ class FarmBody extends React.Component {
                 </div>
                 <ul class="list-group list-group-flush">
                     <li className="list-group-item">Στρέμματα {farm.area}</li>
-                    <li className="list-group-item">Dapibus ac facilisis in</li>
-                    <li className="list-group-item">Vestibulum at eros</li>
+                    <li className="list-group-item">Αποτελείτε από</li>
+                    {crops.length > 0 ?
+                    crops.map((crop, index)=>{
+                        return (
+                            <li className="list-group-item">{crop}</li>
+                        )
+                    })
+                    : <li className="list-group-item">No Crops Added</li>
+                    }
                 </ul>
             </div>
         )
@@ -96,12 +104,16 @@ class FarmDetail extends React.Component {
                             }
                         </div>
                         <div className='col-lg-3 col-md-3'>
-                            <FarmForm />
+                            {doneDownloading === true ?
+                            <FarmForm farm={farm} />  
+                            :<p>No data</p>
+                            }
                         </div>
                     </div>
                 </div>  
             </div>
         )
+        console.log('after redneer', farm)
     }
 }
 

@@ -38,7 +38,8 @@ class CropsPageBody extends React.Component {
             method: 'GET',
             headers: {
                 'Conteny-Type': 'application/json'
-            }
+            },
+            credentials: 'include'
         };
 
         fetch(endpoint, lookupOptions).

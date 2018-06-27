@@ -48,11 +48,19 @@ class FarmApiDetailView(generics.RetrieveUpdateDestroyAPIView):
 class CropApiView(generics.ListCreateAPIView):
     queryset = Crop.objects.all()
     serializer_class = CropSerializer
+    
+    def get_queryset(self):
+        queryset = Crop.objects.filter(user=self.request.user)
+        return queryset
+
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
 
 
-class CropApiCreate(generics.CreateAPIView):
+class CropApiDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Crop.objects.all()
     serializer_class = CropCreateSerializer
+    permissions = [IsOwnerOrReadOnly,]
 
 
 class TreeApiView(generics.ListCreateAPIView):

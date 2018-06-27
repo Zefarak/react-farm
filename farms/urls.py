@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from .api.views import (FarmApiView, FarmApiDetailView,
-                        CropApiView, CropApiCreate,
+                        CropApiView, CropApiDetailView,
                         TreeApiView, TreeApiViewCreate, TreeApiUpdateView,
                         api_root
                         )
@@ -18,7 +18,7 @@ urlpatterns = [
 
     # crops
     path('crops/', CropApiView.as_view(), name='crops'),
-    path('crops/create/', CropApiCreate.as_view()),
+    path('crops/<int:pk>/', CropApiDetailView.as_view()),
 
 
     path('trees/', TreeApiView.as_view(), name='trees'),
