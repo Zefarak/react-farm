@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'webpack_loader',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
     'rest_auth',
 
     'allauth',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'farms',
     'users',
     'incomes',
+    'outcomes',
 
     ]
     
@@ -159,7 +161,8 @@ WEBPACK_LOADER = {
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }
 
 CORS_ORIGIN_WHITELIST = (

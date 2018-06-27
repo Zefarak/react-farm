@@ -62,14 +62,14 @@ class FarmForm extends React.Component {
         }
         
         fetch(endpoint, lookupOptions)
-        .then(function(response){
-            return response.json()
-        }).then(function(responseData){
-            console.log('response data', responseData)
-            thisComp.props.loadFarms();
-        }).catch(function(error){
-            console.log('error', error)
-        })
+          .then(function(response){
+              return response.json()
+          }).then(function(responseData){
+              
+          }).catch(function(error){
+              console.log("error", error)
+              alert("An error occured, please try again later.")
+          })
     }
 
     updateFarm(data) {
@@ -124,6 +124,7 @@ class FarmForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        console.log('posted!')
         let data = this.state;
         const {farm} = this.props;
         if (farm !== undefined) {
@@ -194,18 +195,10 @@ class FarmForm extends React.Component {
                                  />
                             </div>
                             <div className='form-group'>
-                                <select onChange={this.handleMulti} multiple className="form-control" name="crops">
-                                    {crops_data.length > 0 ? crops_data.map((crop, index)=>{
-                                        return (
-                                            <option value={crop.id}>{crop.title}</option>
-                                        )
-                                    })
-                                    : <option value="">No Data</option>
-                                    }
-                                    
-                                </select>
+                                <label className='control-label'>Δημόσιο</label>
+                                <input name='active' className='form-control' type='checkbox' />
                             </div>
-                            <button className="btn-success ">Αποθήκευση</button>
+                            <button onClick={this.handleSubmit} className="btn-success ">Αποθήκευση</button>
                             <button className='btn btn-warning' >Καθαρισμός</button>
                         </form>
                     </div>

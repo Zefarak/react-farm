@@ -16,13 +16,17 @@ urlpatterns = [
     path('δέντρα/', TemplateView.as_view(template_name='index.html')),
     path('trees/<int:id>/', TemplateView.as_view(template_name='index.html')),
 
-
+    
     re_path(r'^farms/', TemplateView.as_view(template_name='index.html')),
 
+    
+    path('expenses/', TemplateView.as_view(template_name='index.html')),
+    
 
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include('farms.urls')),
     path('api/', include('users.urls')),
     path('api/', include('incomes.urls')),
+    path('api/', include('outcomes.urls')),
     
 ]

@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from .serializers import (FarmListSerializer, FarmDetailSerializer,
-                          CropSerializer, CropCreateSerializer,
+                          CropSerializer, CropDetailSerializer,
                           TreeSerializer
                           )
 from .serializers import TestFarmSerializer
@@ -19,6 +19,8 @@ def api_root(request, format=None):
         'trees': reverse('trees', request=request, format=format),
         'invoice': reverse('invoice', request=request, format=format),
         'users': reverse('users', request=request, format=format),
+        'expenses': reverse('expenses', request=request, format=format),
+        'expense_cate': reverse('expense_cate', request=request, format=format),
     })
 
 
@@ -48,6 +50,7 @@ class FarmApiDetailView(generics.RetrieveUpdateDestroyAPIView):
 class CropApiView(generics.ListCreateAPIView):
     queryset = Crop.objects.all()
     serializer_class = CropSerializer
+    permissions = [permissions.IsAuthenticatedOrReadOnly, ]
     
     def get_queryset(self):
         queryset = Crop.objects.filter(user=self.request.user)
@@ -59,7 +62,7 @@ class CropApiView(generics.ListCreateAPIView):
 
 class CropApiDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Crop.objects.all()
-    serializer_class = CropCreateSerializer
+    serializer_class = CropDetailSerializer
     permissions = [IsOwnerOrReadOnly,]
 
 

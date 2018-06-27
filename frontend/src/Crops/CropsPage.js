@@ -26,6 +26,7 @@ class CropsPageBody extends React.Component {
 
     constructor(props) {
         super(props);
+        this.updateCrops = this.updateCrops.bind(this)
         this.state = {
             crops: []
         }
@@ -55,11 +56,14 @@ class CropsPageBody extends React.Component {
         })
     }
 
+    updateCrops(){
+        this.loadCrops()
+    }
+
     componentDidMount() {
         this.setState({
             crops: []
         });
-        console.log('first');
         this.loadCrops()
     }
 
@@ -97,7 +101,7 @@ class CropsPageBody extends React.Component {
                         </table>
                     </div>
                     <div className='col-lg-6 col-md-6'>
-                        <CropForm />
+                        <CropForm updateCrops={this.updateCrops} />
                     </div>
                 </div>
             </div>

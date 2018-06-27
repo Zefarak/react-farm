@@ -11,6 +11,7 @@ import CropsCreate from './Crops/CropsCreate';
 
 import TreePage from './Trees/TreePage';
 import TreeUpdate from './Trees/TreeUpdate';
+import ExpensesPage from './Outcomes/ExpensesPage';
 
 class App extends React.Component {
 
@@ -27,6 +28,8 @@ class App extends React.Component {
                     
                     <Route exact path='/καλλιέργιες' component={CropsPage} />
                     <Route exact path='/καλλιέργιες/δημιουργία/' component={CropsCreate} />
+
+                    <Route exact path='/expenses/' component={ExpensesPage} />
 
                     <Route component={Index} />
                 </Switch>

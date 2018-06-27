@@ -18,7 +18,7 @@ urlpatterns = [
 
     # crops
     path('crops/', CropApiView.as_view(), name='crops'),
-    path('crops/<int:pk>/', CropApiDetailView.as_view()),
+    path('crops/<int:pk>/', CropApiDetailView.as_view(), name='crop_detail'),
 
 
     path('trees/', TreeApiView.as_view(), name='trees'),

@@ -12,18 +12,29 @@ class TreeSerializer(serializers.ModelSerializer):
 
 
 class CropSerializer(serializers.ModelSerializer):
-    title = serializers.StringRelatedField()
-    
+    #title = serializers.SlugRelatedField(slug_field='title', queryset=Tree.objects.all())
+    url = serializers.HyperlinkedIdentityField(view_name='crop_detail', format='html')
+
     class Meta:
         model = Crop
-        fields = ['title', 'area', 'qty', 'user']
+        fields = ['title', 'area', 'qty', 'farm', 'user', 'is_public', 'url']
 
 
-class CropCreateSerializer(serializers.ModelSerializer):
-    
+
+class CropDetailSerializer(serializers.ModelSerializer):
+    # title = serializers.SlugRelatedField(slug_field='title', queryset=Tree.objects.all())
+    farm = serializers.SlugRelatedField(slug_field='title', queryset=Farm.objects.all())
+    user = serializers.ReadOnlyField(source='user.username')
+
     class Meta:
         model = Crop
-        fields = '__all__'
+        fields = ['title', 'area', 'qty', 'farm', 'user', 'is_public']
+
+    def get_fields(self, *args, **kwargs):
+       fields = super(CropDetailSerializer, self).get_fields(*args, **kwargs)
+       fields['farm'].queryset = Farm.objects.filter(user=self.context['view'].request.user)
+       return fields
+
 
 
 
@@ -38,7 +49,6 @@ class TestFarmSerializer(serializers.ModelSerializer):
 
 
     def get_crops(self, obj):
-        print('hey babe')
         return obj.crops.all()
 
     
@@ -47,17 +57,16 @@ class FarmListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Farm
-        fields = ['title', 'area', 'crops', 'url', 'id']
+        fields = ['title', 'id', 'area', 'crops', 'url', 'is_public', 'active']
         
 
 class FarmDetailSerializer(serializers.ModelSerializer):
     owner = serializers.SerializerMethodField(read_only=True)
-    crops = CropSerializer(read_only=True, many=True)
+    #  crops = CropSerializer(read_only=True, many=True)
     
-
     class Meta:
         model = Farm
-        fields = ['id', 'slug', 'title', 'area', 'user', 'crops', 'owner', 'timestamp', 'edited']
+        fields = ['title', 'id', 'area', 'crops', 'url', 'is_public', 'active']
 
     def get_owner(self, obj):
         print('owner')

@@ -277,7 +277,10 @@ class Navbar extends React.Component{
                           
                       </li>
                       <li>
-                          <a href=""><i className="fa fa-table fa-fw"></i> Tables</a>
+                          <a href=""><i className="fa fa-table fa-fw"></i><Link maintainScrollPosition={false} to={{ 
+                              pathname:`/expenses/`,
+                              state:{fromDashboard: false}
+                          }}>Εξοδα</Link></a>
                       </li>
                       <li>
                             <a href="#"><i className="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span className="fa arrow"></span></a>

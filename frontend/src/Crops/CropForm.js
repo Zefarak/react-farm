@@ -1,6 +1,6 @@
-import React from 'react';
-import cookie from 'react-cookies';
+import React from 'react'
 import 'whatwg-fetch';
+import cookie from 'react-cookies';
 
 
 class CropForm extends React.Component {
@@ -8,11 +8,16 @@ class CropForm extends React.Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.state = {
-            trees: [],
-            area: 1,
-            qty: 1,
-            title: null
+            doneDownloading: false,
+            farms_data: [],
+            trees_data: [],
+            farm: null,
+            area: '',
+            qty: '',
+            title: '',
+            is_public: false,
         }
     }
 
@@ -31,29 +36,64 @@ class CropForm extends React.Component {
             return response.json()
         }).then(function(responseData){
             thisComp.setState({
-                trees: responseData
+                trees_data: responseData
             })
         }).catch(function(error){
             console.log('error', error)
         })
     }
 
-    createCrop(data) {
-        const endpoint = '/api/crops/';
-        const csrfToken = cookie.load('csrftoken');
+    loadFarms() {
+        const endpoint = '/api/farms/';
         const thisComp = this;
         let lookupOption = {
-            method: 'POST',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        }
+
+        fetch(endpoint, lookupOption)
+        .then(function(response) {
+            return response.json()
+        }).then(function(responseData){
+            thisComp.setState({
+                farms_data: responseData,
+                doneDownloading: true
+            })
+        }).catch(function(error){
+            console.log('farm error', error)
+        })
+    }
+
+    createCrop(data) {
+        const endpoint = '/api/crops/' ;
+        const csrfToken = cookie.load('csrftoken')
+        let thisComp = this;
+        console.log('create',data, csrfToken)
+        let lookupOption = {
+            method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-            }
-        },
-        credentials: 'include'
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify(data),
+            credentials: 'include'
+        }
+        
+        fetch(endpoint, lookupOption)
+        .then(function(response){
+            return response.json()
+        }).then(function(responseData){
+
+        }).catch(function(erorr){
+            console.log(error)
+        })
     }
 
     componentDidMount() {
         const {crop} = this.props;
-        console.log(crop);
         if (crop !== undefined) {
             this.setState({
                 area: crop.area,
@@ -64,26 +104,39 @@ class CropForm extends React.Component {
             }) 
         } else {
             this.setState({
-                trees: [],
-                user: null,
-                area: 1,
-                qty: 1,
-                title: null
+                trees_data: [],
+                farms_data: [],
+                area: null,
+                qty: null,
+                title: null,
+                farm: null
             })
         }
         this.loadTrees();
+        this.loadFarms();
         
+    }
+
+    handleChange(event) {
+        event.preventDefault();
+        let key = event.target.name;
+        let value = event.target.value;
+        this.setState({
+            [key]: value
+        })
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        let data = this.state;
-        console.log(data)
+        const data = this.state;
+        this.createCrop(data)
     }
   
     render() {
         const {crop} = this.props;
-        const {trees} = this.state;     
+        const {trees_data} = this.state;     
+        const {farms_data} = this.state;
+
         return (
             <div>
                 <div className="row">
@@ -99,8 +152,8 @@ class CropForm extends React.Component {
                         <form onSubmit={this.handleSubmit} className="form" role="form">
                             <div className="form-group">
                                 <label className="control-label">Τίτλος</label>
-                                <select class="form-control" name="title">
-                                    {trees.length > 0 ? trees.map((tree, index)=>{
+                                <select onChange={this.handleChange} className="form-control" name="title">
+                                    {trees_data.length > 0 ? trees_data.map((tree, index)=>{
                                         return (
                                             <option value={tree.id}>{tree.title}</option>
                                         )
@@ -110,15 +163,29 @@ class CropForm extends React.Component {
                                 </select>
                             </div>
                             <div className="form-group">
+                                <label className="control-label">Χωράφι</label>
+                                <select onChange={this.handleChange} className="form-control" name="farm">
+                                        <option value=''>Επέλεξε</option>
+                                    {farms_data.length > 0 ? farms_data.map((farm, index)=>{
+                                        
+                                        return (
+                                            <option value={farm.id}>{farm.title}</option>
+                                        )
+                                    })
+                                    : <option>No data</option>
+                                    }
+                                </select>
+                            </div>
+                            <div className="form-group">
                                 <label className='control-label'>Πόσοτητα Δέντρων</label>
-                                <input name="qty" class="form-control" type="number" />
+                                <input onChange={this.handleChange} name="qty" className="form-control" type="number" />
                             </div>
                             <div className="form-group">
                                 <label className='control-label'>Στρέμματα</label>
-                                <input name="area" class="form-control" type="number" />
+                                <input onChange={this.handleChange} name="area" className="form-control" type="number" />
                             </div>
 
-                            <button  className="btn-success ">Δημιουργία</button>
+                            <button onClick={this.handleSubmit} className="btn btn-success" type='submit'>Αποθήκευση</button>
                             <button className='btn btn-warning' >Καθαρισμός</button>
                         </form>
                     </div>

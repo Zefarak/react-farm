@@ -103,7 +103,7 @@ class TreeForm extends React.Component {
                                 <label className="control-label">Περιγραφή</label>
                                 <input onChange={this.handleChange}  name='description' value={description} className="form-control" type="text" />
                             </div>
-                            <button onClick={this.handleSubmit} className="btn-success ">Δημιουργία</button>
+                            <button onClick={this.handleSubmit} className="btn btn-success ">Δημιουργία</button>
                             <button className='btn btn-warning' >Καθαρισμός</button>
                         </form>
                     </div>

@@ -27,25 +27,33 @@ class Tree(TimeStampTitleModel):
     description = models.TextField(blank=True)
     
 
+class Farm(TimeStampTitleModel):
+    date_test = models.DateField(null=True)
+    active = models.BooleanField(default=True)
+    area = models.PositiveIntegerField(default=0)
+    slug = models.SlugField(null=True)
+    user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='farms')
+    is_public = models.BooleanField(default=False)
+
+
 class Crop(TimeStampModel):
     title = models.ForeignKey(Tree, on_delete=models.CASCADE)
     qty = models.PositiveIntegerField(default=0)
     area = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='crops')
+    farm = models.ForeignKey(Farm, null=True, on_delete=models.SET_NULL, related_name='crops')
+    is_public = models.BooleanField(default=False)
     objects = models.Manager()
     
     
     def __str__(self):
-        return self.title.title
+        try:
+            return f'{self.farm.title} - {self.title.title}' 
+        except:
+            return self.title.title
     
-
-class Farm(TimeStampTitleModel):
-    date_test = models.DateField(null=True)
-    active = models.BooleanField(default=True)
-    #user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
-    area = models.PositiveIntegerField(default=0)
-    slug = models.SlugField(null=True)
-    crops = models.ManyToManyField(Crop, blank=True)
-    user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='farms')
-    is_public = models.BooleanField(default=False)
-
+    def name(self):
+        try:
+            return f'{self.farm.title} - {self.title.title}' 
+        except:
+            return self.title.title
