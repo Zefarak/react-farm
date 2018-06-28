@@ -32,4 +32,4 @@ class ExpenseCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ExpenseCategory
-        fields= ['title', 'url']
+        fields = ['title', 'id', 'url']

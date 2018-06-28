@@ -110,7 +110,7 @@ class FarmForm extends React.Component {
         event.preventDefault();
         let key = event.target.name;
         let options = e.target.options;
-        let value = []
+        let value = [];
         for (var i = 0, l = options.length; i < l; i++) {
             if (options[i].selected) {
               value.push(options[i].value);
@@ -124,7 +124,7 @@ class FarmForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log('posted!')
+        console.log('posted!');
         let data = this.state;
         const {farm} = this.props;
         if (farm !== undefined) {

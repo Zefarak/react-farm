@@ -1,17 +1,183 @@
 import React from 'react';
 import 'whatwg-fetch';
 import Navbar from '../Index/Navbar';
-
+import ExpenseForm from './ExpenseForm';
 
 class BodyPage extends React.Component {
 
     constructor(props) {
-        super(props)
-
+        super(props);
+        this.loadMoreExpenses = this.loadMoreExpenses.bind(this);
         this.state = {
             doneDownload: false,
             expenses: [],
-            expense_cate: []
+            next: null,
+            previous: null,
+            count: 0
+        }
+    }
+
+    loadMoreExpenses(){
+        const {next} = this.state;
+        if(next !== null || next !== undefined) {
+            this.loadExpenses(next)
+        }
+        }
+
+    loadExpenses(nextEndpoint){
+        let endpoint = '/api/expenses/';
+        if (nextEndpoint !== undefined){
+            endpoint = nextEndpoint
+        }
+        const thisComp = this;
+        let lookupOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        };
+        fetch(endpoint, lookupOptions)
+        .then(function(response){
+            return response.json()
+        }).then(function(responseData){
+            console.log(responseData);
+            thisComp.setState({
+                expenses: thisComp.state.expenses.concat(responseData.results),
+                next: responseData.next,
+                previous: responseData.previous,
+                count: responseData.count
+            })
+        }).catch(function(error){
+            console.log('expenses error', error)
+        })
+    }
+
+
+
+    loadDownload(){
+        this.setState({
+            doneDownload: true
+        })
+    }
+
+    componentDidMount(){
+        this.setState({
+            doneDownload: false,
+            expenses: [],
+            next: null,
+            previous: null,
+            count: 0
+        });
+        this.loadExpenses();
+        this.loadDownload()
+    }
+
+    render() {
+        const {doneDownload} = this.state;
+        const {expenses} = this.state;
+        const {count} = this.state;
+        const {next} = this.state;
+        const {previous}  = this.state;
+        return (
+            <div className="panel panel-default">
+                <div className="panel-heading">Ανάλυση Εξόδων</div>
+                <div className="panel-body">
+                    <div id="dataTables-example_wrapper" className="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <div className="row">
+                            <div className="col-sm-6">
+                                <div className="dataTables_length" id="dataTables-example_length">
+                                    <label>Show <select name="dataTables-example_length" aria-controls="dataTables-example" class="form-control input-sm">
+                                        <option value="10">10</option><option value="25">25</option>
+                                        <option value="50">50</option><option value="100">100</option>
+                                        </select> entries
+                                    </label>
+                                </div>            
+                            </div>
+                            <div className="col-sm-6">
+                                <div id="dataTables-example_filter" className="dataTables_filter">
+                                    <label>Search:<input type="search" className="form-control input-sm" placeholder="" aria-controls="dataTables-example" /></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <table width="100%" className="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th className="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1"
+                                            colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" 
+                                            >Ημερομηνία
+                                            </th>
+                                            <th className="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" >Τίτλος</th>
+                                            <th className="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Κατηγορία</th>
+                                            <th className="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Καλλιέργεια</th>
+                                            <th className="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" >Αξία</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {doneDownload === true ? expenses.map((expense, index)=> {
+                                            return (
+                                                <tr className="gradeA odd" role="row">
+                                                    <td className="sorting_1">{expense.timestamp}</td>
+                                                    <td>{expense.title}</td>
+                                                    <td>{expense.category_slug}</td>
+                                                    <td className="center">{expense.crop_slug}</td>
+                                                    <td className="center">{expense.final_value}</td>
+                                                </tr>
+                                            )
+                                        })
+                                            
+                                            
+                                        :  <tr className="gradeA odd" role="row">
+                                                <td className="sorting_1">Gecko</td>
+                                                <td>Firefox 1.0</td>
+                                                <td>Win 98+ / OSX.2+</td>
+                                                <td className="center">1.7</td>
+                                                <td className="center">A</td>
+                                            </tr>
+                                        
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-sm-6">
+                                <div className="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
+                                    Showing 1 to 10 of 57 entries
+                                </div>
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                                    <ul className="pagination">
+                                        {next !== null ?
+                                            <li className="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                                <button onClick={this.loadMoreExpenses}>Load More</button>
+                                            </li>
+                                            : <li>No more posts</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
+
+class ExpensesPage extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            expenses_cate: [],
+            expenses: [],
+            doneLoading: false
         }
     }
 
@@ -24,13 +190,16 @@ class BodyPage extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
         fetch(endpoint, lookupOptions)
         .then(function(response){
             return response.json()
         }).then(function(responseData){
             thisComp.setState({
-                expenses: responseData
+                expenses: responseData.results,
+                next: responseData.next,
+                previous: responseData.previous,
+                count: responseData.count
             })
         }).catch(function(error){
             console.log('expenses error', error)
@@ -46,141 +215,46 @@ class BodyPage extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
         fetch(endpoint, lookupOptions)
         .then(function(response){
             return response.json()
         }).then(function(responseData){
             thisComp.setState({
-                expense_cate: responseData
+                expense_cate: responseData,
+                doneLoading: true
             })
         }).catch(function(error){
             console.log('expenses error', error)
         })
     }
 
-    loadDownload(){
-        this.setState({
-            doneDownload: true
-        })
-    }
-
     componentDidMount(){
-        this.loadExpenses();
         this.loadExpensesCate();
-        this.loadDownload()
     }
 
     render() {
-        const {doneDownload} = this.state;
-        const {expenses} = this.state;
-        return (
-            <div class="panel panel-default">
-                <div class="panel-heading">Ανάλυση Εξόδων</div>
-                <div class="panel-body">
-                    <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="dataTables_length" id="dataTables-example_length">
-                                    <label>Show <select name="dataTables-example_length" aria-controls="dataTables-example" class="form-control input-sm">
-                                        <option value="10">10</option><option value="25">25</option>
-                                        <option value="50">50</option><option value="100">100</option>
-                                        </select> entries
-                                    </label>
-                                </div>            
-                            </div>
-                            <div class="col-sm-6">
-                                <div id="dataTables-example_filter" class="dataTables_filter">
-                                    <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="dataTables-example" /></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
-                                    <thead>
-                                        <tr role="row">
-                                            <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" 
-                                            colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" 
-                                            >Ημερομηνία
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" >Τίτλος</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Κατηγορία</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Καλλιέργεια</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" >Αξία</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {doneDownload === true ? expenses.map((expense, index)=> {
-                                            return (
-                                                <tr class="gradeA odd" role="row">
-                                                    <td class="sorting_1">{expense.timestamp}</td>
-                                                    <td>{expense.title}</td>
-                                                    <td>{expense.category_slug}</td>
-                                                    <td class="center">{expense.crop_slug}</td>
-                                                    <td class="center">{expense.final_value}</td>
-                                                </tr>
-                                            )
-                                        })
-                                            
-                                            
-                                        :  <tr class="gradeA odd" role="row">
-                                                <td class="sorting_1">Gecko</td>
-                                                <td>Firefox 1.0</td>
-                                                <td>Win 98+ / OSX.2+</td>
-                                                <td class="center">1.7</td>
-                                                <td class="center">A</td>
-                                            </tr>
-                                        
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
-                                    Showing 1 to 10 of 57 entries
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
-                                    <ul class="pagination">
-                                        <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><a href="#">Previous</a></li>
-                                        <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0"><a href="#">1</a></li>
-                                        <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">2</a></li>
-                                        <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">3</a></li>
-                                        <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">4</a></li>
-                                        <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">5</a></li>
-                                        <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">6</a></li>
-                                        <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><a href="#">Next</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}
-
-
-class ExpensesPage extends React.Component {
-
-    render() {
+        const {doneLoading} = this.state;
+        const {expenses_cate} = this.state;
         return (
             <div id="wrapper">
                 <Navbar />
                 <div id="page-wrapper" >
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1 class="page-header">Έξοδα</h1>
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <h1 className="page-header">Έξοδα</h1>
                         </div> 
                     </div>
-                    <div class="row">
-                        <div class="col-lg-8">
+                    <div className="row">
+                        <div className="col-lg-8">
                             <BodyPage />
+                        </div>
+                        <div className="col-lg-4">
+                            {doneLoading === true ?
+                                <ExpenseForm expenses_cate={expenses_cate} />
+                                : <ExpenseForm />
+                            }
+
                         </div>
                     </div>
                 </div>
