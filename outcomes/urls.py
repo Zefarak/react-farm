@@ -4,7 +4,7 @@ from .api.views import ExpenseListApi, ExpenseDetailApi,ExpenseGenericApiView, E
 
 urlpatterns = [
     path('expenses/', ExpenseListApi.as_view(), name='expenses'),
-    path('expensesi/', ExpenseGenericApiView.as_view(), name='expensesi'),
+    path('stats/expenses/', ExpenseGenericApiView.as_view(), name='expensesi'),
     path('expenses/<int:pk>/', ExpenseDetailApi.as_view(), name='expense_detail'),
     path('expense/category/', ExpenseCategoryListApi.as_view(), name='expense_cate'),
     path('expense/category/<int:pk>/', ExpenseCategoryDetailApi.as_view(), name='expense_cate_detail'),

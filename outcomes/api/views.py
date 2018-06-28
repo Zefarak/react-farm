@@ -2,6 +2,7 @@ from rest_framework import generics, permissions, pagination
 from rest_framework.response import Response
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Sum
 from .serializers import ExpenseListSerializer, ExpenseDetailSerializer, ExpenseCategorySerializer
 from ..models import Expense, ExpenseCategory, Payroll, PayrollCategory
 from .permissions import IsOwnerOrReadOnly
@@ -52,6 +53,19 @@ class ExpenseListApi(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
 
+    '''
+    def get(self, request, *args, **kwargs):
+        serializer_context = {
+            'request': request,
+        }
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, context=serializer_context, many=True)
+        data ={}
+        data['results'] = serializer.data
+        data['chritos'] = 'boom'
+        return Response(data)
+    '''
+
 
 class ExpenseDetailApi(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ExpenseDetailSerializer
@@ -73,17 +87,8 @@ class ExpenseGenericApiView(generics.ListAPIView):
 
     def get(self, request, *args, **kwargs):
         data = {}
+        queryset = Expense.objects.filter(user=self.request.user)
+        data['total_value'] = queryset.aggregate(Sum('final_value'))['final_value__sum'] if queryset else 0
+        return Response(data)
 
-        return Response(data)
-    '''
-    def get(self, request, *args, **kwargs):
-        serializer_context = {
-            'request': request,
-        }
-        queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset, context=serializer_context, many=True)
-        data ={}
-        data['results'] = serializer.data
-        data['chritos'] = 'boom'
-        return Response(data)
-    '''
+    

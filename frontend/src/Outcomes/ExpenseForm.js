@@ -9,12 +9,13 @@ class ExpenseForm extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.handleDate = this.handleDate.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
             crops: [],
             expenses_cate:[],
             doneLoading: false,
-            timestamp: null,
+            date_created: moment(new Date()).format('YYYY-MM-DD'),
             title: null,
             final_price: null,
             crops_related: null,
@@ -69,7 +70,6 @@ class ExpenseForm extends React.Component {
     }
 
     createExpense(data){
-        console.log('create', data);
         const endpoint = '/api/expenses/';
         const csrfToken = cookie.load('csrftoken');
         const thisComp = this;
@@ -79,6 +79,7 @@ class ExpenseForm extends React.Component {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken
             },
+            body: JSON.stringify(data),
             credentials: 'include'
         };
 
@@ -86,7 +87,7 @@ class ExpenseForm extends React.Component {
             .then(function (response) {
                 return response.json()
             }).then(function (responseData) {
-
+                thisComp.props.loadExpenses()
         }).catch(function (error) {
             console.log('create expense error', error)
         })
@@ -96,6 +97,16 @@ class ExpenseForm extends React.Component {
         this.setState({
             doneLoading: true
         })
+    }
+
+    handleDate(event){
+        event.preventDefault();
+        let key = event.target.name;
+        let value = event.target.value;
+        this.setState({
+            [key]: moment(value).format('YYYY-MM-DD')
+        })
+        console.log(this.state)
     }
 
     handleChange(event) {
@@ -113,6 +124,8 @@ class ExpenseForm extends React.Component {
 
         let data = this.state;
         this.createExpense(data);
+
+        console.log('load data', data)
     }
 
     componentDidMount(){
@@ -120,6 +133,11 @@ class ExpenseForm extends React.Component {
             crops: [],
             expenses_cate:[],
             doneLoading: false,
+            date_created: moment(new Date()).format('YYYY-MM-DD'),
+            title: '',
+            final_price: '',
+            crops_related: '',
+            category: ''
 
         });
         this.loadCrops();
@@ -132,7 +150,7 @@ class ExpenseForm extends React.Component {
         const {crops} = this.state;
         const {doneLoading} = this.state;
         const {title} = this.state;
-        const {timestamp} = this.state;
+        const {date_created} = this.state;
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">Δημιουργία Παραστατικού </div>
@@ -140,8 +158,13 @@ class ExpenseForm extends React.Component {
                 <form onSubmit={this.handleSubmit} className="form" role="form">
                     <div className="form-group">
                         <label>Ημερομηνία</label>
-                        <input onChange={this.handleChange} name="timestamp" type="date" value={timestamp} className="form-control" />
-
+                        <input 
+                            onChange={this.handleDate} 
+                            name="date_created" 
+                            type="date" 
+                            value={date_created} 
+                            className="form-control" 
+                        />
                     </div>
                     <div className="form-group">
                         <label className='control-label'>Τίτλος</label>

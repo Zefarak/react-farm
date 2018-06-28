@@ -13,7 +13,8 @@ class BodyPage extends React.Component {
             expenses: [],
             next: null,
             previous: null,
-            count: 0
+            count: 0,
+            total_value:0
         }
     }
 
@@ -23,7 +24,30 @@ class BodyPage extends React.Component {
             this.loadExpenses(next)
         }
         }
-
+    
+        loadStats(){
+            let endpoint = '/api/stats/expenses/';
+            const thisComp = this;
+            let lookupOptions = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            };
+            fetch(endpoint, lookupOptions)
+            .then(function(response){
+                return response.json()
+            }).then(function(responseData){
+                console.log(responseData)
+                thisComp.setState({
+                    total_value: responseData.total_value
+                })
+            }).catch(function(error){
+                console.log('expenses error', error)
+            })
+        }
+    
     loadExpenses(nextEndpoint){
         let endpoint = '/api/expenses/';
         if (nextEndpoint !== undefined){
@@ -70,6 +94,7 @@ class BodyPage extends React.Component {
             count: 0
         });
         this.loadExpenses();
+        this.loadStats();
         this.loadDownload()
     }
 
@@ -77,11 +102,12 @@ class BodyPage extends React.Component {
         const {doneDownload} = this.state;
         const {expenses} = this.state;
         const {count} = this.state;
+        const {total_value} = this.state
         const {next} = this.state;
         const {previous}  = this.state;
         return (
             <div className="panel panel-default">
-                <div className="panel-heading">Ανάλυση Εξόδων</div>
+                <div className="panel-heading">Ανάλυση Εξόδων Συνολικά Έξοδα {total_value}</div>
                 <div className="panel-body">
                     <div id="dataTables-example_wrapper" className="dataTables_wrapper form-inline dt-bootstrap no-footer">
                         <div className="row">
@@ -119,7 +145,7 @@ class BodyPage extends React.Component {
                                         {doneDownload === true ? expenses.map((expense, index)=> {
                                             return (
                                                 <tr className="gradeA odd" role="row">
-                                                    <td className="sorting_1">{expense.timestamp}</td>
+                                                    <td className="sorting_1">{expense.date_created}</td>
                                                     <td>{expense.title}</td>
                                                     <td>{expense.category_slug}</td>
                                                     <td className="center">{expense.crop_slug}</td>
@@ -173,7 +199,7 @@ class ExpensesPage extends React.Component {
 
     constructor(props) {
         super(props);
-
+        this.loadExpenses = this.loadExpenses.bind(this);
         this.state = {
             expenses_cate: [],
             expenses: [],
@@ -251,7 +277,7 @@ class ExpensesPage extends React.Component {
                         </div>
                         <div className="col-lg-4">
                             {doneLoading === true ?
-                                <ExpenseForm expenses_cate={expenses_cate} />
+                                <ExpenseForm loadExpenses={this.loadExpenses} expenses_cate={expenses_cate} />
                                 : <ExpenseForm />
                             }
 

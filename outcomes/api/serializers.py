@@ -12,7 +12,7 @@ class ExpenseListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
         fields = ['url', 'category_slug', 'crop_slug', 'user_slug',
-                  'timestamp', 'final_value', 'title',
+                  'date_created', 'final_value', 'title',
                   'crop_related', 'category',
                   'user', 'id'    
                 ]
@@ -23,7 +23,7 @@ class ExpenseDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
         fields = ['title', 'user', 'id', 'category', 
-                  'final_value', 'crop_related'
+                  'final_value', 'crop_related', 'date_created'
                   ]
 
 

@@ -1,6 +1,8 @@
 from django.db import models
+from django.db.models import Sum
 from farms.models import Crop
 from users.models import CustomUser
+import datetime
 # Create your models here.
 
 
@@ -12,7 +14,7 @@ class ExpenseCategory(models.Model):
 
 
 class Expense(models.Model):
-    timestamp = models.DateField()
+    date_created = models.DateField(null=True)
     title = models.CharField(max_length=100, blank=True)
     final_value = models.DecimalField(max_digits=20, decimal_places=2, default=0)
     crop_related = models.ForeignKey(Crop, blank=True, null=True, on_delete=models.SET_NULL)
@@ -25,6 +27,7 @@ class Expense(models.Model):
     def __str__(self):
         return self.title
 
+    
 
 
 class PayrollCategory(models.Model):
