@@ -157,7 +157,7 @@ class BodyPage extends React.Component {
                                                     <td className="sorting_1">{expense.date_created}</td>
                                                     <td>{expense.title}</td>
                                                     <td>{expense.category_slug}</td>
-                                                    <td className="center">{expense.crop_slug}</td>
+                                                    <td className="center">{expense.tag_crop_related}</td>
                                                     <td>{expense.tag_taxes}</td>
                                                     <td>{expense.tag_paid}</td>
                                                     <td className="center">{expense.final_value}</td>

@@ -25,11 +25,10 @@ class ExpensePagination(pagination.PageNumberPagination):
         return Response(context)
 
 
-class ExpenseCategoryListApi(generics.ListCreateAPIView):
+class ExpenseCategoryListApi(generics.ListAPIView):
     serializer_class = ExpenseCategorySerializer
     queryset = ExpenseCategory.objects.all()
-    permission_classes = (permissions.IsAuthenticated,)
-
+    
 
 class ExpenseCategoryDetailApi(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ExpenseCategorySerializer

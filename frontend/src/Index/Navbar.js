@@ -283,36 +283,11 @@ class Navbar extends React.Component{
                           }}>Εξοδα</Link></a>
                       </li>
                       <li>
-                            <a href="#"><i className="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span className="fa arrow"></span></a>
-                            <ul className="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span className="fa arrow"></span></a>
-                                    <ul className="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                    
-                                </li>
-                            </ul>
-                            
-                        </li>
-                    
+                          <a href=""><i className="fa fa-table fa-fw"></i><Link maintainScrollPosition={false} to={{ 
+                              pathname:`/expenses-categories/`,
+                              state:{fromDashboard: false}
+                          }}>Κατηγορίες Εξόδων</Link></a>
+                      </li>
                   </ul>
               </div>
               

@@ -5,13 +5,14 @@ from ..models import Payroll, PayrollCategory, Expense, ExpenseCategory
 
 class ExpenseListSerializer(serializers.ModelSerializer):
     category_slug = serializers.ReadOnlyField(source='category.title')
-    crop_slug = serializers.ReadOnlyField(source='crop_related.name')
+    # crop_slug = serializers.ReadOnlyField(source='crop_related.name')
     user_slug = serializers.ReadOnlyField(source='user.username')
     url = serializers.HyperlinkedIdentityField(view_name='expense_detail')
     
     class Meta:
         model = Expense
-        fields = ['url', 'category_slug', 'crop_slug', 'user_slug', 'tag_paid', 'tag_taxes',
+        fields = ['url', 'category_slug', 'tag_crop_related', 
+                  'user_slug', 'tag_paid', 'tag_taxes',
                   'date_created', 'final_value', 'title', 'is_paid', 'is_taxes',
                   'crop_related', 'category',
                   'user', 'id'    

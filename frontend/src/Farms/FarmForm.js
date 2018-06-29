@@ -74,7 +74,7 @@ class FarmForm extends React.Component {
 
     updateFarm(data) {
         const {farm} = this.props;
-        const endpoint = `/api/farms/${farm.i}/`;
+        const endpoint = `/api/farms/${farm.id}/`;
         const thisComp = this;
         const csrfToken = cookie.load('csrftoken')
         let lookupOptions = {

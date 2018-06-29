@@ -40,7 +40,7 @@ class Expense(models.Model):
         return f'{self.category.title}'
 
     def tag_crop_related(self):
-        return f'{self.crop_related.tag_name()}'
+        return f'{self.crop_related}'
 
     
 

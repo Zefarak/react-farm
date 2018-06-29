@@ -13,6 +13,9 @@ import TreePage from './Trees/TreePage';
 import TreeUpdate from './Trees/TreeUpdate';
 import ExpensesPage from './Outcomes/ExpensesPage';
 import ExpenseDetail from './Outcomes/ExpenseDetail';
+import CategoryPage from './Outcomes/CategoryPage';
+import CategoryDetail from './Outcomes/CategoryDetail';
+
 
 class App extends React.Component {
 
@@ -32,6 +35,9 @@ class App extends React.Component {
 
                     <Route exact path='/expenses/' component={ExpensesPage} />
                     <Route exact path='/expenses/:id/' component={ExpenseDetail} />
+
+                    <Route exact path='/expenses-categories/' component={CategoryPage} />
+                    <Route exact path='/expenses-categories/:id' component={CategoryDetail} />
 
                     <Route component={Index} />
                 </Switch>
