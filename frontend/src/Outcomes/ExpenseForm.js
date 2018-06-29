@@ -11,6 +11,7 @@ class ExpenseForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleDate = this.handleDate.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCheckboxInput = this.handleCheckboxInput.bind(this);
         this.state = {
             crops: [],
             expenses_cate:[],
@@ -19,7 +20,9 @@ class ExpenseForm extends React.Component {
             title: null,
             final_price: null,
             crops_related: null,
-            category: null
+            category: null, 
+            is_paid: false,
+            is_taxes: false
         }
     }
 
@@ -87,7 +90,7 @@ class ExpenseForm extends React.Component {
             .then(function (response) {
                 return response.json()
             }).then(function (responseData) {
-                thisComp.props.loadExpenses()
+                thisComp.props.updateExpenses()
         }).catch(function (error) {
             console.log('create expense error', error)
         })
@@ -109,6 +112,14 @@ class ExpenseForm extends React.Component {
         console.log(this.state)
     }
 
+    handleCheckboxInput(event) {
+        let key = event.target.name;
+        this.setState({
+            [key]: !this.state.key
+        })
+        
+    }
+
     handleChange(event) {
         event.preventDefault();
         let key = event.target.name;
@@ -116,16 +127,12 @@ class ExpenseForm extends React.Component {
         this.setState({
             [key]: value
         });
-        console.log(this.state)
     }
 
     handleSubmit(event){
         event.preventDefault();
-
         let data = this.state;
         this.createExpense(data);
-
-        console.log('load data', data)
     }
 
     componentDidMount(){
@@ -137,7 +144,9 @@ class ExpenseForm extends React.Component {
             title: '',
             final_price: '',
             crops_related: '',
-            category: ''
+            category: '',
+            is_paid: false,
+            is_taxes: '',
 
         });
         this.loadCrops();
@@ -151,6 +160,9 @@ class ExpenseForm extends React.Component {
         const {doneLoading} = this.state;
         const {title} = this.state;
         const {date_created} = this.state;
+        const {is_paid} = this.state;
+        const {is_taxes} = this.state;
+
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">Δημιουργία Παραστατικού </div>
@@ -188,7 +200,7 @@ class ExpenseForm extends React.Component {
                             {doneLoading === true ?
                                 crops.map((crop, index)=>{
                                 return (
-                                    <option value={crop.id}>{crop.crop_slug}</option>
+                                    <option value={crop.id}>{crop.tag_name}</option>
                                 )
                                 })
                                 : <option value>No data</option>
@@ -209,8 +221,16 @@ class ExpenseForm extends React.Component {
                             }
                         </select>
                     </div>
-
-                    <button onClick={this.handleSubmit} type="submit" className="btn btn-default">Submit Button</button>
+                    <div className='form-control'>
+                        <label>Πληρωμένο</label>
+                        <input onChange={this.handleCheckboxInput} type='checkbox' name='is_paid' value={is_paid}  /> 
+                    </div>
+                    <div className='form-control'>
+                        <label>Ενημερώνει ΦΠΑ</label>
+                        <input onChange={this.handleClick} type='checkbox' name='is_taxes' value={is_taxes} />
+                    </div>
+                    <br /><br />
+                    <button onClick={this.handleCheckboxInput} type="submit" className="btn btn-default">Submit Button</button>
                     <button type="reset" className="btn btn-default">Reset Button</button>
                 </form>
                 </div>

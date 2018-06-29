@@ -18,7 +18,7 @@ class CropSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Crop
-        fields = ['crop_slug', 'title', 'area', 'qty', 'farm', 'user', 'is_public', 'url', 'id']
+        fields = ['crop_slug', 'title', 'area', 'qty', 'farm', 'user', 'is_public', 'url', 'id', 'tag_name']
 
 
 

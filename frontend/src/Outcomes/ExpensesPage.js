@@ -1,5 +1,6 @@
 import React from 'react';
 import 'whatwg-fetch';
+import {Link} from 'react-router-dom';
 import Navbar from '../Index/Navbar';
 import ExpenseForm from './ExpenseForm';
 
@@ -8,6 +9,7 @@ class BodyPage extends React.Component {
     constructor(props) {
         super(props);
         this.loadMoreExpenses = this.loadMoreExpenses.bind(this);
+        this.updateExpenses = this.updateExpenses.bind(this);
         this.state = {
             doneDownload: false,
             expenses: [],
@@ -85,6 +87,10 @@ class BodyPage extends React.Component {
         })
     }
 
+    updateExpenses(){
+        this.loadMoreExpenses()
+    }
+
     componentDidMount(){
         this.setState({
             doneDownload: false,
@@ -138,7 +144,10 @@ class BodyPage extends React.Component {
                                             <th className="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" >Τίτλος</th>
                                             <th className="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Κατηγορία</th>
                                             <th className="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Καλλιέργεια</th>
+                                            <th className="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" >Επηρεάζει Φόρο</th>
+                                            <th className="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" >Είναι Πληρωμένο</th>
                                             <th className="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" >Αξία</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -149,7 +158,17 @@ class BodyPage extends React.Component {
                                                     <td>{expense.title}</td>
                                                     <td>{expense.category_slug}</td>
                                                     <td className="center">{expense.crop_slug}</td>
+                                                    <td>{expense.tag_taxes}</td>
+                                                    <td>{expense.tag_paid}</td>
                                                     <td className="center">{expense.final_value}</td>
+                                                    <td>
+                                                        <Link to={{
+                                                            pathname: `${expense.id}/`,
+                                                            state: {fromDashboard: false}
+                                                        }}>
+                                                        <button  className="btn btn-default">Λεπτομέριες</button>
+                                                        </Link>
+                                                    </td>
                                                 </tr>
                                             )
                                         })
@@ -277,10 +296,9 @@ class ExpensesPage extends React.Component {
                         </div>
                         <div className="col-lg-4">
                             {doneLoading === true ?
-                                <ExpenseForm loadExpenses={this.loadExpenses} expenses_cate={expenses_cate} />
+                                <ExpenseForm loadExpenses={this.updateExpenses} expenses_cate={expenses_cate} />
                                 : <ExpenseForm />
                             }
-
                         </div>
                     </div>
                 </div>

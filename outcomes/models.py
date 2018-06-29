@@ -24,8 +24,23 @@ class Expense(models.Model):
     is_taxes = models.BooleanField(default=False)
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
 
+    class Meta:
+        ordering = ['-date_created',]
+
     def __str__(self):
         return self.title
+
+    def tag_paid(self):
+        return 'Ναι' if self.is_paid else 'Οχι'
+
+    def tag_taxes(self):
+        return 'Ναι' if self.is_taxes else 'Οχι'
+
+    def tag_category(self):
+        return f'{self.category.title}'
+
+    def tag_crop_related(self):
+        return f'{self.crop_related.tag_name()}'
 
     
 

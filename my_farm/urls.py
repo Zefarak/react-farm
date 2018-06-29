@@ -21,6 +21,7 @@ urlpatterns = [
 
     
     path('expenses/', TemplateView.as_view(template_name='index.html')),
+    path('expenses/<int:id>/', TemplateView.as_view(template_name='index.html')),
     
 
     path('api-auth/', include('rest_framework.urls')),
