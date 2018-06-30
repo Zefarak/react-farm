@@ -1,7 +1,7 @@
 import React from 'react';
 import 'whatwg-fetch';
 import {Link} from 'react-router-dom';
-
+import Navbar from '../Index/Navbar';
 
 
 
@@ -28,7 +28,12 @@ class BodyCate extends React.Component{
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
                                     </div>
                                     <div className="panel-footer">
-                                        <button className='btn btn-primaty'>Λεπτομέριες</button>
+                                        <Link to={{
+                                            pathname: `/expenses-categories/${category.id}/`
+
+                                        }}>
+                                            <button className='btn btn-primaty'>Λεπτομέριες</button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

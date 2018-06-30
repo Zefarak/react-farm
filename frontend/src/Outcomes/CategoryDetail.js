@@ -1,6 +1,45 @@
 import React from 'react';
 import 'whatwg-fetch';
+import Navbar from '../Index/Navbar';
 
+
+class CategoryBody extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        const {category} = this.props;
+        const {expenses} = this.props;
+        console.log('props', category, expenses)
+        return (
+            <div>
+                {category !== undefined  ? 
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                        <i className="fa fa-bell fa-fw"></i> Παραστατικά
+                    </div>
+                    <div className="panel-body">
+                    <div className="list-group">
+                        <a href="#" class="list-group-item">
+                                            <i className="fa fa-comment fa-fw"></i> Works!
+                                            <span className="pull-right text-muted small"><em>uyu}</em>
+                                            </span>
+                                        </a>    
+                                    </div>
+                       
+                    </div>
+                </div>       
+                :<div className="panel panel-default">
+                    <div className="panel-heading">
+                        <i className="fa fa-bell fa-fw"></i> Πληροφορίες
+                    </div>
+                </div>
+                }
+            </div>
+        )
+    }
+}
 
 
 class CategoryDetail extends React.Component {
@@ -9,7 +48,8 @@ class CategoryDetail extends React.Component {
         super(props)
         this.state = {
             expenses: [],
-            category: null
+            category: null,
+            doneLoading: false
         }
     }
 
@@ -60,13 +100,61 @@ class CategoryDetail extends React.Component {
         })
     }
 
+    done_Loading(){
+        this.setState({
+            doneLoading:true
+        })
+    }
+
     componentDidMount(){
         this.setState({
             category: null,
-            expenses: []
+            expenses: [],
+            doneLoading: false
         })
+       
         const {id} = this.props.match.params;
         this.loadCate(id);
         this.loadExpenses(id);
+        this.done_Loading()
+       
+    }
+
+    render(){
+        const {doneLoading} = this.state;
+        const {expenses} = this.state;
+        const {category} = this.state;
+        console.log(category, expenses, 'state')
+        return(
+                <div id="wrapper">
+                    <Navbar />
+                    <div id="page-wrapper" >
+                        <div className="row">
+                            <div className="col-lg-12">
+                                {doneLoading === true ?
+                                    <h1 className="page-header">kj</h1>
+                                : <h1 className="page-header">No Data</h1>
+                                }
+                                
+                            </div> 
+                        </div>
+                        <div className="row">
+                            <div className="col-lg-6">
+                            {/*
+                                {doneLoading === true && expenses !== undefined ?
+                                    <CategoryBody expenses={expenses} category={category} />
+                                : <p>No data</p>
+                                */}
+                            </div>
+                            <div className="col-lg-6">
+                                
+                            </div>
+                        </div>
+                </div>
+            </div>
+            
+        )
     }
 }
+
+export default CategoryDetail
