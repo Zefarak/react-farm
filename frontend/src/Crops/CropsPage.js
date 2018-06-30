@@ -11,11 +11,18 @@ class BodyTr extends React.Component {
         return (
 
             <tr>
-                <td>#</td>
-                <td>{crop.title}</td>
+                <td>{crop.id}</td>
+                <td>{crop.tag_farm}</td>
+                <td>{crop.tag_title}</td>
                 <td>{crop.area}</td>
                 <td>{crop.qty}</td>
-                <td><button className='btn btn-primary'>Edit</button></td>
+                <td>
+                    <Link to={{
+                        pathname: `/καλλιέργιες/${crop.id}/`
+                    }}>
+                    <button className='btn btn-primary'>Edit</button>
+                    </Link>
+                    </td>
             </tr>
         )
     }
@@ -81,7 +88,8 @@ class CropsPageBody extends React.Component {
                         <table className="table table-striped">
                             <thead className="thead-dark">
                                 <tr>
-                                <th scope="col">#</th>
+                                <th>#</th>
+                                <th scope="col">Χωράφι</th>
                                 <th scope="col">Καλλιέργια</th>
                                 <th scope="col">Στρέμματα</th>
                                 <th scope="col">Δέντρο</th>

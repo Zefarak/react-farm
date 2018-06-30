@@ -11,6 +11,7 @@ class Invoice(models.Model):
     final_value = models.DecimalField(max_digits=20, decimal_places=2, default=0)
     paid_value = models.DecimalField(max_digits=20, decimal_places=2, default=0)
     is_paid = models.BooleanField(default=False)
+    have_taxes = models.BooleanField(default=True)
     crop_related = models.ForeignKey(Crop, null=True, blank=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='invoices')
 

@@ -11,6 +11,7 @@ urlpatterns = [
     path('χωράφια/', TemplateView.as_view(template_name='index.html')),
     path('χωράφια/δημιουργία/', TemplateView.as_view(template_name='index.html')),
     path('καλλιέργιες/', TemplateView.as_view(template_name='index.html')),
+    path('καλλιέργιες/<int:id>/', TemplateView.as_view(template_name='index.html')),
     path('καλλιέργιες/δημιουργία/', TemplateView.as_view(template_name='index.html')),
 
     path('δέντρα/', TemplateView.as_view(template_name='index.html')),
@@ -31,5 +32,6 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('api/', include('incomes.urls')),
     path('api/', include('outcomes.urls')),
+    path('api/', include('reports.urls')),
     
 ]

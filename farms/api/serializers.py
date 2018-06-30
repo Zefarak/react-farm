@@ -18,7 +18,7 @@ class CropSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Crop
-        fields = ['crop_slug', 'title', 'area', 'qty', 'farm', 'user', 'is_public', 'url', 'id', 'tag_name']
+        fields = ['crop_slug', 'title', 'area', 'qty', 'farm', 'user', 'is_public', 'url', 'id', 'tag_name', 'tag_farm', 'tag_title']
 
 
 
@@ -29,7 +29,7 @@ class CropDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Crop
-        fields = ['title', 'area', 'qty', 'farm', 'user', 'is_public']
+        fields = ['title', 'area', 'qty', 'farm', 'user', 'is_public', 'tag_title', 'tag_farm']
 
     def get_fields(self, *args, **kwargs):
        fields = super(CropDetailSerializer, self).get_fields(*args, **kwargs)
@@ -37,7 +37,13 @@ class CropDetailSerializer(serializers.ModelSerializer):
        return fields
 
 
+class CropStatsSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = Crop
+        fields =[]
+
+    
 
 # tests
 

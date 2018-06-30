@@ -52,9 +52,17 @@ class Crop(TimeStampModel):
         except:
             return self.title.title
     
-    
     def tag_name(self):
         try:
             return f'{self.farm.title} - {self.title.title}' 
         except:
             return f'{self.title.title}'
+
+    def tag_farm(self):
+        return f'{self.farm.title}' if self.farm else 'No Farm'
+    
+    
+    def tag_title(self):
+        return f'{self.title}'
+
+    

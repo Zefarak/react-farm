@@ -20,13 +20,22 @@ class CategoryBody extends React.Component {
                         <i className="fa fa-bell fa-fw"></i> Παραστατικά
                     </div>
                     <div className="panel-body">
-                    <div className="list-group">
-                        <a href="#" class="list-group-item">
-                                            <i className="fa fa-comment fa-fw"></i> Works!
-                                            <span className="pull-right text-muted small"><em>uyu}</em>
-                                            </span>
-                                        </a>    
-                                    </div>
+                    
+                        {expenses.results !== undefined  ?
+                        expenses.results.map((expense, index)=>{
+                            return (
+                                <div className="list-group">
+                                    <a href="#" class="list-group-item">
+                                        <i className="fa fa-comment fa-fw"></i> {expense.tag_crop_related}, Αξία {expense.final_value},  
+                                        <span className="pull-right text-muted small"><em>Τίτλος {expense.title}, {expense.date_created}</em></span>
+                                    </a>    
+                                </div>
+                            )
+                        })
+                        :
+                     <p>No Invoices</p>
+                     }
+                     
                        
                     </div>
                 </div>       
@@ -140,11 +149,10 @@ class CategoryDetail extends React.Component {
                         </div>
                         <div className="row">
                             <div className="col-lg-6">
-                            {/*
                                 {doneLoading === true && expenses !== undefined ?
                                     <CategoryBody expenses={expenses} category={category} />
                                 : <p>No data</p>
-                                */}
+                                }
                             </div>
                             <div className="col-lg-6">
                                 

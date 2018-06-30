@@ -36,8 +36,6 @@ class ExpenseCategoryDetailApi(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated,]
 
    
-
-
 class ExpenseListApi(generics.ListCreateAPIView):
     serializer_class = ExpenseListSerializer
     permission_classes = (permissions.IsAuthenticated, )
@@ -77,8 +75,6 @@ class ExpenseDetailApi(generics.RetrieveUpdateDestroyAPIView):
         return serializer.save(user=self.request.user)
 
     
-
-
 class ExpenseGenericApiView(generics.ListAPIView):
     serializer_class = ExpenseListSerializer
     permission_classes = (permissions.IsAuthenticated, )

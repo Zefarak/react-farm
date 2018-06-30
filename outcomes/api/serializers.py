@@ -27,7 +27,7 @@ class ExpenseDetailSerializer(serializers.ModelSerializer):
                   'tag_crop_related', 'tag_paid', 'tag_taxes',
                   'is_paid', 'is_taxes',
                   'user', 'id', 'category', 
-                   'crop_related', 'date_created'
+                  'crop_related', 'date_created'
                   ]
 
 

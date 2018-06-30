@@ -15,7 +15,7 @@ import ExpensesPage from './Outcomes/ExpensesPage';
 import ExpenseDetail from './Outcomes/ExpenseDetail';
 import CategoryPage from './Outcomes/CategoryPage';
 import CategoryDetail from './Outcomes/CategoryDetail';
-
+import CropDetail from './Crops/CropDetail';
 
 class App extends React.Component {
 
@@ -31,6 +31,7 @@ class App extends React.Component {
 
                     
                     <Route exact path='/καλλιέργιες' component={CropsPage} />
+                    <Route exact path='/καλλιέργιες/:id/' component={CropDetail} />
                     <Route exact path='/καλλιέργιες/δημιουργία/' component={CropsCreate} />
 
                     <Route exact path='/expenses/' component={ExpensesPage} />
