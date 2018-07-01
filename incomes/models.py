@@ -25,10 +25,10 @@ class Invoice(models.Model):
         return f'{self.title}'
 
     def tag_category(self):
-        return f'{self.category.title}'
+        return f'{self.category.title}' if self.category else None
 
     def tag_crop_related(self):
-        return f'{self.crop_related}'
+        return f'{self.crop_related}' if self.crop_related else None
 
     def tag_is_paid(self):
         return 'Πληρωμένο' if self.is_paid else 'Μη Πληρωμένο'

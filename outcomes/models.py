@@ -42,6 +42,8 @@ class Expense(models.Model):
     def tag_crop_related(self):
         return f'{self.crop_related}'
 
+
+
     
 
 

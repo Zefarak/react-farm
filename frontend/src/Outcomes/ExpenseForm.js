@@ -164,7 +164,8 @@ class ExpenseForm extends React.Component {
     handleSubmit(event){
         event.preventDefault();
         let data = this.state;
-        const expense = this.props;
+        const {expense} = this.props;
+        console.log('handle', expense)
         if (expense !== undefined) {
             this.updateExpense(data)
         } else {

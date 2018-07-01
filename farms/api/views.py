@@ -17,10 +17,13 @@ def api_root(request, format=None):
         'farms': reverse('farms', request=request, format=format),
         'crops': reverse('crops', request=request, format=format),
         'trees': reverse('trees', request=request, format=format),
-        'invoice': reverse('invoice', request=request, format=format),
+
         'users': reverse('users', request=request, format=format),
         'expenses': reverse('expenses', request=request, format=format),
         'expense_cate': reverse('expense_cate', request=request, format=format),
+        'incomes': reverse('incomes', request=request, format=format),
+        'incomes_cate': reverse('invoice_category', request=request, format=format)
+        
     })
 
 

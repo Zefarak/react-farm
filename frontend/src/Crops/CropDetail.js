@@ -2,87 +2,9 @@ import React from 'react';
 import cookie from 'react-cookies';
 import 'whatwg-fetch';
 import Navbar from "../Index/Navbar";
-
-
-class CropBodyRight extends React.Component {
-    constructor(props){
-        super(props)
-    }
-
-    render(){
-
-    }
-}
-
-class CropBody extends React.Component {
-
-    constructor(props){
-        super(props);
-    }
-
-    render() {
-        const {crop} = this.props;
-        const {expenses} = this.props;
-
-        return (
-            <div>
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <i className="fa fa-bell fa-fw"></i> Πληροφορίες
-                    </div>
-                    {crop !== undefined ? 
-                    <div className="panel-body">
-                        <div className="list-group">
-                            <a href="#" class="list-group-item">
-                                <i className="fa fa-comment fa-fw"></i> {crop.tag_farm}
-                                <span className="pull-right text-muted small"><em>Χωράφι</em>
-                                </span>
-                            </a>    
-                        </div>
-                        <div className="list-group">
-                            <a href="#" class="list-group-item">
-                                <i className="fa fa-comment fa-fw"></i> {crop.area}
-                                <span className="pull-right text-muted small"><em>Στρέμματα</em>
-                                </span>
-                            </a>    
-                        </div>
-                        <div className="list-group">
-                            <a href="#" class="list-group-item">
-                                <i className="fa fa-comment fa-fw"></i> {crop.qty} {crop.tag_title}
-                                <span className="pull-right text-muted small"><em>Δέντρο-Φυτό</em>
-                                </span>
-                            </a>    
-                        </div>
-                    </div>
-                    :<div className="list-group">
-                        <a href="#" class="list-group-item">
-                            <i className="fa fa-comment fa-fw"></i> Κάτι πήγε λάθος
-                            <span className="pull-right text-muted small"><em>Δέντρο-Φυτό</em>
-                            </span>
-                        </a>    
-                    </div>
-                    }
-                </div>
-
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <i className="fa fa-bell fa-fw"></i> Πληρωμές
-                    </div>
-                    <div className="panel-body">
-                        <div className="list-group">
-                            <a href="#" class="list-group-item">
-                                <i className="fa fa-comment fa-fw"></i> 
-                                <span className="pull-right text-muted small"><em>Καλλιέργια</em>
-                                </span>
-                            </a>    
-                        </div>
-                    </div>
-                </div>       
-            </div>
-        )
-    }
-}
-
+import CropBody from "./detail/CropBody";
+import BodyExpense from "./detail/CropExpense";
+import BodyIncome from "./detail/CropIncome";
 
 
 
@@ -92,6 +14,8 @@ class CropDetail extends React.Component {
         super(props);
         this.state = {
             expenses: [],
+            reports: null,
+            incomes: [],
             crop: null,
             doneLoading: false
         }
@@ -117,6 +41,52 @@ class CropDetail extends React.Component {
             })
         }).catch(function(error){
             console.log('error', error)
+        })
+    }
+
+    loadIncomes(id) {
+        const endpoint = `/api/incomes/invoices/`
+        const thisComp = this;
+        const lookupOption = {
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        }
+
+        fetch(endpoint, lookupOption)
+        .then(function(response){
+            return response.json()
+        }).then(function(responseData){
+            thisComp.setState({
+                incomes: responseData
+            })
+        }).catch(function(error){
+            console.log('error load income', error)
+        })
+    }
+
+    loadReport(id){
+        const endpoint = `/api/reports/crops/${id}`
+        const thisComp = this;
+        let lookupOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        }
+
+        fetch(endpoint, lookupOptions)
+        .then(function(response){
+            return response.json()
+        }).then(function(resposeData){
+            thisComp.setState({
+                reports: resposeData
+            })
+        }).catch|(function(error){
+            console.log('error report', error)
         })
     }
 
@@ -151,9 +121,11 @@ class CropDetail extends React.Component {
         this.setState({
             crop: null,
             expenses: [],
-            doneLoading: false
+            doneLoading: false,
+            reports: []
         })
         this.loadCrop(id);
+        this.loadReport(id);
         this.loadExpenses(id);
         
     }
@@ -162,7 +134,7 @@ class CropDetail extends React.Component {
         const {crop} = this.state;
         const {expenses} = this.state;
         const {doneLoading} = this.state;
-        console.log('state', crop, expenses)
+        const {reports} = this.state;
         return (
             <div id="wrapper">
                 <Navbar />
@@ -176,18 +148,24 @@ class CropDetail extends React.Component {
                             <h1 className="page-header">No Data</h1>
                         </div>
                         }
-
                     </div>
                     <div className="row">
                         <div className="col-lg-6">
                             {doneLoading === true ?
-                                <CropBody expenses={expenses} crop={crop} />
+                                <CropBody crop={crop} />
+                                :<p>No data</p>
+                            }   
+                            {doneLoading === true ?
+                                <BodyExpense expenses={expenses} />
                             :<p>No data</p>
-                            }
-                            
+                            }     
                         </div>
                         <div className="col-lg-6">
-                            <p>hello</p>
+                            {doneLoading === true ?
+                            <BodyIncome reports={reports} />    
+                        
+                            :<p>Something goes wrong! Try again later</p>
+                            }
                         </div>
                     </div>
                 </div>

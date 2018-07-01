@@ -79,8 +79,6 @@ class BodyPage extends React.Component {
         })
     }
 
-
-
     loadDownload(){
         this.setState({
             doneDownload: true
@@ -274,6 +272,7 @@ class ExpensesPage extends React.Component {
         })
     }
 
+
     componentDidMount(){
         this.loadExpensesCate();
     }
@@ -296,7 +295,7 @@ class ExpensesPage extends React.Component {
                         </div>
                         <div className="col-lg-4">
                             {doneLoading === true ?
-                                <ExpenseForm loadExpenses={this.updateExpenses} expenses_cate={expenses_cate} />
+                                <ExpenseForm updateExpenses={this.updateExpenses} expenses_cate={expenses_cate} />
                                 : <ExpenseForm />
                             }
                         </div>

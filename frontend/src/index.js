@@ -16,6 +16,8 @@ import ExpenseDetail from './Outcomes/ExpenseDetail';
 import CategoryPage from './Outcomes/CategoryPage';
 import CategoryDetail from './Outcomes/CategoryDetail';
 import CropDetail from './Crops/CropDetail';
+import IncomesPage from './Incomes/IncomesPage'
+
 
 class App extends React.Component {
 
@@ -39,6 +41,8 @@ class App extends React.Component {
 
                     <Route exact path='/expenses-categories/' component={CategoryPage} />
                     <Route exact path='/expenses-categories/:id' component={CategoryDetail} />
+
+                    <Route exact path='/incomes/invoices/' component={IncomesPage} />
 
                     <Route component={Index} />
                 </Switch>

@@ -14,11 +14,15 @@ class TreeSerializer(serializers.ModelSerializer):
 class CropSerializer(serializers.ModelSerializer):
     #title = serializers.SlugRelatedField(slug_field='title', queryset=Tree.objects.all())
     url = serializers.HyperlinkedIdentityField(view_name='crop_detail', format='html')
+    report_url = serializers.HyperlinkedIdentityField(view_name='report_expenses_crop', format='html')
     crop_slug = serializers.ReadOnlyField(source='title.title')
 
     class Meta:
         model = Crop
-        fields = ['crop_slug', 'title', 'area', 'qty', 'farm', 'user', 'is_public', 'url', 'id', 'tag_name', 'tag_farm', 'tag_title']
+        fields = ['crop_slug', 'title', 'area', 'qty', 'farm', 'user',
+                  'is_public', 'url', 'id', 'tag_name', 'tag_farm', 
+                  'tag_title', 'report_url'
+                  ]
 
 
 

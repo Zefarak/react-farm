@@ -1,7 +1,9 @@
 import React from 'react';
 import 'whatwg-fetch';
 import cookie from 'react-cookies';
-
+import Navbar from '../index/Navbar';
+import IncomeForm from './IncomesForm'
+import {Link} from 'react-router-dom';
 
 class BodyIncomes extends React.Component {
 
@@ -11,6 +13,7 @@ class BodyIncomes extends React.Component {
 
     render() {
         const {incomes} = this.props;
+        console.log('props', incomes)
         return (
             <table className="table table-striped">
                 <thead className="thead-dark">
@@ -21,11 +24,11 @@ class BodyIncomes extends React.Component {
                         <th scope="col">Κατηγορία</th>
                         <th scope="col">Εισπράκτηκε</th>
                         <th scope="col">Αξία</th>
-                        <th scope="col"></th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {incomes.length > 0 ? farms.map((income, index)=>{
+                    {incomes.length > 0 ? incomes.map((income, index)=>{
                     return(
                         <tr>
                             <td>{income.id}</td>
@@ -35,10 +38,12 @@ class BodyIncomes extends React.Component {
                             <td>{income.tag_is_paid}</td>
                             <td>{income.final_value}</td>
                             <td>
+                                {/* 
                                 <Link to={{
-
-                                }}><button class='btn btn-primary'>Επεξεργασία</button>
+                                    pathname:``
+                                }}><button className='btn btn-primary'>Επεξεργασία</button>
                                 </Link>
+                            */} yy
                             </td>
                         </tr>    
                         )
@@ -49,6 +54,7 @@ class BodyIncomes extends React.Component {
         )
     }
 }
+
 
 class IncomesPage extends React.Component {
 
@@ -61,7 +67,7 @@ class IncomesPage extends React.Component {
     }
 
     loadIncomes(){
-        const endpoint = '/api/incomes/invoice/';
+        const endpoint = '/api/incomes/invoices/';
         const thisComp = this;
         let lookupOptions = {
             method: 'GET',
@@ -69,7 +75,8 @@ class IncomesPage extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
+
         fetch(endpoint, lookupOptions)
         .then(function(response){
             return response.json()
@@ -87,12 +94,14 @@ class IncomesPage extends React.Component {
         this.setState({
             doneLoading: false,
             incomes: []
-        })
+        });
+        this.loadIncomes()
     }
 
     render(){
         const {doneLoading} = this.state;
-        const {incomes} = this.state
+        const {incomes} = this.state;
+        console.log('state', incomes, doneLoading);
         return (
             <div id="wrapper">
                 <Navbar />
@@ -110,7 +119,7 @@ class IncomesPage extends React.Component {
                             }
                         </div>
                         <div className="col-lg-4">
-                           
+                            <IncomeForm />
                         </div>
                     </div>
                 </div>
@@ -119,3 +128,5 @@ class IncomesPage extends React.Component {
         )
     }
 }
+
+export default IncomesPage
