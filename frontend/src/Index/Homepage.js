@@ -4,12 +4,34 @@ import React from 'react';
 
 class Homepage extends React.Component {
 
+    loadIncomes(){
+        const endpoint = '';
+    }
+
     render() {
         return(
             <div id="page-wrapper">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h1 className="page-header">Dashboard</h1>
+                            <h1 className="page-header">Ανάλυση</h1>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col-lg-12'>
+                            <form className='form'>
+                                <div className='col-lg-6'>
+                                    <div class="form-group">
+                                        <label>Ημερομηνία</label>
+                                        <input type='date'class="form-control" />
+                                    </div>
+                                </div>
+                                <div className='col-lg-6'>
+                                    <div class="form-group">
+                                        <label>Ημερομηνία</label>
+                                        <input type='date'class="form-control" />
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div className="row">
