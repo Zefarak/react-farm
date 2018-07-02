@@ -32,8 +32,7 @@ function callEndpoint(url, this_, key){
 
 }
 
-function sentEndpoint(url, method_, data){
-    let result = null;
+function sentEndpoint(url, method_, data, ){
     const csrfToken = cookie.load('csrftoken')
     const endpoint = url;
     let lookupOptions = {
@@ -49,11 +48,11 @@ function sentEndpoint(url, method_, data){
     .then(function(response){
         return response.json()
     }).then(function(responseData){
-        result = responseData
+       
     }).catch(function(error){
         console.log(error)
     })
-    return result
+    
 }
 
 export {

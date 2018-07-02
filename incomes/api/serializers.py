@@ -19,5 +19,5 @@ class InvoiceSerializer(serializers.ModelSerializer):
         model = Invoice
         fields = ['timestamp', 'title', 'final_value', 'crop_related', 'user',
                  'tag_category', 'category', 'tag_crop_related', 'tag_is_paid', 'is_paid',
-                 'have_taxes', 'paid_value', 'url'
+                 'have_taxes', 'paid_value', 'url', 'id'
                  ]

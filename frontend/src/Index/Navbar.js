@@ -244,37 +244,10 @@ class Navbar extends React.Component{
                           }}>Αρχική Σελίδα</Link></a>
                       </li>
                       <li>
-                          <a href="#">
-                              <i class="fa fa-bar-chart-o fa-fw"></i> Χωράφια<span className="fa arrow"></span>
-                          </a>
-                          <ul className="nav nav-second-level">
-                              <li>
-                                  <a><Link maintainScrollPosition={false} to={{
-                                      pathname:`/χωράφια/`,
-                                      state:{fromDashboard: false}
-                                  }}>Χωράφια</Link></a>     
-                              </li>  
-                              <li>
-                                  <a>
-                                      <Link maintainScrollPosition={false} to={{
-                                          pathname:`/καλλιέργιες/`,
-                                          state:{fromDashboard: false}
-                                      }}>Kαλλιέργιες
-                                      </Link>
-                                  </a>
-                              </li>
-                              <li>
-                                <a><Link maintainScrollPosition={false} to={{
-                                      pathname: `/δέντρα/`,
-                                    state: {fromDashboard: false}
-                                    }}>Δέντρα
-                                </Link></a>
-                              </li>
-                              <li>
-                                  <a href="">Δέντρα</a>
-                              </li>
-                          </ul>
-                          
+                          <a href=""><i className="fa fa-table fa-fw"></i><Link maintainScrollPosition={false} to={{ 
+                              pathname:`/data/`,
+                              state:{fromDashboard: false}
+                          }}>Δεδομένα</Link></a>
                       </li>
                       <li>
                           <a href=""><i className="fa fa-table fa-fw"></i><Link maintainScrollPosition={false} to={{ 

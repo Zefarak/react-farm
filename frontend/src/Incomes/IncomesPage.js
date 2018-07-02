@@ -38,12 +38,10 @@ class BodyIncomes extends React.Component {
                             <td>{income.tag_is_paid}</td>
                             <td>{income.final_value}</td>
                             <td>
-                                {/* 
                                 <Link to={{
-                                    pathname:``
+                                    pathname: `/incomes/invoices/${income.id}/`
                                 }}><button className='btn btn-primary'>Επεξεργασία</button>
                                 </Link>
-                            */} yy
                             </td>
                         </tr>    
                         )
@@ -60,7 +58,7 @@ class IncomesPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.updateData = this.updateData.bind(this);
+        this.updateIncomes = this.updateIncomes.bind(this);
         this.state = {
             incomes: [],
             doneLoading: false
@@ -91,7 +89,7 @@ class IncomesPage extends React.Component {
         })
     }
 
-    updateData(){
+    updateIncomes(){
         this.loadIncomes()
     }
 
@@ -124,7 +122,7 @@ class IncomesPage extends React.Component {
                             }
                         </div>
                         <div className="col-lg-4">
-                            <IncomeForm updateData={this.updateData} />
+                            <IncomeForm updateIncomes={this.updateIncomes} />
                         </div>
                     </div>
                 </div>

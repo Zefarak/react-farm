@@ -7,6 +7,7 @@ from frontend.views import homepage
 urlpatterns = [
     path('', view=homepage),
 
+    path('data/', TemplateView.as_view(template_name='index.html')),
     path('χωράφια/', TemplateView.as_view(template_name='index.html')),
     path('χωράφια/δημιουργία/', TemplateView.as_view(template_name='index.html')),
     path('καλλιέργιες/', TemplateView.as_view(template_name='index.html')),
@@ -24,5 +25,6 @@ urlpatterns = [
     path('expenses-categories/<int:id>/', TemplateView.as_view(template_name='index.html')),
 
     path('incomes/invoices/', TemplateView.as_view(template_name='index.html')),
+    path('incomes/invoices/<int:id>/', TemplateView.as_view(template_name='index.html')),
 
 ]
