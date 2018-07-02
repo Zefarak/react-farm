@@ -29,29 +29,22 @@ class IncomeForm extends React.Component {
     }
 
     loadCrop(){
-        let result = callEndpoint('/api/crops/')
+        let result = callEndpoint('/api/crops/', this, 'crops')
         console.log('crop result', result)
-        if (result !== null){
-            this.setState({
-                crops: result
-            })
-        }
     }
 
     loadCategories(){
-        let result = callEndpoint('/api/incomes/invoices-category/')
-        if (result !== null){
-            this.setState({
-                categories: result
-            })
-        }
+        let result = callEndpoint('/api/incomes/invoices-category/', this, 'categories')
+       
     }
 
     postData(data){
+        thisComp = this;
         let result = sentEndpoint('/api/incomes/invoices/', 'POST', data)
         if (result !== null){
             console.log('works!')
         }
+        thisComp.props.updateData()
     }
 
 
@@ -129,7 +122,6 @@ class IncomeForm extends React.Component {
                     <div className="form-group">
                         <label>Αξία Παραστατικού</label>
                         <input onChange={this.handleChange} name="final_value" type="number" value={state.final_value} className="form-control" />
-
                     </div>
                     <div className="form-group">
                         <label>Καλλιέργια</label>

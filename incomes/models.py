@@ -11,7 +11,7 @@ class InvoiceCategory(models.Model):
 
 class Invoice(models.Model):
     title = models.CharField(max_length=100)
-    timestamp = models.DateTimeField()
+    timestamp = models.DateField()
     value = models.DecimalField(max_digits=20, decimal_places=2, default=0)
     final_value = models.DecimalField(max_digits=20, decimal_places=2, default=0)
     paid_value = models.DecimalField(max_digits=20, decimal_places=2, default=0)

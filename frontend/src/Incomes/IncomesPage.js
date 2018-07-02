@@ -60,6 +60,7 @@ class IncomesPage extends React.Component {
 
     constructor(props) {
         super(props);
+        this.updateData = this.updateData.bind(this);
         this.state = {
             incomes: [],
             doneLoading: false
@@ -82,12 +83,16 @@ class IncomesPage extends React.Component {
             return response.json()
         }).then(function(responseData){
             thisComp.setState({
-                incomes: responseData,
+                incomes: responseData.results,
                 doneLoading: true
             })
         }).catch(function(error){
             console.log('error incomes', error)
         })
+    }
+
+    updateData(){
+        this.loadIncomes()
     }
 
     componentDidMount(){
@@ -119,7 +124,7 @@ class IncomesPage extends React.Component {
                             }
                         </div>
                         <div className="col-lg-4">
-                            <IncomeForm />
+                            <IncomeForm updateData={this.updateData} />
                         </div>
                     </div>
                 </div>
