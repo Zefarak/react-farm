@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment'
 import {Link} from 'react-router-dom';
 
+
 class Homepage extends React.Component {
 
     constructor(props){
@@ -12,9 +13,13 @@ class Homepage extends React.Component {
             doneLoading: false,
             incomes: null,
             date_start:  moment().startOf('year').format('YYYY-MM-DD'),
-            date_end: moment(new Date()).format('YYYY-MM-DD')
+            date_end: moment(new Date()).format('YYYY-MM-DD'),
+
+            
+
         }
     }
+
 
     loadIncomes(){
         const {date_start} = this.state;
@@ -73,6 +78,8 @@ class Homepage extends React.Component {
         const {date_start} = this.state;
         const {date_end} = this.state;
         const {doneLoading} = this.state;
+
+        const {handle_out} = this.props;
 
         return(
             <div id="page-wrapper">
@@ -218,6 +225,7 @@ class Homepage extends React.Component {
                         </div>
                         
                     </div>
+                    <button className='btn btn-warning' onClick={handle_out}>logout</button>
                 </div>
         )
     }

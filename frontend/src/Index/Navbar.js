@@ -4,7 +4,41 @@ import { Link } from 'react-router-dom';
 
 class Navbar extends React.Component{
 
+    constructor(props){
+        super(props);
+    }
+    
     render() {
+        const log_in = (<li className="dropdown">
+                    <a className="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i className="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul className="dropdown-menu dropdown-user">
+                        <li><a href="#"><i className="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i className="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li className="divider"></li>
+                        <li><a href="login.html"><i className="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                
+                </li>)
+        const log_out = (
+            <li className="dropdown">
+                  <a className="dropdown-toggle" data-toggle="dropdown" href="#">
+                      <i className="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                  </a>
+                  <ul className="dropdown-menu dropdown-user">
+                    {/*
+                    <li onClick={() => props.display_form('login')}>login</li>
+                    <li onClick={() => props.display_form('signup')}>signup</li>  
+                    */}
+                  </ul>
+                 
+              </li>
+        )
+        const {logged_in} = this.props;
         return (
           <nav class="navbar navbar-default navbar-static-top" role="navigation">
             <div class="navbar-header">
@@ -204,23 +238,7 @@ class Navbar extends React.Component{
                   </ul>
                  
               </li>
-              
-              <li className="dropdown">
-                  <a className="dropdown-toggle" data-toggle="dropdown" href="#">
-                      <i className="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                  </a>
-                  <ul className="dropdown-menu dropdown-user">
-                      <li><a href="#"><i className="fa fa-user fa-fw"></i> User Profile</a>
-                      </li>
-                      <li><a href="#"><i className="fa fa-gear fa-fw"></i> Settings</a>
-                      </li>
-                      <li className="divider"></li>
-                      <li><a href="login.html"><i className="fa fa-sign-out fa-fw"></i> Logout</a>
-                      </li>
-                  </ul>
-                 
-              </li>
-              
+              {logged_in !== undefined ? log_in : log_out}   
           </ul>
         
           <div className="navbar-default sidebar" role="navigation">

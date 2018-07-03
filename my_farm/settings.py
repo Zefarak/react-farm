@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS = [ '127.0.0.1', 'reactfarm.herokuapp.com',]
 
 # Application definition
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'rest_auth',
+
 
     'allauth',
     'allauth.account',
@@ -163,6 +165,15 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
      'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.tools.my_jwt_response_handler'
 }
 
 CORS_ORIGIN_WHITELIST = (
