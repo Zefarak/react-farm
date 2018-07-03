@@ -3,6 +3,7 @@ from farms.models import Crop
 from outcomes.models import Expense
 from incomes.models import Invoice
 
+
 class CropStatDetailApiSerializer(serializers.Serializer):
     
     class Meta:
@@ -21,4 +22,4 @@ class IncomesStatsSerializer(serializers.Serializer):
 
     class Meta:
         model = Invoice
-        fields = '__all__'
+        fields = ['title', 'final_value', 'is_paid', 'have_taxes']

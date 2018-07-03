@@ -8,6 +8,9 @@ from farms.models import Crop
 from outcomes.models import Expense
 from incomes.models import Invoice
 
+import datetime
+
+CURRENCY =  '€'
 
 class CropStatDetailApiView(generics.RetrieveAPIView):
     serializer_class = CropStatDetailApiSerializer
@@ -64,6 +67,24 @@ class IncomesReportApiView(generics.ListAPIView):
     serializer_class = IncomesStatsSerializer
     
 
-    def get_queryset(self):
+    def get(self, request, *args, **kwargs):
+        data = {}
         queryset = Invoice.objects.filter(user=self.request.user)
-        return queryset
+        queryset_expenses = Expense.objects.filter(user=self.request.user)
+        date_start = request.query_params.get('date_start') if request.query_params.get('date_start', None) else datetime.datetime.now().date().replace(month=1, day=1)
+        date_end = request.query_params.get('date_end', None) if request.query_params.get('date_end', None) else datetime.datetime.now().today()
+        
+        total_sells = queryset.filter(timestamp__range=[date_start, date_end]).aggregate(Sum('final_value'))['final_value__sum'] \
+                      if queryset.filter(timestamp__range=[date_start, date_end]) else 0
+        total_expenses = queryset_expenses.filter(date_created__range=[date_start, date_end]).aggregate(Sum('final_value'))['final_value__sum'] \
+                         if queryset_expenses.filter(date_created__range=[date_start, date_end]) else 0
+        total_pending_expense = queryset_expenses.filter(date_created__range=[date_start, date_end], is_paid=False).aggregate(Sum('final_value'))['final_value__sum'] \
+                                if queryset_expenses.filter(is_paid=False, date_created__range=[date_start, date_end]) else 0
+
+        diff = total_sells - total_expenses
+        data['total_sells'] = f'{total_sells} {CURRENCY}'
+        data['total_expenses'] = f'{total_expenses} {CURRENCY}'
+        data['pending_payments'] = f'{total_pending_expense} {CURRENCY}'
+        data['diff'] = f'{diff} {CURRENCY}'
+
+        return Response(data)
