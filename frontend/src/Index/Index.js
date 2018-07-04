@@ -3,12 +3,15 @@ import Navbar from './Navbar';
 import Homepage from './Homepage';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
+import cookie from 'react-cookies';
+
 
 class Index extends React.Component {
 
     constructor(props){
         super(props);
         this.handleLogout = this.handleLogout.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
         this.display_form = this.display_form.bind(this);
         this.handleSignUp = this.handleSignUp.bind(this);
         this.state = {
@@ -44,9 +47,41 @@ class Index extends React.Component {
         }
     }
     
-    postData(data){
+    handleLoginApi(data){
+        event.preventDefault();
         const thisComp = this;
-        console.log('login here!', thisComp)
+        const endpoint = '/api/user/login/';
+        const csrfToken = cookie.load('csrftoken');
+        console.log('login_api', data, csrfToken)
+        let lookupOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify(data)
+        }
+
+        fetch(endpoint, lookupOptions)
+        .then(function(response){
+            return response.json()
+        }).then(function(responseData){
+            
+            thisComp.setState({
+                logged_in: true,
+                displayed_form:'',
+                
+            })
+        }).catch(function(error){
+            console.log('error malaka', error)
+        })  
+    }
+
+    handleLogin(event, data){
+        event.preventDefault();
+        this.handleLoginApi(data)
+        {/*
+        const thisComp = this;
         const endpoint = '/token-auth/';
         let lookupOptions ={
             method: 'POST',
@@ -68,12 +103,8 @@ class Index extends React.Component {
             })
         }).catch(function(error){
             console.log('error malaka', error)
-        })
-    }
-
-    handleLogin(event, data){
-        event.preventDefault();
-        this.postData(data);   
+        })  
+    */}
     }
 
     handleSignUp(event){
@@ -102,7 +133,7 @@ class Index extends React.Component {
     }
 
     handleLogout(){
-        localStorage.removeItem('token');
+        {/*localStorage.removeItem('token'); */}
         this.setState({
             logged_in: false,
             username: ''

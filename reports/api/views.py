@@ -65,7 +65,7 @@ class IncomesCropStatApiView(generics.ListAPIView):
 
 class IncomesReportApiView(generics.ListAPIView):
     serializer_class = IncomesStatsSerializer
-    
+    permission_classes = (permissions.IsAuthenticated, )
 
     def get(self, request, *args, **kwargs):
         data = {}

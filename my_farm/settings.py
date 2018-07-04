@@ -165,11 +165,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
      'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
-     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
+     
 }
 
 JWT_AUTH = {
@@ -179,3 +175,4 @@ JWT_AUTH = {
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000/'
 )
+

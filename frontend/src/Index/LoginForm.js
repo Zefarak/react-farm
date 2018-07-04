@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import cookie from 'react-cookies';
 
 class LoginForm extends React.Component {
 
@@ -9,7 +9,8 @@ class LoginForm extends React.Component {
         this.handleChangeInput = this.handleChangeInput.bind(this);
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            csrfmiddlewaretoken: cookie.load('csrftoken')
         }
     }
 
@@ -30,9 +31,10 @@ class LoginForm extends React.Component {
     render() {
         const {username} = this.state;
         const {password} = this.state;
-        
+        const {csrfToken} = cookie.load('csrftoken');
         return(
             <form className='form'>
+            <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
             <h4>Login</h4>
             <div className="form-group">
                 <label className='control-label' htmlFor="username">Username</label>

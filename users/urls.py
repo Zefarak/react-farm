@@ -12,4 +12,6 @@ urlpatterns = [
     path('users/', views.UserListView.as_view(), name='users'),
    
 
+    path('user/login/', views.UserLoginApiView.as_view()),
+
 ]
