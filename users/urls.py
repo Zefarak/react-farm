@@ -8,7 +8,7 @@ urlpatterns = [
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('users/current/', views.CurrentUserApiView.as_view()),
 
-    path('current-user/', views.current_user),
+    path('current-user/', views.current_user, name='current_user'),
     path('users/', views.UserListView.as_view(), name='users'),
    
 

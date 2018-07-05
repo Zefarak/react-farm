@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('trees/', TreeApiView.as_view(), name='trees'),
     path('trees/create/', TreeApiViewCreate.as_view()),
-    path('trees/<int:pk>/', TreeApiUpdateView.as_view()),
+    path('trees/<int:pk>/', TreeApiUpdateView.as_view(), name='tree_detail'),
 
 
     # test api

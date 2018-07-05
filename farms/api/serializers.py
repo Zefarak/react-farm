@@ -5,10 +5,15 @@ from ..models import Farm, Crop, Tree
 
 
 class TreeSerializer(serializers.ModelSerializer):
-    
+    url = serializers.HyperlinkedIdentityField(view_name='tree_detail')
+    public = serializers.SerializerMethodField()
+
     class Meta:
         model = Tree
-        fields = "__all__"
+        fields = ['title', 'user', 'is_public', 'url', 'id', 'public', 'tag_user']
+
+    def get_public(self, obj):
+        return 'Κοινόχρηστο' if obj.is_public else 'Οχι κοινόχρηστο'
 
 
 class CropSerializer(serializers.ModelSerializer):

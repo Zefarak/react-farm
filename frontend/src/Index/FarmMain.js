@@ -32,14 +32,14 @@ class FarmMain extends React.Component{
                                     Δέντρα
                                     </div>
                                     <div className="panel-body">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                                        <p>Δημιούργία, επεξεργασία, διαγραφή</p>
                                     </div>
                                     <div className="panel-footer">
                                         <Link to={{
                                             pathname: `/δέντρα/`
 
                                         }}>
-                                            <button className='btn btn-primaty'>Δέντρα</button>
+                                            <button className='btn btn-primary'>Δέντρα</button>
                                         </Link>
                                     </div>
                                 </div>
@@ -50,14 +50,14 @@ class FarmMain extends React.Component{
                                     Καλλιέργιες
                                     </div>
                                     <div className="panel-body">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                                        <p>Δημιούργία, επεξεργασία, διαγραφή</p>
                                     </div>
                                     <div className="panel-footer">
                                         <Link to={{
                                             pathname: `/καλλιέργιες/`
 
                                         }}>
-                                            <button className='btn btn-primaty'>Καλλιέργιες</button>
+                                            <button className='btn btn-primary'>Καλλιέργιες</button>
                                         </Link>
                                     </div>
                                 </div>
@@ -68,14 +68,14 @@ class FarmMain extends React.Component{
                                     Χωράφια
                                     </div>
                                     <div className="panel-body">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                                        <p>Δημιούργία, επεξεργασία, διαγραφή</p>
                                     </div>
                                     <div className="panel-footer">
                                         <Link to={{
                                             pathname: `/χωράφια/`
 
                                         }}>
-                                            <button className='btn btn-primaty'>Χωράφια</button>
+                                            <button className='btn btn-primary'>Χωράφια</button>
                                         </Link>
                                     </div>
                                 </div>

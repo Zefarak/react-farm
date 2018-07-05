@@ -25,6 +25,11 @@ class TimeStampTitleModel(models.Model):
 
 class Tree(TimeStampTitleModel):
     description = models.TextField(blank=True)
+    user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='trees')
+    is_public = models.BooleanField(default=False)
+
+    def tag_user(self):
+        return f'{self.user.username}' if self.user else 'No Creator'
     
 
 class Farm(TimeStampTitleModel):

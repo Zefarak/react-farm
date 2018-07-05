@@ -9,17 +9,35 @@ class TreeForm extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
+        this.handleChangeInput = this.handleChangeInput.bind(this);
         this.state = {
             title: '',
-            description: ''
+            is_public: false
         }
     }
 
     createData(data){
-        const endpoint = '/api/trees/create/';
+        const endpoint = '/api/trees/';
         const csrfToken = cookie.load('csrftoken')
+        const thisComp = this;
+        let lookupOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            credentials: 'include',
+            body: JSON.stringify(data)
+        }
         
+        fetch(endpoint, lookupOptions)
+        .then(function(response){
+            return response.json()
+        }).then(function(responseData){
+            thisComp.props.updateData()
+        }).catch(function(error){
+            console.log('error', error)
+        })
     }
 
     updateTree(data){
@@ -34,6 +52,7 @@ class TreeForm extends React.Component {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken
             },
+            credentials: 'include',
             body: JSON.stringify(data)
         }
         
@@ -47,6 +66,13 @@ class TreeForm extends React.Component {
         })
     }
 
+
+    handleChangeInput(event){
+        this.setState({
+            is_public: !this.state.is_public
+          })
+    }
+
     handleChange(event) {
         event.preventDefault();
         let key = event.target.name;
@@ -58,10 +84,15 @@ class TreeForm extends React.Component {
     }
 
     handleSubmit(event) {
-        console.log('handle')
         event.preventDefault();
+        const {tree} = this.props;
         let data = this.state
-        this.updateTree(data)
+        if (tree !== undefined){
+            this.updateTree(data)
+        } else {
+            this.createData(data)
+        }
+        
     }
 
 
@@ -71,12 +102,12 @@ class TreeForm extends React.Component {
         if (tree !== undefined) {
             this.setState({
                 title: tree.title,
-                description: tree.description
+                is_public: tree.is_public
             })
         } else {
             this.setState ({
                 title: '',
-                description: ''
+                is_public: false
             })
         }
     }
@@ -84,31 +115,26 @@ class TreeForm extends React.Component {
     render() {
         const {tree} = this.props;
         const {title} = this.state;
-        const {description} = this.state;
+        const {is_public} = this.state;
         return (
-            <div id='page-wrapper'>
-                <div className="row">
-                    <div className="col-lg-12">
-                        <h1 className="page-header">{tree.title}</h1>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-lg-6 col-md-6">
-                        <form onSubmit={this.handleSubmit} className="form" role="form">
-                            <div className="form-group">
-                                <label className="control-label">Τίτλος</label>
-                                <input onChange={this.handleChange} name="title" value={title} className="form-control" type="text" />
-                            </div>
-                            <div className="form-group">
-                                <label className="control-label">Περιγραφή</label>
-                                <input onChange={this.handleChange}  name='description' value={description} className="form-control" type="text" />
-                            </div>
-                            <button onClick={this.handleSubmit} className="btn btn-success ">Δημιουργία</button>
-                            <button className='btn btn-warning' >Καθαρισμός</button>
-                        </form>
-                    </div>
+            <div className="panel panel-default">
+                <div className="panel-heading">Δημιουργία Παραστατικού </div>
+                <div className="panel-body">
+                    <form onSubmit={this.handleSubmit} className="form" role="form">
+                        <div className="form-group">
+                            <label className="control-label">Τίτλος</label>
+                            <input onChange={this.handleChange} name="title" value={title} className="form-control" type="text" />
+                        </div>
+                        <div className="form-group">
+                            <label className="control-label">Κοιωόχρηστο</label>
+                            <input onChange={this.handleChangeInput}  name='is_public' value={is_public} className="form-control" type="checkbox" />
+                        </div>
+                        <button onClick={this.handleSubmit} className="btn btn-success">Δημιουργία</button>
+                           
+                    </form>
                 </div>
             </div>
+            
         )
     }
 }

@@ -16,7 +16,7 @@ class Index extends React.Component {
         this.handleSignUp = this.handleSignUp.bind(this);
         this.state = {
             displayed_form: '',
-            logged_in: localStorage.getItem('token') ? true:false,
+            logged_in: true,
             username: ''
         }
     }
@@ -123,7 +123,7 @@ class Index extends React.Component {
         fetch(endpoint, lookupOptions)
         .then(response=>response.json)
         .then(responseData=>{
-            localStorage.setItem('token', json.token);
+            
             thisComp.setState({
                 logged_in: true,
                 displayed_form:'',
@@ -133,7 +133,7 @@ class Index extends React.Component {
     }
 
     handleLogout(){
-        {/*localStorage.removeItem('token'); */}
+        localStorage.removeItem('token'); 
         this.setState({
             logged_in: false,
             username: ''
@@ -146,7 +146,6 @@ class Index extends React.Component {
         })
     }
 
-  
     
     componentDidMount(){
 
