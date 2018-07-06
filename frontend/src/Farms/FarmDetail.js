@@ -14,8 +14,8 @@ class FarmBody extends React.Component {
 
     render() {
         const {farm} = this.props;
-        const crops = farm.crops;
-        console.log('crops', farm.get_crops)
+        const crops = farm.get_crops;
+        
         return (
             <div>
             {farm !== undefined && farm !== null ? 
@@ -39,13 +39,36 @@ class FarmBody extends React.Component {
                         </a>    
                     </div>
                 </div>
-            </div>       
-            :<div className="panel panel-default">
-                <div className="panel-heading">
-                    <i className="fa fa-bell fa-fw"></i> Πληροφορίες
-                </div>
             </div>
-            }
+                    :<div className="panel panel-default">
+                        <div className="panel-heading">
+                            <i className="fa fa-bell fa-fw"></i> Πληροφορίες
+                        </div>
+                    </div>
+                    }
+
+                    {crops.length > 0 && farm !== undefined ?
+                        crops.map((crop, index)=>{
+                            return(
+                                <div className="list-group">
+                                    <a href="#" class="list-group-item">
+                                        <i className="fa fa-euro fa-fw"></i> --
+                                        <span className="pull-right text-muted small"><em>Καλλιεργια {crop}</em>
+                                        </span>
+                                    </a>    
+                                </div>
+                            )
+                        })
+                    :
+                    <div className="list-group">
+                        <a href="#" class="list-group-item">
+                            <i className="fa fa-euro fa-fw"></i> Καμία
+                            <span className="pull-right text-muted small"><em>Καλλιεργια</em>
+                            </span>
+                        </a>    
+                    </div>
+                    }
+                    
             </div>
         )
     }

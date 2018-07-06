@@ -76,18 +76,17 @@ class FarmListSerializer(serializers.ModelSerializer):
         fields = ['title', 'id', 'area', 'crops', 'url', 'is_public', 'active']
         
 
-class CropSer(serializers.Serializer):
+class CropSer(serializers.ModelSerializer):
 
     class Meta:
-        fields = '__all__'
+        model = Crop
+        fields = ['title', 'id', 'qty', 'area']
 
 class FarmDetailSerializer(serializers.ModelSerializer):
-    tag_crops = serializers.SerializerMethodField()
-   
+    crops_related = CropSer(many=True, read_only=True)
 
     class Meta:
         model = Farm
-        fields = ['title', 'id', 'area', 'crops', 'is_public', 'active', 'tag_crops', 'get_crops']
+        fields = ['title', 'id', 'area', 'crops', 'is_public', 'active', 'crops_related']
 
-    def get_tag_crops(self, obj):
-        return obj.crops.values_list('title__title', flat=True)
+   
