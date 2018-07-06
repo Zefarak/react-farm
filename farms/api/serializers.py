@@ -76,18 +76,18 @@ class FarmListSerializer(serializers.ModelSerializer):
         fields = ['title', 'id', 'area', 'crops', 'url', 'is_public', 'active']
         
 
+class CropSer(serializers.Serializer):
+
+    class Meta:
+        fields = '__all__'
+
 class FarmDetailSerializer(serializers.ModelSerializer):
-    owner = serializers.SerializerMethodField(read_only=True)
-    #  crops = CropSerializer(read_only=True, many=True)
-    
+    tag_crops = serializers.SerializerMethodField()
+   
+
     class Meta:
         model = Farm
-        fields = ['title', 'id', 'area', 'crops', 'url', 'is_public', 'active']
+        fields = ['title', 'id', 'area', 'crops', 'is_public', 'active', 'tag_crops', 'get_crops']
 
-    def get_owner(self, obj):
-        print('owner')
-        request = self.context['request']
-        if request.user.is_authenticated:
-            if obj.user == request.user:
-                return True
-        return False
+    def get_tag_crops(self, obj):
+        return obj.crops.values_list('title__title', flat=True)

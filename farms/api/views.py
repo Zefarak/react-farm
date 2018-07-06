@@ -48,7 +48,7 @@ class FarmApiView(generics.ListCreateAPIView):
 class FarmApiDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Farm.objects.all()
     serializer_class = FarmDetailSerializer
-    permissions = [permissions.IsAuthenticatedOrReadOnly,]
+    permissions = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def get_queryset(self):
         queryset = Farm.objects.filter(user=self.request.user)

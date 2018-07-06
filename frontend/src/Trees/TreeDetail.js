@@ -20,7 +20,7 @@ class BodyTr extends React.Component {
                 <td>{tree.public}</td>
                 <td>{tree.user === user.id ?
                     <Link to={{
-                        pathname:`/trees/${tree.id}`,
+                        pathname:`/trees/${tree.id}/`,
                     }}><button className='btn btn-primary'>Επεξεργασία</button>
                     </Link>
                 :<p>Δε έχεις Πρόσβαση</p>
@@ -35,16 +35,12 @@ class TreeBodyPage extends React.Component {
 
     constructor(props){
         super(props);
-        this.updateData = this.updateData.bind(this);
-        
         this.state = {
             doneLoading: false,
             user: '',
-            trees: [],
             tree: null,
-            next: null,
-            previous: null,
-            count: 0
+            title: null,
+            is_public: false,
         }
     }
 
@@ -64,34 +60,16 @@ class TreeBodyPage extends React.Component {
             return response.json()
         }).then(function(responseData){
             thisComp.setState({
-                user: responseData
+                user: responseData,
+                title: responseData.title,
+                is_public: responseData.is_public
             })
         }).catch(function(error){
             console.log('user error', error)
         })
     }
 
-    loadData() {
-        const endpoint = '/api/trees/';
-        let thisComp = this;
-        let lookupOption = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        };
-        fetch(endpoint, lookupOption)
-        .then(function (response) {
-            return response.json()
-        }).then(function (responseData) {
-            thisComp.setState({
-                trees: responseData
-            })
-        }).catch(function (error) {
-            console.log('error', error)
-        })
-    }
+    
 
     loadTree(id){
         const endpoint = `/api/trees/${id}/`;
@@ -108,6 +86,7 @@ class TreeBodyPage extends React.Component {
         .then(function (response) {
             return response.json()
         }).then(function (responseData) {
+            console.log('get', responseData)
             thisComp.setState({
                 tree: responseData
             })
@@ -116,26 +95,18 @@ class TreeBodyPage extends React.Component {
         })
     }
     
-
-    updateData(){
-        this.loadData()
-    }
-
     componentDidMount(){
-        const {id} = this.props.match.params;
+        const {id} = this.props;
         this.setState({
             doneLoading: false,
             user: '',
-            trees: ['1'],
+            tree: null,
             title: null,
             is_public: false,
-            tree: null
         });
-
+        
         this.loadTree(id) 
         this.loadUser();
-        this.loadData();
-
         this.setState({
             doneLoading:true
         })
@@ -147,43 +118,20 @@ class TreeBodyPage extends React.Component {
         const {doneLoading} = this.state;
         const {user} = this.state;
         const {tree} = this.state;
+        console.log('state', tree)
+
         return (
             <div id='page-wrapper'>
                 <div className="row">
                     <div className="col-lg-12">
-                        <h1 className="page-header">Δέντρα</h1>
+                        <Link to={{
+                            pathname:`/δέντρα/`
+                        }} ><h1 className="page-header">Δέντρα</h1></Link>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-lg-6 col-md-6">
-                        <table className="table table-striped">
-                            <thead className="thead-dark">
-                                <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Δέντρο</th>
-                                <th scope="col">Δημιουργός</th>
-                                <th scope="col">Κοινόχρηστο</th>
-                                <th></th>
-                                </tr>
-                            </thead>
-                            {doneLoading === true ?
-                            <tbody>
-                                {trees.length > 0 ? trees.map((item, index)=>{
-                                    return (
-                                        <BodyTr tree={item} user={user} />
-                                    )
-                                }) :
-                                    <tr>
-                                        <td>No Data</td>
-                                    </tr>
-                                }
-                            </tbody>
-                            :<tbody></tbody>
-                            }
-                        </table>
-                    </div>
                     <div className='col-lg-6 col-md-6'>
-                        {doneLoading === true ?
+                        {doneLoading === true && tree !== null ?
                             <TreeForm updateData={this.updateData} tree={tree} />
                         :<p></p>
                         }
@@ -196,11 +144,34 @@ class TreeBodyPage extends React.Component {
 
 class TreeUpdate extends React.Component{
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            id:null,
+            doneLoading: false
+        }
+    }
+
+    componentDidMount(){
+        const {id} = this.props.match.params;
+        this.setState({
+            id: id,
+            doneLoading:true
+        })
+    }
+
     render() {
+        const {id} = this.state;
+        const {doneLoading} = this.state;
+
         return (
             <div className="wrapper">
                 <Navbar/>
-                <TreeBodyPage/>
+                {doneLoading === true ? 
+                    <TreeBodyPage id={id} />
+                :<p>Something is wrong</p>
+                }
+                
             </div>
         )
 

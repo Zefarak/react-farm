@@ -15,23 +15,37 @@ class FarmBody extends React.Component {
     render() {
         const {farm} = this.props;
         const crops = farm.crops;
+        console.log('crops', farm.get_crops)
         return (
-            <div className="card">
-                <div className="card-header">
-                   {farm.title}
+            <div>
+            {farm !== undefined && farm !== null ? 
+            <div className="panel panel-default">
+                <div className="panel-heading">
+                    <i className="fa fa-bell fa-fw"></i> Πληροφορίες
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li className="list-group-item">Στρέμματα {farm.area}</li>
-                    <li className="list-group-item">Αποτελείτε από</li>
-                    {crops.length > 0 ?
-                    crops.map((crop, index)=>{
-                        return (
-                            <li className="list-group-item">{crop}</li>
-                        )
-                    })
-                    : <li className="list-group-item">No Crops Added</li>
-                    }
-                </ul>
+                <div className="panel-body">
+                    <div className="list-group">
+                        <a href="#" class="list-group-item">
+                            <i className="fa fa-comment fa-fw"></i> {farm.title}
+                            <span className="pull-right text-muted small"><em>Ονομασία</em>
+                            </span>
+                        </a>    
+                    </div>
+                    <div className="list-group">
+                        <a href="#" class="list-group-item">
+                            <i className="fa fa-euro fa-fw"></i> {farm.area}
+                            <span className="pull-right text-muted small"><em>Στρέμματα</em>
+                            </span>
+                        </a>    
+                    </div>
+                </div>
+            </div>       
+            :<div className="panel panel-default">
+                <div className="panel-heading">
+                    <i className="fa fa-bell fa-fw"></i> Πληροφορίες
+                </div>
+            </div>
+            }
             </div>
         )
     }

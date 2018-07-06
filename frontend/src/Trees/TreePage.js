@@ -20,8 +20,8 @@ class BodyTr extends React.Component {
                 <td>{tree.public}</td>
                 <td>{tree.user === user.id ?
                     <Link to={{
-                        pathname:`/trees/${tree.id}`,
-                    }}><button className='btn btn-primary'>Επεξεργασία</button>
+                        pathname:`/trees/${tree.id}/`,
+                    }}><button className='btn btn-primary'>Επεξεργασία {tree.id}</button>
                     </Link>
                 :<p>Δε έχεις Πρόσβαση</p>
                 }

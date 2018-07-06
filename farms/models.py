@@ -40,6 +40,10 @@ class Farm(TimeStampTitleModel):
     user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='farms')
     is_public = models.BooleanField(default=False)
 
+    def get_crops(self):
+        print(self.crops.all())
+        return self.crops.all().values_list('title__title', 'id', 'area', 'qty')
+
 
 class Crop(TimeStampModel):
     title = models.ForeignKey(Tree, on_delete=models.CASCADE)

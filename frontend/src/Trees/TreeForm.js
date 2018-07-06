@@ -116,10 +116,10 @@ class TreeForm extends React.Component {
         const {tree} = this.props;
         const {title} = this.state;
         const {is_public} = this.state;
-        
+        console.log(tree)
         return (
             <div className="panel panel-default">
-                {tree !== undefined ?
+                {tree !== undefined && tree !== null ?
                 <div className="panel-heading">Επεξεργασία {tree.title} </div>
                 :<div className="panel-heading">Δημιουργία Παραστατικού </div>
                 }

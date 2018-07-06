@@ -10,7 +10,7 @@ import CropsPage from './Crops/CropsPage';
 import CropsCreate from './Crops/CropsCreate';
 
 import TreePage from './Trees/TreePage';
-import TreeUpdate from './Trees/TreeUpdate';
+import TreeDetail from './Trees/TreeDetail';
 import ExpensesPage from './Outcomes/ExpensesPage';
 import ExpenseDetail from './Outcomes/ExpenseDetail';
 import CategoryPage from './Outcomes/CategoryPage';
@@ -32,7 +32,7 @@ class App extends React.Component {
                     <Route exact path='/χωράφια/' component={FarmsPage} />
                     
                     <Route exact path='/δέντρα/' component={TreePage} />
-                    <Route exact path='/trees/:id' component={TreeUpdate} />
+                    <Route exact path='/trees/:id/' component={TreeDetail} />
 
                     
                     <Route exact path='/καλλιέργιες/' component={CropsPage} />
