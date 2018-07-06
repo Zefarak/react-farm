@@ -5,7 +5,7 @@ import Navbar from "../Index/Navbar";
 import CropBody from "./detail/CropBody";
 import BodyExpense from "./detail/CropExpense";
 import BodyIncome from "./detail/CropIncome";
-
+import CropForm from "./CropForm";
 
 
 class CropDetail extends React.Component {
@@ -20,6 +20,7 @@ class CropDetail extends React.Component {
             doneLoading: false
         }
     }
+
 
     loadExpenses(id){
         const endpoint = `/api/expenses/?category=&crop_related=${id}`
@@ -166,6 +167,15 @@ class CropDetail extends React.Component {
                         
                             :<p>Something goes wrong! Try again later</p>
                             }
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col-lg-6'>
+                            {doneLoading === true ? 
+                                <CropForm crop={crop} />
+                            :<p>ht</p>
+                            }
+                            
                         </div>
                     </div>
                 </div>

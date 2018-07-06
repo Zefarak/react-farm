@@ -14,7 +14,7 @@ class FarmBody extends React.Component {
 
     render() {
         const {farm} = this.props;
-        const crops = farm.get_crops;
+        const crops = farm.crops_related;
         
         return (
             <div>
@@ -47,29 +47,44 @@ class FarmBody extends React.Component {
                     </div>
                     }
 
-                    {crops.length > 0 && farm !== undefined ?
-                        crops.map((crop, index)=>{
-                            return(
-                                <div className="list-group">
-                                    <a href="#" class="list-group-item">
-                                        <i className="fa fa-euro fa-fw"></i> --
-                                        <span className="pull-right text-muted small"><em>Καλλιεργια {crop}</em>
-                                        </span>
-                                    </a>    
-                                </div>
-                            )
-                        })
-                    :
-                    <div className="list-group">
-                        <a href="#" class="list-group-item">
-                            <i className="fa fa-euro fa-fw"></i> Καμία
-                            <span className="pull-right text-muted small"><em>Καλλιεργια</em>
-                            </span>
-                        </a>    
-                    </div>
+                <div className="panel panel-default">
+                    {crops !== undefined ?
+                        <div className="panel-heading">
+                            <i className="fa fa-bell fa-fw"></i> Στρέμματα... {crops.total_area} Δέντρα... {crops.total_qty}
+                        </div>
+                    :<p></p>
                     }
-                    
+                    <div className="panel-body">
+                        {crops.length > 0 && farm !== undefined ?
+                            crops.map((crop, index)=>{
+                                return(
+                                    <Link to={{
+                                        pathname: `/καλλιέργιες/${crop.id}/`
+                                    }}>
+                                    <div className="list-group">
+                                        <a href="#" class="list-group-item">
+                                            <i className="fa fa-euro fa-fw"></i> Συνολικά Δέντρα...{crop.qty}, Έκτάση... {crop.area}
+                                            <span className="pull-right text-muted small"><em>Καλλιεργια {crop.tag_title}</em>
+                                            </span>
+                                        </a>    
+                                    </div>
+                                    </Link>
+                                )
+                            })
+                        :
+                        <div className="list-group">
+                            <a href="#" class="list-group-item">
+                                <i className="fa fa-euro fa-fw"></i> Καμία
+                                <span className="pull-right text-muted small"><em>Καλλιεργια</em>
+                                </span>
+                            </a>    
+                        </div>
+                        }
+                    </div>
+                </div>
+
             </div>
+
         )
     }
 }

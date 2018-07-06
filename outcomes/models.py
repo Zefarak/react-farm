@@ -67,3 +67,9 @@ class Payroll(models.Model):
 
     def __str__(self):
         return self.title
+
+    def tag_crop_related(self):
+        return f'{self.crop_related.title}' if self.crop_related else 'No Crop'
+
+    def tag_category(self):
+        return f'{self.category.title}' if self.crop_related else 'No Category'

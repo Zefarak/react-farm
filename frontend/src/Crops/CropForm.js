@@ -134,6 +134,7 @@ class CropForm extends React.Component {
   
     render() {
         const {crop} = this.props;
+        const {state} = this;
         const {trees_data} = this.state;     
         const {farms_data} = this.state;
 
@@ -182,7 +183,11 @@ class CropForm extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label className='control-label'>Στρέμματα</label>
-                                <input onChange={this.handleChange} name="area" className="form-control" type="number" />
+                                {crop !== undefined ? 
+                                <input onChange={this.handleChange} name="area" className="form-control" type="number" value={state.area} />
+                                :<input onChange={this.handleChange} name="area" className="form-control" type="number" />
+                                }
+                                
                             </div>
 
                             <button onClick={this.handleSubmit} className="btn btn-success" type='submit'>Αποθήκευση</button>

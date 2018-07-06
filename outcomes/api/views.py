@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Sum
-from .serializers import ExpenseListSerializer, ExpenseDetailSerializer, ExpenseCategorySerializer
+from .serializers import ExpenseListSerializer, ExpenseDetailSerializer, ExpenseCategorySerializer, PayrollSerializer
 from ..models import Expense, ExpenseCategory, Payroll, PayrollCategory
 from .permissions import IsOwnerOrReadOnly
 
@@ -91,3 +91,18 @@ class ExpenseGenericApiView(generics.ListAPIView):
         return Response(data)
 
     
+class PayrollListApiView(generics.ListCreateAPIView):
+    serializer_class = PayrollSerializer
+
+    def get_queryset(self):
+        queryset = Payroll.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
+
+class PayrollDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PayrollSerializer
+
+    def get_queryset(self):
+        queryset = Payroll.objects.filter(user=self.request.user)

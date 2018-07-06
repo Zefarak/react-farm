@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from django.utils import timezone
+from django.db.models import Sum
+
 from ..models import Farm, Crop, Tree
 
 
@@ -80,13 +82,32 @@ class CropSer(serializers.ModelSerializer):
 
     class Meta:
         model = Crop
-        fields = ['title', 'id', 'qty', 'area']
+        fields = ['title', 'id', 'qty', 'area', 'tag_title']
+
 
 class FarmDetailSerializer(serializers.ModelSerializer):
-    crops_related = CropSer(many=True, read_only=True)
+    crops_related = serializers.SerializerMethodField()
+    report = serializers.SerializerMethodField()
+
 
     class Meta:
         model = Farm
-        fields = ['title', 'id', 'area', 'crops', 'is_public', 'active', 'crops_related']
+        fields = ['title', 'id', 'area', 'crops', 'is_public', 'active', 'crops_related', 'report']
 
-   
+    def get_crops_related(self, obj):
+        queryset = Crop.objects.filter(farm=obj)
+        serializer=  CropSer(queryset, many=True)
+        return serializer.data
+
+    def get_report(self, obj):
+        queryset = Crop.objects.filter(farm=obj)
+        data = {}
+        totals = queryset.values('farm').annotate(total_qty=Sum('qty'),
+                                                  total_area=Sum('area'),
+
+                                                 ).order_by('farm')
+        data['trees'] = totals[0]['total_qty'] if totals else 0
+        data['area'] = totals[0]['total_area'] if totals else 0 
+        return data
+        
+
