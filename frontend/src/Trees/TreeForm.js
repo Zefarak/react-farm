@@ -116,9 +116,14 @@ class TreeForm extends React.Component {
         const {tree} = this.props;
         const {title} = this.state;
         const {is_public} = this.state;
+        
         return (
             <div className="panel panel-default">
-                <div className="panel-heading">Δημιουργία Παραστατικού </div>
+                {tree !== undefined ?
+                <div className="panel-heading">Επεξεργασία {tree.title} </div>
+                :<div className="panel-heading">Δημιουργία Παραστατικού </div>
+                }
+                
                 <div className="panel-body">
                     <form onSubmit={this.handleSubmit} className="form" role="form">
                         <div className="form-group">
@@ -126,12 +131,13 @@ class TreeForm extends React.Component {
                             <input onChange={this.handleChange} name="title" value={title} className="form-control" type="text" />
                         </div>
                         <div className="form-group">
-                            <label className="control-label">Κοιωόχρηστο</label>
+                            <label className="control-label">Κοινόχρηστο</label>
                             <input onChange={this.handleChangeInput}  name='is_public' value={is_public} className="form-control" type="checkbox" />
                         </div>
-                        <button onClick={this.handleSubmit} className="btn btn-success">Δημιουργία</button>
-                           
+                        <button onClick={this.handleSubmit} className="btn btn-success">Δημιουργία</button>      
                     </form>
+                    <br /> <br />
+                    <button className='btn btn-warning'>Διαγραφή</button>
                 </div>
             </div>
             

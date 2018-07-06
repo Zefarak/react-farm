@@ -35,15 +35,10 @@ class TreeBodyPage extends React.Component {
 
     constructor(props){
         super(props);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.updateData = this.updateData.bind(this);
-        this.treeTitleRef = React.createRef();
-        this.treeDescRef = React.createRef();
-        this.clearForm = this.clearForm.bind(this)
+        
         this.state = {
             doneLoading: false,
-            user: '',
             trees: [],
             tree: null,
             next: null,
@@ -97,79 +92,19 @@ class TreeBodyPage extends React.Component {
         })
     }
 
-    loadTree(id){
-        const endpoint = `/api/trees/${id}/`;
-        let thisComp = this;
-        let lookupOption = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        };
-
-        fetch(endpoint, lookupOption)
-        .then(function (response) {
-            return response.json()
-        }).then(function (responseData) {
-            thisComp.setState({
-                tree: responseData
-            })
-        }).catch(function (error) {
-            console.log('error', error)
-        })
-    }
-    
-
     updateData(){
         this.loadData()
     }
 
-
-    clearForm(event) {
-        if (event) {
-        event.preventDefault();
-        }
-        this.treeCreateForm.reset();
-    }
-
-    clearFormRef() {
-        this.treeTitleRef.current = '';
-        this.treeDescRef.current = '';
-    }
-
-
-    handleChange(event){
-        event.preventDefault();
-        let key = event.target.name;
-        let value = event.target.value;
-        this.setState({
-            [key]: value,
-
-        });
-        console.log(this.state)
-    }
-
-    handleSubmit(event){
-        event.preventDefault();
-        const data = this.state;
-        this.createTree(data);
-
-    }
-
     componentDidMount(){
-        const {id} = this.props.match.params;
+      
         this.setState({
             doneLoading: false,
             user: '',
             trees: ['1'],
             title: null,
-            is_public: false
+            is_public: false,
         });
-
-        if (id !== undefined){
-            this.loadTree(id)
-            }
         
         this.loadUser();
         this.loadData();
@@ -221,7 +156,7 @@ class TreeBodyPage extends React.Component {
                     </div>
                     <div className='col-lg-6 col-md-6'>
                         {doneLoading === true ?
-                            <TreeForm updateData={this.updateData} />
+                            <TreeForm updateData={this.updateData}  />
                         :<p></p>
                         }
                     </div>
