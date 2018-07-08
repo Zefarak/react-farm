@@ -39,10 +39,19 @@ class ExpenseCategorySerializer(serializers.ModelSerializer):
         fields = ['title', 'id', 'url']
 
 
-
 class PayrollSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='payroll_detail')
 
     class Meta:
         model = Payroll
-        fields = ['date_end', 'title', 'final_value', 'is_paid', 'crop_related', 'tag_crop_related', 'is_taxes', 'category', 'tag_category', 'url' ]
+        fields = ['date_end', 'title', 'final_value', 'is_paid', 'crop_related', 'tag_crop_related', 'is_taxes',
+                  'category', 'tag_category', 'url', 'id'
+                  ]
+
+
+class PayrollCategorySerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='payroll_cate_detail')
+
+    class Meta:
+        model = PayrollCategory
+        fields = ['title','user', 'is_public', 'url', 'id']

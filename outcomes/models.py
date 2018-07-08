@@ -43,19 +43,17 @@ class Expense(models.Model):
         return f'{self.crop_related}'
 
 
-
-    
-
-
 class PayrollCategory(models.Model):
     title = models.CharField(unique=True, max_length=100)
+    user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL)
+    is_public = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
 
 
 class Payroll(models.Model):
-    timestamp = models.DateField()
+    timestamp = models.DateField(auto_now_add=True)
     date_end = models.DateField()
     title = models.CharField(max_length=100, blank=True)
     final_value = models.DecimalField(max_digits=20, decimal_places=2, default=0)
@@ -64,6 +62,9 @@ class Payroll(models.Model):
     is_taxes = models.BooleanField(default=False)
     category = models.ForeignKey(PayrollCategory, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        ordering = ['-date_end', ]
 
     def __str__(self):
         return self.title

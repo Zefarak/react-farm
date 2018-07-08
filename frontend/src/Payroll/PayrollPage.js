@@ -3,6 +3,7 @@ import 'whatwg-fetch';
 import cookie from 'react-cookies';
 import Navbar from '../index/Navbar';
 import {Link} from 'react-router-dom';
+import PayrollForm from './PayrollForm'
 import moment from 'moment';
 
 
@@ -11,19 +12,22 @@ class PayrollPage extends React.Component {
     
     constructor(props) {
         super(props);
+        this.updateData = this.updateData.bind(this);
 
         this.state = {
             doneLoading: false,
             crops: [],
             categories: [],
-            payroll: []
+            payrolls: [],
+            next: null,
+            previous: null
         }
     }
 
     loadData(){
-        const endpointCate = '';
-        const endpointCrop = '';
-        const endpointIncomes = '';
+        const endpointCate = '/api/payroll/category/';
+        const endpointCrop = '/api/crops/';
+        const endpointPayroll = '/api/payroll/';
         const thisComp = this;
         let lookupOptions = {
             method: 'GET',
@@ -31,7 +35,7 @@ class PayrollPage extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
 
         fetch(endpointCate, lookupOptions)
         .then(function(response){
@@ -42,7 +46,7 @@ class PayrollPage extends React.Component {
             })
         }).catch(function(error){
             console.log('cate error', error)
-        })
+        });
 
         fetch(endpointCrop, lookupOptions)
         .then(function(response){
@@ -53,22 +57,29 @@ class PayrollPage extends React.Component {
             })
         }).catch(function(error){
             console.log('crop error', error)
-        })
+        });
 
-        fetch(endpointIncomes, lookupOptions)
+        fetch(endpointPayroll, lookupOptions)
         .then(function(response){
             return response.json()
         }).then(function(responseData){
             thisComp.setState({
-                payroll: responseData
+                payrolls: responseData.results
             })
         }).catch(function(error){
             console.log('income error', error)
         })
     }
 
-    componentDidMount(){
+    updateData(){
         this.loadData()
+    }
+
+    componentDidMount(){
+        this.loadData();
+        this.setState({
+            doneLoading: true
+        })
     }
 
     render(){
@@ -87,45 +98,54 @@ class PayrollPage extends React.Component {
                     <div className="row">
                         <div className="col-lg-8">
                             {doneLoading === true ?
-                                <table className="table table-striped">
+                                <table className="table table-striped table-responsive">
                                     <thead className="thead-dark">
                                         <tr>
                                             <th scope="col">#</th>
+                                            <th scope="col">Ημερομηνία</th>
                                             <th scope="col">Τίτλος</th>
                                             <th scope="col">Καλλιέργια</th>
                                             <th scope="col">Κατηγορία</th>
-                                            <th scope="col">Εισπράκτηκε</th>
+                                            <th scope="col">Πληρώθηκε</th>
+                                            <th scope="col">Συμμετέχει στην Φορολογία</th>
                                             <th scope="col">Αξία</th>
                                             <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {incomes.length > 0 ? incomes.map((income, index)=>{
+                                        {state.payrolls.length > 0 ? state.payrolls.map((payroll, index)=>{
                                         return(
-                                            <tr>
-                                                <td>{income.id}</td>
-                                                <td>{income.title}</td>
-                                                <td>{income.tag_crop_related}</td>
-                                                <td>{income.tag_category}</td>
-                                                <td>{income.tag_is_paid}</td>
-                                                <td>{income.final_value}</td>
-                                                <td>
-                                                    <Link to={{
-                                                        pathname: `/incomes/invoices/${income.id}/`
-                                                    }}><button className='btn btn-primary'>Επεξεργασία</button>
-                                                    </Link>
-                                                </td>
-                                            </tr>    
+                                                <tr>
+                                                    <td>{payroll.id}</td>
+                                                    <td>{payroll.date_end}</td>
+                                                    <td>{payroll.title}</td>
+                                                    <td>{payroll.tag_crop_related}</td>
+                                                    <td>{payroll.tag_category}</td>
+                                                    <td>{payroll.tag_is_paid}</td>
+                                                    <td>{payroll.tag_is_taxes}</td>
+                                                    <td>{payroll.final_value}</td>
+                                                    <td>
+                                                        <Link to={{
+                                                            pathname: `/payroll/${payroll.id}/`
+                                                            }}>
+                                                            <button className="btn btn-primary">Λεπτομέριες</button>
+                                                        </Link>
+                                                    </td>
+                                                </tr>
                                             )
                                             }):<p>No incomes</p>
                                             }
                                     </tbody>
                                 </table>
-                            :<p>No data</p>
+                                :<p>No data</p>
                             }
                         </div>
                         <div className="col-lg-4">
-                            <IncomeForm updateIncomes={this.updateIncomes} />
+                            {doneLoading === true ?
+                                <PayrollForm updateData={this.updateData} crops={state.crops} categories={state.categories} />
+                                :<p>Something is wrong</p>
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -133,3 +153,5 @@ class PayrollPage extends React.Component {
         )
     }
 }
+
+export default PayrollPage

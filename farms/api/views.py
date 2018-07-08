@@ -26,6 +26,7 @@ def api_root(request, format=None):
         'expenses': reverse('expenses', request=request, format=format),
         'expense_cate': reverse('expense_cate', request=request, format=format),
         'payrolls': reverse('payroll', request=request, format=format),
+        'payrolls_categories': reverse('payroll_cate', request=request, format=format),
         'incomes': reverse('incomes', request=request, format=format),
         'incomes_cate': reverse('invoice_category', request=request, format=format),
         'reports_incomes': reverse('report_incomes', request=request, format=format),

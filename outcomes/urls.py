@@ -1,7 +1,8 @@
 from django.urls import path
 from .api.views import (ExpenseListApi, ExpenseDetailApi,ExpenseGenericApiView, 
                         ExpenseCategoryListApi, ExpenseCategoryDetailApi,
-                        PayrollListApiView, PayrollDetailApiView
+                        PayrollListApiView, PayrollDetailApiView,
+                        PayrollCategoryListApiView, PayrollCategoryDetailApiView
                         )
 
 
@@ -13,5 +14,9 @@ urlpatterns = [
     path('expense/category/<int:pk>/', ExpenseCategoryDetailApi.as_view(), name='expense_cate_detail'),
 
     path('payroll/', PayrollListApiView.as_view(), name='payroll'),
-    path('payroll/<int:dk>/', PayrollDetailApiView.as_view(), name='payroll_detail')
+    path('payroll/<int:pk>/', PayrollDetailApiView.as_view(), name='payroll_detail'),
+
+    path('payroll/category/', PayrollCategoryListApiView.as_view(), name='payroll_cate'),
+    path('payroll/category/<int:pk>/', PayrollCategoryDetailApiView.as_view(), name='payroll_cate_detail')
+
 ]

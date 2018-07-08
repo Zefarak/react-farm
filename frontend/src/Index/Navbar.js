@@ -275,6 +275,12 @@ class Navbar extends React.Component{
                       </li>
                       <li>
                           <a href=""><i className="fa fa-table fa-fw"></i><Link maintainScrollPosition={false} to={{ 
+                              pathname:`/payroll/`,
+                              state:{fromDashboard: false}
+                          }}>Μισθοδοσία</Link></a>
+                      </li>
+                      <li>
+                          <a href=""><i className="fa fa-table fa-fw"></i><Link maintainScrollPosition={false} to={{ 
                               pathname:`/expenses-categories/`,
                               state:{fromDashboard: false}
                           }}>Κατηγορίες Εξόδων</Link></a>
