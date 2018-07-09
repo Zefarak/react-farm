@@ -10,7 +10,7 @@ import moment from 'moment'
 class PayrollDetail extends React.Component{
     constructor(props){
         super(props);
-
+        this.updateData= this.updateData.bind(this);
         this.state = {
             payroll: null,
             crops: [],
@@ -59,6 +59,7 @@ class PayrollDetail extends React.Component{
         .then(function(response){
             return response.json()
         }).then(function(responseData){
+            console.log('load payroll', responseData)
             thisComp.setState({
                 payroll: responseData,
                 doneLoading: true
@@ -68,11 +69,15 @@ class PayrollDetail extends React.Component{
         })
     }
 
+    updateData() {
+        const {id} = this.props.match.params;
+        console.log('update', id)
+        this.loadData(id);
+    }
+
     componentDidMount(){
         const {id} = this.props.match.params;
         this.loadData(id);
-
-
     }
 
     render(){
@@ -80,7 +85,7 @@ class PayrollDetail extends React.Component{
         const {payroll} = this.state;
         const {crops} =  this.state;
         const {categories} = this.state;
-        console.log(payroll);
+        
         return (
             <div id="wrapper">
                 <Navbar />
@@ -111,7 +116,7 @@ class PayrollDetail extends React.Component{
                                         </div>
                                         <div className="list-group">
                                             <a href="#" class="list-group-item">
-                                                <i className="fa fa-euro fa-fw"></i> {payroll.date_created}
+                                                <i className="fa fa-date fa-fw"></i> {payroll.date_end}
                                                 <span className="pull-right text-muted small"><em>Ημερομηνία</em>
                                                 </span>
                                             </a>
@@ -144,8 +149,10 @@ class PayrollDetail extends React.Component{
                             }
                         </div>
                         <div className="col-lg-6">
-                            {doneLoading === true && payroll !== null ?
-                                <PayrollForm crops={crops}  categories={categories}  />
+                            {doneLoading === true && payroll !== undefined ?
+                                <PayrollForm crops={crops}  categories={categories} payroll={payroll}
+                                updateData={this.updateData}
+                                />
                                 : <p>No Data</p>
                             }
                         </div>

@@ -30,4 +30,6 @@ urlpatterns = [
     path('incomes/invoices/', TemplateView.as_view(template_name='index.html')),
     path('incomes/invoices/<int:id>/', TemplateView.as_view(template_name='index.html')),
 
+    path('reports/', TemplateView.as_view(template_name='index.html')),
+
 ]

@@ -45,7 +45,7 @@ class PayrollSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payroll
         fields = ['date_end', 'title', 'final_value', 'is_paid', 'crop_related', 'tag_crop_related', 'is_taxes',
-                  'category', 'tag_category', 'url', 'id'
+                  'category', 'tag_category', 'url', 'id', 'tag_paid', 'tag_taxes'
                   ]
 
 

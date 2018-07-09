@@ -18,6 +18,7 @@ import CropDetail from './Crops/CropDetail';
 import IncomesPage from './Incomes/IncomesPage'
 import IncomeDetail from './Incomes/IncomeDetail';
 import FarmMain from './Index/FarmMain';
+import ReportPage from './Reports/ReportPage';
 
 
 class App extends React.Component {
@@ -50,6 +51,8 @@ class App extends React.Component {
 
                     <Route exact path='/incomes/invoices/' component={IncomesPage} />
                     <Route exact path='/incomes/invoices/:id/' component={IncomeDetail} />
+
+                    <Route exact path='/reports/' component={ReportPage} />
 
 
                     <Route component={Index} />

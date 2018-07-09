@@ -1,11 +1,13 @@
 from rest_framework import generics, permissions
 from rest_framework import filters
-from .serializers import CropStatDetailApiSerializer, ExpenseStatSerializer, IncomesStatsSerializer
+from .serializers import (CropStatDetailApiSerializer, ExpenseStatSerializer, IncomesStatsSerializer,
+                          FarmReportSerializer, CropReportSerializer
+                          )
 from rest_framework.response import Response
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
-from farms.models import Crop
-from outcomes.models import Expense
+from farms.models import Crop, Farm
+from outcomes.models import Expense, Payroll
 from incomes.models import Invoice
 
 import datetime
@@ -14,7 +16,7 @@ CURRENCY =  '€'
 
 class CropStatDetailApiView(generics.RetrieveAPIView):
     serializer_class = CropStatDetailApiSerializer
-    permissions = [permissions.IsAuthenticated, ]
+    permissions = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         queryset = Crop.objects.filter(user=self.request.user)
@@ -88,3 +90,43 @@ class IncomesReportApiView(generics.ListAPIView):
         data['diff'] = f'{diff} {CURRENCY}'
 
         return Response(data)
+
+
+class FarmReportApiView(generics.ListAPIView):
+    serializer_class = FarmReportSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+
+    def get_queryset(self):
+        return Farm.objects.filter(user=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        date_start, date_end =datetime.datetime.now().date().replace(month=1, day=1), datetime.datetime.now().today()
+        queryset = self.get_queryset()
+        crops = Crop.objects.filter(farm__in=queryset)
+        incomes = Invoice.objects.filter(crop_related__in=crops, timestamp__range=[date_start, date_end])
+        data['incomes'] = incomes.aggregate(Sum('final_value'))['final_value__sum'] if incomes else 0
+        expenses = Expense.objects.filter(crop_related__in=crops, date_created__range=[date_start, date_end])
+        data['expenses'] = expenses.aggregate(Sum('final_value'))['final_value__sum'] if expenses else 0
+        payroll =  Payroll.objects.filter(crop_related__in=crops, timestamp__range=[date_start, date_end])
+        data['payroll'] = payroll.aggregate(Sum('final_value'))['final_value__sum'] if payroll else 0
+        data['count'] = queryset.count() if queryset else 0
+        data['area'] = queryset.aggregate(Sum('area'))['area__sum'] if queryset else 0
+        if data['count'] > 0:
+            data['incomes_avg'] = data['incomes']/data['count']
+            data['expenses_avg'] = data['expenses']/data['count']
+            data['payroll_avg'] = data['payroll']/data['count']        
+
+        return Response(data)
+
+
+class CropReportApiView(generics.ListAPIView):
+    serializer_class = CropReportSerializer
+    permission_classes = (permission_classes.IsAuthenticated, )
+
+    def get_queryset(self):
+        return Crop.objects.filter(user=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        pass

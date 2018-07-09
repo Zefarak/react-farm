@@ -291,6 +291,12 @@ class Navbar extends React.Component{
                               state:{fromDashboard: false}
                           }}>Έσοδα</Link></a>
                       </li>
+                      <li>
+                          <a href=""><i className="fa fa-table fa-fw"></i><Link maintainScrollPosition={false} to={{ 
+                              pathname:`/reports/`,
+                              state:{fromDashboard: false}
+                          }}>Reports</Link></a>
+                      </li>
                   </ul>
               </div>
               

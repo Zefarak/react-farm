@@ -2,10 +2,9 @@ import 'whatwg-fetch'
 import cookie from 'react-cookies';
 
 
-function callEndpoint(url, this_, key){
+function callEndpoint(url){
     let result = null;
     const endpoint = url;
-    const thisComp = this_;
     let lookupOptions = {
         method: 'GET',
         headers: {
@@ -20,14 +19,11 @@ function callEndpoint(url, this_, key){
     }).then(function(responseData){
         console.log('in fuction', responseData);
         result = responseData;
-        thisComp.setState({
-            [key]: responseData
-        })
+        
     }).catch(function(error){
         console.log(error)
     });
 
-    console.log('out function', result)
     return result
 
 }

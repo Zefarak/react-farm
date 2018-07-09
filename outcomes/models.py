@@ -74,3 +74,9 @@ class Payroll(models.Model):
 
     def tag_category(self):
         return f'{self.category.title}' if self.crop_related else 'No Category'
+
+    def tag_paid(self):
+        return 'Εξοφλημένο' if self.is_paid else 'Μη Εξοφλημένο'
+
+    def tag_taxes(self):
+        return 'Ναι' if self.is_taxes else 'Οχι'

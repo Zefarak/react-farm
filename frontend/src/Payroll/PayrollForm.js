@@ -69,7 +69,7 @@ class PayrollForm extends React.Component{
             .then(function (response) {
                 return response.json()
             }).then(function (responseData) {
-
+                thisComp.props.updateData();
         }).catch(function (error) {
             console.log('create error', error)
 
@@ -106,14 +106,16 @@ class PayrollForm extends React.Component{
     }
 
     handleSubmit(event){
-        const {payroll} = this.props;
-        if (payroll !== undefined){
-
-        }
         event.preventDefault();
+        const {payroll} = this.props;
         let data = this.state;
-        this.createPayroll(data);
-        this.cleanForm()
+        if (payroll !== undefined){
+            this.updatePayroll(data)
+        } else {
+            this.createPayroll(data);
+            this.cleanForm()
+        }
+        
     }
 
     handleDate(event){
@@ -130,6 +132,7 @@ class PayrollForm extends React.Component{
             categories: []
         });
         const {payroll} = this.props;
+        console.log('props', payroll)
         if (payroll !== undefined){
             this.setState({
                 date_end: moment(payroll.date_end).format('YYYY-MM-DD'),
@@ -164,7 +167,7 @@ class PayrollForm extends React.Component{
         const {categories} = this.props;
         const {crops} = this.props;
         const {doneLoading} = this.state;
-
+        const {payroll} = this.props;
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">Δημιουργία Παραστατικού</div>

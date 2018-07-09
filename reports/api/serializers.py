@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from farms.models import Crop
+from farms.models import Crop, Farm
 from outcomes.models import Expense
 from incomes.models import Invoice
 
@@ -23,3 +23,17 @@ class IncomesStatsSerializer(serializers.Serializer):
     class Meta:
         model = Invoice
         fields = ['title', 'final_value', 'is_paid', 'have_taxes']
+
+
+class FarmReportSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Farm
+        fields = ['title', 'id']
+
+
+class CropReportSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Crop
+        fields = ['title', 'id', 'farm']
