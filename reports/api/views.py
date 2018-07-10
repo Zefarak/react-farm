@@ -1,9 +1,11 @@
 from rest_framework import generics, permissions
+from rest_framework.decorators import api_view
 from rest_framework import filters
 from .serializers import (CropStatDetailApiSerializer, ExpenseStatSerializer, IncomesStatsSerializer,
                           FarmReportSerializer, CropReportSerializer
                           )
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from farms.models import Crop, Farm
@@ -12,7 +14,19 @@ from incomes.models import Invoice
 
 import datetime
 
-CURRENCY =  '€'
+CURRENCY = '€'
+
+
+@api_view(['GET'])
+def report_api(request, format=None):
+    return Response({
+        'farm_report': reverse('report_farms', request=request, format=format),
+        'crops_report': reverse('report_crops', request=request, format=format),
+        'reports_incomes': reverse('report_incomes', request=request, format=format),
+
+
+    })
+
 
 class CropStatDetailApiView(generics.RetrieveAPIView):
     serializer_class = CropStatDetailApiSerializer
@@ -26,7 +40,6 @@ class CropStatDetailApiView(generics.RetrieveAPIView):
 class ExpenseCropStatApiView(generics.ListAPIView):
     serializer_class = ExpenseStatSerializer
     permission_classes = (permissions.IsAuthenticated, )
-
 
     def get_queryset(self):
         queryset = Expense.objects.filter(user=self.request.user)
@@ -96,7 +109,6 @@ class FarmReportApiView(generics.ListAPIView):
     serializer_class = FarmReportSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
-
     def get_queryset(self):
         return Farm.objects.filter(user=self.request.user)
 
@@ -123,10 +135,17 @@ class FarmReportApiView(generics.ListAPIView):
 
 class CropReportApiView(generics.ListAPIView):
     serializer_class = CropReportSerializer
-    permission_classes = (permission_classes.IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticated, )
 
     def get_queryset(self):
         return Crop.objects.filter(user=self.request.user)
 
     def get(self, request, *args, **kwargs):
-        pass
+        data = {}
+        queryset = self.get_queryset()
+        trees = queryset.aggregate(Sum('qty'))['qty__sum'] if queryset else 0
+        area = queryset.aggregate(Sum('area'))['area__sum'] if queryset else 0
+        data['trees'] = trees
+        data['area'] = area
+
+        return Response(data)

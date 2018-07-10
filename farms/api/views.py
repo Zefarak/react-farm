@@ -29,7 +29,7 @@ def api_root(request, format=None):
         'payrolls_categories': reverse('payroll_cate', request=request, format=format),
         'incomes': reverse('incomes', request=request, format=format),
         'incomes_cate': reverse('invoice_category', request=request, format=format),
-        'reports_incomes': reverse('report_incomes', request=request, format=format),
+        'reports': reverse('report_api', request=request, format=format),
         
     })
 
