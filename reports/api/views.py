@@ -103,11 +103,13 @@ class IncomesReportApiView(generics.ListAPIView):
 
         queryset_payroll = Payroll.objects.filter(user=self.request.user, date_end__range=[date_start, date_end])
         total_payroll = queryset_payroll.aggregate(Sum('final_value'))['final_value__sum'] if queryset_payroll else 0
-        payroll_per_cate = queryset_payroll.values('category__title').annotate(payroll=Sum('final_value'))
+        payroll_per_cate = queryset_payroll.values('category__title').annotate(payroll=Sum('final_value')).order_by('payroll')
+        data['total_payroll'] = f'{total_payroll} {CURRENCY}'
+        data['payroll_per_cate'] = payroll_per_cate
 
         total_pending_expense = queryset_expenses.filter(date_created__range=[date_start, date_end], is_paid=False).aggregate(Sum('final_value'))['final_value__sum'] \
                                 if queryset_expenses.filter(is_paid=False, date_created__range=[date_start, date_end]) else 0
-        diff = total_sells - total_expenses
+        diff = total_sells - total_expenses - total_payroll
         data['pending_payments'] = f'{total_pending_expense} {CURRENCY}'
         data['diff'] = f'{diff} {CURRENCY}'
 

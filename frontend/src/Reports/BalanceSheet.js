@@ -19,7 +19,7 @@ class BalanceSheet extends React.Component {
     }
 
     loadIncomes(){
-        const endpoint = '/api/incomes/invoices/'
+        const endpoint = '/api/incomes/invoices/';
         const thisComp = this;
         let lookupOptions = {
             method: 'GET',
@@ -27,7 +27,7 @@ class BalanceSheet extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
         fetch(endpoint, lookupOptions)
         .then(function(response){
             return response.json()
@@ -47,7 +47,7 @@ class BalanceSheet extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
 
         fetch(endpoint, lookupOptions)
         .then(function(response){
@@ -62,7 +62,7 @@ class BalanceSheet extends React.Component {
     }
 
     loadExpenses(){
-        const endpoint = '/api/expenses/'
+        const endpoint = '/api/expenses/';
         const thisComp = this;
         let lookupOptions = {
             method: 'GET',
@@ -70,7 +70,7 @@ class BalanceSheet extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
         fetch(endpoint, lookupOptions)
         .then(function(response){
             return response.json()
@@ -82,7 +82,7 @@ class BalanceSheet extends React.Component {
     }
 
     loadPayroll(){
-        const endpoint = '/api/payroll/'
+        const endpoint = '/api/payroll/';
         const thisComp = this;
         let lookupOptions = {
             method: 'GET',
@@ -90,7 +90,7 @@ class BalanceSheet extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
         fetch(endpoint, lookupOptions)
         .then(function(response){
             return response.json()
@@ -138,6 +138,63 @@ class BalanceSheet extends React.Component {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="col-lg-6">
+                                <div className="panel panel-default">
+                                    <div className="panel-heading">
+                                        <div className="row">
+                                            <div className="col-xs-3">
+                                                <i className="fa fa-tasks fa-5x"></i>
+                                            </div>
+                                            <div className="col-xs-9 text-right">
+                                                    {doneLoading === true && report_data !== null ?
+                                                        <div className="huge">{report_data.total_expenses}</div>
+                                                        :
+                                                        <div className="huge">12</div>
+                                                        }
+
+                                                <div>'Εξοδα</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="panel panel-default">
+                                    <div className="panel-heading">
+                                        Kitchen Sink
+                                    </div>
+
+                                    <div className="panel-body">
+                                        <div className="table-responsive">
+                                            <table className="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Κατηγορία</th>
+                                                    <th>Ποσό</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {doneLoading === true && report_data !==null ?
+                                                        report_data.expenses_per_cate.map((cate)=>{
+                                                            return (
+                                                                    <tr>
+                                                                        <td>1</td>
+                                                                        <td>{cate.category__title}</td>
+                                                                        <td>{cate.expenses}</td>
+                                                                    </tr>
+                                                            )
+                                                        })
+                                                        :
+                                                        <tr>
+                                                            <td>No Data</td>
+                                                        </tr>
+                                                        }
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-6">
                                 <div className="panel panel-green">
                                     <div className="panel-heading">
                                         <div className="row">
@@ -146,11 +203,11 @@ class BalanceSheet extends React.Component {
                                             </div>
                                             <div className="col-xs-9 text-right">
                                                 {doneLoading === true && report_data !== null ?
-                                                    <div className="huge">{report_data.total_sells}</div>
+                                                    <div className="huge">{report_data.diff}</div>
                                                     :
-                                                    <div className="huge">Oups</div>
+                                                    <div className="huge">Κέρδη/Ζημίες</div>
                                                     }
-                                                
+
                                                 <div>Έσοδα</div>
                                             </div>
                                         </div>
@@ -158,7 +215,7 @@ class BalanceSheet extends React.Component {
                                 </div>
                                 <div className="panel panel-default">
                                     <div className="panel-heading">
-                                        Kitchen Sink
+                                       Ανάλυση ανά Κατηγορία
                                     </div>
 
                                     <div className="panel-body">
@@ -182,13 +239,69 @@ class BalanceSheet extends React.Component {
                                                                 </tr>
                                                             )
                                                         })
-                                                        
                                                         :
                                                         <tr>
                                                             <td>No data</td>
                                                         </tr>
                                                     }
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="col-lg-6">
+                                <div className="panel panel-red">
+                                    <div className="panel-heading">
+                                        <div className="row">
+                                            <div className="col-xs-3">
+                                                <i className="fa fa-tasks fa-5x"></i>
+                                            </div>
+                                            <div className="col-xs-9 text-right">
+                                                {doneLoading === true && report_data !== null ?
+                                                    <div className="huge">{report_data.total_payroll}</div>
+                                                    :
+                                                    <div className="huge">Oups</div>
+                                                    }
                                                 
+                                                <div>Μισθοδοσία</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="panel panel-default">
+                                    <div className="panel-heading">
+                                        Ανάλυση ανά Κατηγορία
+                                    </div>
+
+                                    <div className="panel-body">
+                                        <div className="table-responsive">
+                                            <table className="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Κατηγορία</th>
+                                                    <th>Ποσό</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {report_data !== null && doneLoading === true ?
+                                                        report_data.payroll_per_cate.map((cate)=>{
+                                                            return (
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td>{cate.category__title}</td>
+                                                                    <td>{cate.payroll}</td>
+                                                                </tr>
+                                                            )
+                                                        })
+                                                        :
+                                                        <tr>
+                                                            <td>No data</td>
+                                                        </tr>
+                                                    }
                                                 </tbody>
                                             </table>
                                         </div>
@@ -216,7 +329,7 @@ class BalanceSheet extends React.Component {
                                 </div>
                                 <div className="panel panel-default">
                                     <div className="panel-heading">
-                                        Kitchen Sink
+                                        Ανάλυση ανά Κατηγορία
                                     </div>
 
                                     <div className="panel-body">
