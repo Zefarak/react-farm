@@ -1,11 +1,12 @@
 from django.urls import path, re_path
 from django.contrib import admin
 from django.views.generic import TemplateView
-from frontend.views import homepage
+from frontend.views import homepage, index
 
 
 urlpatterns = [
     path('', view=homepage),
+    path('tests/', view=index),
 
     path('data/', TemplateView.as_view(template_name='index.html')),
     path('χωράφια/', TemplateView.as_view(template_name='index.html')),

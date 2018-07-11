@@ -146,19 +146,19 @@ class BalanceSheet extends React.Component {
                                             </div>
                                             <div className="col-xs-9 text-right">
                                                     {doneLoading === true && report_data !== null ?
-                                                        <div className="huge">{report_data.total_expenses}</div>
+                                                        <div className="huge">{report_data.diff}</div>
                                                         :
                                                         <div className="huge">12</div>
                                                         }
 
-                                                <div>'Εξοδα</div>
+                                                <div>Κέρδη/Ζημιές</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="panel panel-default">
                                     <div className="panel-heading">
-                                        Kitchen Sink
+                                        Λεπτομέριες
                                     </div>
 
                                     <div className="panel-body">
