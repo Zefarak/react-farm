@@ -120,7 +120,7 @@ class ReportPage extends React.Component{
 
                                         </div>
                                         <Link to={{
-                                            pathname: '/reports/farms/'
+                                            pathname: '/reports/balance-sheet/'
                                         }}>
                                             <button className="btn btn-default btn-block">Λεπτομέριες</button>
                                         </Link>

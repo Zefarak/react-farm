@@ -43,7 +43,7 @@ class ExpenseListApi(generics.ListCreateAPIView):
     filter_fields = ('category', 'crop_related')
     search_fields = ('title',)
     ordering_fields = ('timestamp', 'category')
-    pagination_class = (CostumPagination, )
+    pagination_class = (CostumPagination)
 
     def get_queryset(self):
         queryset = Expense.objects.filter(user=self.request.user)

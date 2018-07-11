@@ -18,6 +18,12 @@ class FarmsReport extends React.Component{
         }
     }
 
+    loadFarms() {
+        const endpoint = '';
+
+        
+    }
+
 
     componentDidMount(){
         this.setState({

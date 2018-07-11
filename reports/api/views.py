@@ -85,20 +85,29 @@ class IncomesReportApiView(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         data = {}
         queryset = Invoice.objects.filter(user=self.request.user)
-        queryset_expenses = Expense.objects.filter(user=self.request.user)
+        
         date_start = request.query_params.get('date_start') if request.query_params.get('date_start', None) else datetime.datetime.now().date().replace(month=1, day=1)
         date_end = request.query_params.get('date_end', None) if request.query_params.get('date_end', None) else datetime.datetime.now().today()
         
-        total_sells = queryset.filter(timestamp__range=[date_start, date_end]).aggregate(Sum('final_value'))['final_value__sum'] \
-                      if queryset.filter(timestamp__range=[date_start, date_end]) else 0
-        total_expenses = queryset_expenses.filter(date_created__range=[date_start, date_end]).aggregate(Sum('final_value'))['final_value__sum'] \
-                         if queryset_expenses.filter(date_created__range=[date_start, date_end]) else 0
+        sells_queryset = queryset.filter(timestamp__range=[date_start, date_end])
+        total_sells = sells_queryset.aggregate(Sum('final_value'))['final_value__sum'] if sells_queryset else 0
+        sells_per_cate = sells_queryset.values('category__title').annotate(sells=Sum('final_value')).order_by('sells')
+        data['total_sells'] = f'{total_sells} {CURRENCY}'
+        data['sells_per_cate'] = sells_per_cate
+
+        queryset_expenses = Expense.objects.filter(user=self.request.user, date_created__range=[date_start, date_end])
+        total_expenses = queryset_expenses.aggregate(Sum('final_value'))['final_value__sum'] if queryset_expenses else 0
+        expenses_per_cate = queryset_expenses.values('category__title').annotate(expenses=Sum('final_value')).order_by('expenses')
+        data['total_expenses'] = f'{total_expenses} {CURRENCY}'
+        data['expenses_per_cate'] = expenses_per_cate
+
+        queryset_payroll = Payroll.objects.filter(user=self.request.user, date_end__range=[date_start, date_end])
+        total_payroll = queryset_payroll.aggregate(Sum('final_value'))['final_value__sum'] if queryset_payroll else 0
+        payroll_per_cate = queryset_payroll.values('category__title').annotate(payroll=Sum('final_value'))
+
         total_pending_expense = queryset_expenses.filter(date_created__range=[date_start, date_end], is_paid=False).aggregate(Sum('final_value'))['final_value__sum'] \
                                 if queryset_expenses.filter(is_paid=False, date_created__range=[date_start, date_end]) else 0
-
         diff = total_sells - total_expenses
-        data['total_sells'] = f'{total_sells} {CURRENCY}'
-        data['total_expenses'] = f'{total_expenses} {CURRENCY}'
         data['pending_payments'] = f'{total_pending_expense} {CURRENCY}'
         data['diff'] = f'{diff} {CURRENCY}'
 
