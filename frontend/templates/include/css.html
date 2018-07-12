@@ -1,24 +1,92 @@
 {% load static %}
     
+<link href="{% static 'css/semantic/semantic.min.css' %}" rel="stylesheet">
+<style type="text/css">
 
-    <!-- Bootstrap Core CSS -->
-    <link href="{% static 'css/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    .hidden.menu {
+      display: none;
+    }
 
-    <!-- MetisMenu CSS -->
-    <link href="{% static 'css/vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
+    .masthead.segment {
+      min-height: 700px;
+      padding: 1em 0em;
+    }
+    .masthead .logo.item img {
+      margin-right: 1em;
+    }
+    .masthead .ui.menu .ui.button {
+      margin-left: 0.5em;
+    }
+    .masthead h1.ui.header {
+      margin-top: 3em;
+      margin-bottom: 0em;
+      font-size: 4em;
+      font-weight: normal;
+    }
+    .masthead h2 {
+      font-size: 1.7em;
+      font-weight: normal;
+    }
 
-    <!-- Custom CSS -->
-    <link href="{% static 'css/dist/css/sb-admin-2.css' %}" rel="stylesheet">
+    .ui.vertical.stripe {
+      padding: 8em 0em;
+    }
+    .ui.vertical.stripe h3 {
+      font-size: 2em;
+    }
+    .ui.vertical.stripe .button + h3,
+    .ui.vertical.stripe p + h3 {
+      margin-top: 3em;
+    }
+    .ui.vertical.stripe .floated.image {
+      clear: both;
+    }
+    .ui.vertical.stripe p {
+      font-size: 1.33em;
+    }
+    .ui.vertical.stripe .horizontal.divider {
+      margin: 3em 0em;
+    }
 
-    <!-- Morris Charts CSS -->
-    <link href="{% static 'css/vendor/morrisjs/morris.css' %}" rel="stylesheet">
+    .quote.stripe.segment {
+      padding: 0em;
+    }
+    .quote.stripe.segment .grid .column {
+      padding-top: 5em;
+      padding-bottom: 5em;
+    }
 
-    <!-- Custom Fonts -->
-    <link href="{% static 'css/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    .footer.segment {
+      padding: 5em 0em;
+    }
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    .secondary.pointing.menu .toc.item {
+      display: none;
+    }
+
+    @media only screen and (max-width: 700px) {
+      .ui.fixed.menu {
+        display: none !important;
+      }
+      .secondary.pointing.menu .item,
+      .secondary.pointing.menu .menu {
+        display: none;
+      }
+      .secondary.pointing.menu .toc.item {
+        display: block;
+      }
+      .masthead.segment {
+        min-height: 350px;
+      }
+      .masthead h1.ui.header {
+        font-size: 2em;
+        margin-top: 1.5em;
+      }
+      .masthead h2 {
+        margin-top: 0.5em;
+        font-size: 1.5em;
+      }
+    }
+
+
+  </style>

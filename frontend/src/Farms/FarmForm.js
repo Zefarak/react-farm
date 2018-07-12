@@ -162,49 +162,42 @@ class FarmForm extends React.Component {
         const {title} = this.state;
         const {area} =  this.state;
         const {doneLoading} = this.state;
+        const {farm} = this.props;
         return (
-            <div>
-                <div className="row">
-                    <div className="col-lg-12">
-                        {title !== '' ?
-                        <h1 className="page-header">{title}</h1> 
-                        : <h1 className="page-header">Δημιουργία Χωραφιού</h1>    
-                        }
-                    </div>
+            <div className="ui modal form_modal">
+                <i className="close icon"/>
+                <div className="header">
+                    {doneLoading && farm !== undefined ? <h4 className='ui header'>Επεξεργασία{farm.title}</h4>:<h4 className='ui header'>Δημιουργία</h4>} 
                 </div>
-                <div className="row">
-                    <div className="col-lg-12 col-md-12">
-                        <form onSubmit={this.handleSubmit} className="form" role="form">
-                            <div className="form-group">
-                                <label className='control-label'>Τίτλος</label>
-                                <input 
-                                onChange={this.handleChange}
-                                name="title" 
-                                className="form-control" 
-                                type="text" 
-                                value={title}
-                                />
+                <form className='ui form'>
+                    <div className="image content">   
+                        <div className="description">
+                            <div className="field">
+                                <label>Ονομασία</label>
+                                <input type="text" name="title" placeholder="First Name" required />
                             </div>
-                            <div className="form-group">
-                                <label className='control-label'>Στρέμματα</label>
-                                <input
-                                 onChange={this.handleChange} 
-                                 name="area" 
-                                 className="form-control" 
-                                 type="number" 
-                                 value={area}
-                                 />
+                            <div className="field">
+                                <label>Στρέμματα</label>
+                                <input type="number" name="area" placeholder="Τρετραγωνικά Μέτρα" required />
                             </div>
-                            <div className='form-group'>
-                                <label className='control-label'>Δημόσιο</label>
-                                <input name='active' className='form-control' type='checkbox' />
+                            <div className="field">
+                                <label>Κατάσταση</label>
+                                <input type="checkbox" name="active"  />
                             </div>
-                            <button onClick={this.handleSubmit} className="btn-success ">Αποθήκευση</button>
-                            <button className='btn btn-warning' >Καθαρισμός</button>
-                        </form>
+                            <div className="field">
+                                <label>Δημόσιο</label>
+                                <input type="checkbox" name="is_public"  />
+                            </div>
+                            
+                        </div>
+                        <div className="actions">
+                            <div className="ui black deny button"> Nope</div>
+                            <div type='submit' className="ui positive right labeled icon button">Yep, that's me<i className="checkmark icon"/></div>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
+
             
         )
     }

@@ -1,21 +1,43 @@
 {% load static %}
 
-<!-- /#wrapper -->
+<script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'css/semantic/semantic.min.js' %}"></script>
+<script>
+  $(function(){
+    $("#form_modal").click(function(){
+      $(".form_modal").modal('show');
+    });
+    $(".form_modal").modal({
+      closable: true
+    });
+  });
+</script>
+    <script>
+        $(document)
+          .ready(function() {
+      
+            // fix menu when passed
+            $('.masthead')
+              .visibility({
+                once: false,
+                onBottomPassed: function() {
+                  $('.fixed.menu').transition('fade in');
+                },
+                onBottomPassedReverse: function() {
+                  $('.fixed.menu').transition('fade out');
+                }
+              })
+            ;
+      
+            // create sidebar and attach to menu open
+            $('.ui.sidebar')
+              .sidebar('attach events', '.toc.item')
+            ;
+      
+          })
+        ;
+        </script>
 
-    <!-- jQuery -->
-    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'css/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+   
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="{% static 'css/vendor/metisMenu/metisMenu.min.js' %}"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="{% static 'css/vendor/raphael/raphael.min.js' %}"></script>
-    <script src="{% static 'css/vendor/morrisjs/morris.min.js' %}"></script>
-    <script src="{% static 'css/data/morris-data.js' %}"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="{% static 'css/dist/js/sb-admin-2.js' %}"></script>
-    <script src="{% static 'frontend/main.js' %}"></script>

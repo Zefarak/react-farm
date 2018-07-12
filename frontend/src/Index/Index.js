@@ -4,7 +4,7 @@ import Homepage from './Homepage';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import cookie from 'react-cookies';
-
+import {Link} from 'react-router-dom';
 
 class Index extends React.Component {
 
@@ -169,22 +169,40 @@ class Index extends React.Component {
         }
         console.log(logged_in)
         return(
-            <div id="wrapper">
-                <Navbar/>
-                {logged_in === false ? 
-                <div id="page-wrapper">
-                    <div className="row">
-                    <div className="col-lg-12">
-                        <button className='btn btn-primary' onClick={() => this.display_form('login')}>Login</button>
-                        <button className='btn btn-primary' onClick={() => this.display_form('signup')}>Signup</button> 
-                        {form}
+            <div>
+               <Navbar />
+                    <div className="ui inverted vertical masthead center aligned segment">
+                        <div className="ui container">
+                            <div className="ui large secondary inverted pointing menu">
+                                <a className="toc item">
+                                <i className="sidebar icon"/>
+                                </a>
+                                <a className="active item">Home</a>
+                                <Link to={{
+                                    pathname: `/χωράφια/`
+                                }}><a className="item">Χωράφια</a></Link>
+                                <a className="item">Καλλιέργιες</a>
+                                <a className="item">Έσοδα</a>
+                                <a className="item">Έξοδα</a>
+                                <a className="item">Reports</a>
+                                <div className="right item">
+                                <a className="ui inverted button">Log in</a>
+                                <a className="ui inverted button">Sign Up</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="ui text container">
+                        <h1 className="ui inverted header">
+                            Imagine-a-Company
+                        </h1>
+                        <h2>Do whatever you want when you want to.</h2>
+                        <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
+                        </div>
                     </div>
-                    </div>
-                    </div>
-                 :<Homepage handle_out={this.handleLogout} />
-                }
+
+                </div>
                
-            </div> 
+            
         )
     }
 }
