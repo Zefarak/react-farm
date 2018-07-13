@@ -89,7 +89,7 @@ class FarmsPage extends React.Component {
 
                         
                         </div>
-                        <button class="ui huge primary button create_btn" type="button" id="form_modal">Δημιουργία Χωραφιού</button>
+                        <button class="ui huge primary button create_btn form_modal" type="button" id="form_modal">Δημιουργία Χωραφιού</button>
                         </div>
             
                 <div class="ui grid container">

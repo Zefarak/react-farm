@@ -41,7 +41,8 @@ class FarmForm extends React.Component {
           .then(function(response){
               return response.json()
           }).then(function(responseData){
-              thisComp.props.reloadFarms()
+              thisComp.props.reloadFarms();
+              thisComp.clearForm()
           }).catch(function(error){
               console.log("error", error)
               alert("An error occured, please try again later.")
@@ -126,8 +127,8 @@ class FarmForm extends React.Component {
         } else {
             this.createFarm(data)
         }
-        this.clearForm();
-        event.  
+        
+         
     }
 
 
