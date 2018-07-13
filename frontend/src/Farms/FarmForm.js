@@ -12,39 +12,14 @@ class FarmForm extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCheckbox = this.handleCheckbox.bind(this);
         this.handleMulti = this.handleMulti.bind(this);
         this.state = {
             title: '',
             area: '',
             crops: [],
-            crops_data: [],
             doneLoading: false
         }
-    }
-
-    loadCrops() {
-        const endpoint = '/api/crops/';
-        const thisComp = this;
-        
-        let lookupOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        }
-
-        fetch(endpoint, lookupOptions)
-        .then(function(response) {
-            return response.json()
-        }).then(function(responseData){
-            thisComp.setState({
-                crops_data: responseData,
-                doneLoading: true
-            })
-        }).catch(function(error){
-            console.log('loadCropsError', error)
-        })
     }
 
     createFarm(data){
@@ -66,7 +41,7 @@ class FarmForm extends React.Component {
           .then(function(response){
               return response.json()
           }).then(function(responseData){
-              
+              thisComp.props.reloadFarms()
           }).catch(function(error){
               console.log("error", error)
               alert("An error occured, please try again later.")
@@ -107,6 +82,24 @@ class FarmForm extends React.Component {
         })
     }
 
+    clearForm(){
+        this.setState({
+            title: '',
+            area: 0,
+            active: false,
+            is_public: false
+        })
+    }
+
+    handleCheckbox(event){
+        event.preventDefault();
+        let key = event.target.name;
+        console.log(key)
+        this.setState({
+            is_active: !this.state.is_active
+        })
+    }
+
     handleMulti(event) {
         event.preventDefault();
         let key = event.target.name;
@@ -132,7 +125,9 @@ class FarmForm extends React.Component {
             this.updateFarm(data)
         } else {
             this.createFarm(data)
-        }   
+        }
+        this.clearForm();
+        event.  
     }
 
 
@@ -143,7 +138,9 @@ class FarmForm extends React.Component {
             this.setState({
                 title: farm.title,
                 area: farm.area,
-                crops: farm.crops, 
+                crops: farm.crops,
+                is_active: farm.is_active,
+                is_public: farm.is_public, 
                 doneLoading: false
             })
         } else {
@@ -151,16 +148,17 @@ class FarmForm extends React.Component {
                 crops: [],
                 title: '',
                 area: '',
+                is_active: false,
+                is_public: false,
                 doneLoading: false
             })  
         }
-        this.loadCrops()
     }
 
     render() {
-        const {crops_data} = this.state;
         const {title} = this.state;
         const {area} =  this.state;
+        const {state} = this;
         const {doneLoading} = this.state;
         const {farm} = this.props;
         return (
@@ -169,33 +167,53 @@ class FarmForm extends React.Component {
                 <div className="header">
                     {doneLoading && farm !== undefined ? <h4 className='ui header'>Επεξεργασία{farm.title}</h4>:<h4 className='ui header'>Δημιουργία</h4>} 
                 </div>
-                <form className='ui form'>
-                    <div className="image content">   
-                        <div className="description">
+                <div className="content">   
+                    <form className='ui form'>
                             <div className="field">
                                 <label>Ονομασία</label>
-                                <input type="text" name="title" placeholder="First Name" required />
+                                <input 
+                                    type="text" 
+                                    name="title" 
+                                    onChange={this.handleChange} 
+                                    value={title}
+                                    placeholder="First Name" 
+                                    required 
+                                    />
                             </div>
                             <div className="field">
                                 <label>Στρέμματα</label>
-                                <input type="number" name="area" placeholder="Τρετραγωνικά Μέτρα" required />
+                                <input 
+                                    type="number" 
+                                    name="area" 
+                                    onChange={this.handleChange}
+                                    value={area}
+                                    placeholder="Τρετραγωνικά Μέτρα" 
+                                    required
+                                    />
                             </div>
                             <div className="field">
                                 <label>Κατάσταση</label>
-                                <input type="checkbox" name="active"  />
+                                <input
+                                    type="checkbox"
+                                    name="active"
+                                    onChange={this.handleCheckbox}
+                                    value={state.is_active}
+                                    />
                             </div>
                             <div className="field">
                                 <label>Δημόσιο</label>
-                                <input type="checkbox" name="is_public"  />
+                                <input 
+                                    type="checkbox"
+                                    name="is_public" 
+                                    onChange={this.handleCheckbox}
+                                    value={state.is_public}
+                                    />
                             </div>
-                            
-                        </div>
-                        <div className="actions">
                             <div className="ui black deny button"> Nope</div>
-                            <div type='submit' className="ui positive right labeled icon button">Yep, that's me<i className="checkmark icon"/></div>
-                        </div>
+                            <div onClick={this.handleSubmit} type='submit' className="ui positive right labeled icon button">Yep, that's me<i className="checkmark icon"/></div>
+                            </form>
                     </div>
-                </form>
+                
             </div>
 
             

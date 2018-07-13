@@ -10,6 +10,7 @@ class FarmsPage extends React.Component {
     constructor(props) {
         super(props);
         this.loadFarms = this.loadFarms.bind(this);
+        this.reloadFarms = this.reloadFarms.bind(this)
         this.state = {
             farms: [],
             doneLoading: false
@@ -42,7 +43,9 @@ class FarmsPage extends React.Component {
         })
     }
 
-
+    reloadFarms(){
+        this.loadFarms()
+    }
 
     componentDidMount() {
         this.setState({
@@ -58,7 +61,7 @@ class FarmsPage extends React.Component {
 
         return (
             <div>
-                <FarmForm />
+                <FarmForm reloadFarms={this.reloadFarms} />
                 <Navbar />
                 <div className="ui inverted vertical masthead center aligned segment">
                     <div className="ui container">
@@ -86,8 +89,7 @@ class FarmsPage extends React.Component {
 
                         
                         </div>
-                        <button class="ui button yellow create_btn" type="button" id="form_modal">Δημιουργία Χωραφιού</button>
-                        <div className="ui huge primary button">Δημιουργία Χωραφιού <i className="right arrow icon"/></div>
+                        <button class="ui huge primary button create_btn" type="button" id="form_modal">Δημιουργία Χωραφιού</button>
                         </div>
             
                 <div class="ui grid container">
@@ -107,7 +109,7 @@ class FarmsPage extends React.Component {
                                         </div>
                                         </div>
                                         <Link to={{
-                                            pathname: '/farms/${farm.id}/'
+                                            pathname: `/farms/${farm.id}/`
                                         }}>
                                         <div className="ui bottom attached blue button">
                                         <i class="edit icon"></i>

@@ -137,33 +137,75 @@ class FarmDetail extends React.Component {
         const {farm} = this.state;
         const {doneDownloading} = this.state;
         return (
-            <div id="wrapper">
+            <div>
+                <FarmForm reloadFarms={this.reloadFarms} />
                 <Navbar />
-                <div id="page-wrapper">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            {doneDownloading === true ?
-                            <h1 className="page-header">{farm.title}</h1>
-                            :<p>No data</p>
-                            }
+                <div className="ui inverted vertical masthead center aligned segment">
+                    <div className="ui container">
+                    <div className="ui large secondary inverted pointing menu">
+                        <a className="toc item">
+                                <i className="sidebar icon"/>
+                                </a>
+                                <a className="item">Home</a>
+                                <a className="active item">Χωράφια</a>
+                                <a className="item">Καλλιέργιες</a>
+                                <a className="item">Έσοδα</a>
+                                <a className="item">Έξοδα</a>
+                                <a className="item">Reports</a>
+                                <div className="right item">
+                                <a className="ui inverted button">Log in</a>
+                                <a className="ui inverted button">Sign Up</a>
+                                </div>
+                            </div>
                         </div>
+                        <div className="ui text container">
+                        <h1 className="ui inverted header">
+                            Imagine-a-Company
+                        </h1>
+                        <h2>Do whatever you want when you want to.</h2>
+
+                    
                     </div>
-                    <div className="row">
-                        <div className="col-lg-9 col-md-9">
-                            {doneDownloading === true ?
-                            <FarmBody farm={farm} />  
-                            :<p>No data</p>
-                            }
-                        </div>
-                        <div className='col-lg-3 col-md-3'>
-                            {doneDownloading === true ?
-                            <FarmForm farm={farm} />  
-                            :<p>No data</p>
-                            }
-                        </div>
+                    <button class="ui huge primary button create_btn" type="button" id="form_modal">Επεξεργασία</button>
                     </div>
-                </div>  
+        
+            <div class="ui grid container">
+                <div className='row'>
+                    <h3 className='ui header'>Διάλεξε Χωράφι</h3>
+                </div>
+                <div className='row'>
+                    <div className="ui cards">
+                        {doneLoading === true && farms !== null ?
+                        farms.map((farm)=>{
+                            return(
+                                <div className="blue card">
+                                    <div className="content">
+                                    <div className="header">{farm.title}</div>
+                                    <div className="description">
+                                        Στρέμματα  {farm.area}
+                                    </div>
+                                    </div>
+                                    <Link to={{
+                                        pathname: `/farms/${farm.id}/`
+                                    }}>
+                                    <div className="ui bottom attached blue button">
+                                    <i class="edit icon"></i>
+                                    Επεξεργασία
+                                    </div>
+                                    </Link>
+                                </div>
+                            )
+                        })
+                    : 
+                    <p>oups</p>
+                    }
+                        
+                    
+                        
+                    </div>
+                </div>
             </div>
+            </div>    
         )
         console.log('after redneer', farm)
     }
