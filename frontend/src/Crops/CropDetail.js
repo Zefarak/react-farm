@@ -2,6 +2,7 @@ import React from 'react';
 import cookie from 'react-cookies';
 import 'whatwg-fetch';
 import Navbar from "../Index/Navbar";
+import NavbarInside from '../Index/NavbarInside';
 import CropBody from "./detail/CropBody";
 import BodyExpense from "./detail/CropExpense";
 import BodyIncome from "./detail/CropIncome";
@@ -137,47 +138,55 @@ class CropDetail extends React.Component {
         const {doneLoading} = this.state;
         const {reports} = this.state;
         return (
-            <div id="wrapper">
-                <Navbar />
-                <div id="page-wrapper" >
-                    <div className="row">
+            <div>
+                <div className="ui inverted vertical masthead center aligned segment">
+                    <div className="ui container">
+                        <NavbarInside />
+                    </div>
+                    <div className="ui text container">
                         {doneLoading === true ?
-                        <div className="col-lg-12">
-                            <h1 className="page-header">{crop.tag_title}</h1>
-                        </div>
-                        :<div className="col-lg-12">
-                            <h1 className="page-header">No Data</h1>
-                        </div>
+                            <h1 className="ui inverted header">
+                                {crop.tag_title}
+                            </h1>
+                            :<h1 className="ui inverted header">oups</h1>
                         }
+                        <h2>Do whatever you want when you want to.</h2>
+                        <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
                     </div>
-                    <div className="row">
-                        <div className="col-lg-6">
-                            {doneLoading === true ?
+                </div>
+                <h3 class="ui center aligned header">Καλλιέργιες</h3>
+
+                <div class="ui three column stackable grid">
+
+                    <div class="column">
+                        <div class="ui segment">
+                        {doneLoading === true ?
+                            <div>
                                 <CropBody crop={crop} />
-                                :<p>No data</p>
-                            }   
-                            {doneLoading === true ?
                                 <BodyExpense expenses={expenses} />
+                            </div>
                             :<p>No data</p>
-                            }     
-                        </div>
-                        <div className="col-lg-6">
-                            {doneLoading === true ?
-                            <BodyIncome reports={reports} />    
-                        
-                            :<p>Something goes wrong! Try again later</p>
-                            }
+                            }  
                         </div>
                     </div>
-                    <div className='row'>
-                        <div className='col-lg-6'>
+
+                    <div class="column">
+                        <div class="ui segment">
+                        {doneLoading === true ?
+                            <BodyIncome reports={reports} />    
+                            :<p>Something goes wrong! Try again later</p>
+                        }
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="ui segment">
                             {doneLoading === true ? 
                                 <CropForm crop={crop} />
                             :<p>ht</p>
-                            }
-                            
+                            }   
                         </div>
-                    </div>
+                    </div>                
                 </div>
             </div>
         )

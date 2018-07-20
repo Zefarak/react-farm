@@ -2,6 +2,7 @@ import React from 'react'
 import 'whatwg-fetch';
 import cookie from 'react-cookies';
 import Navbar from "../Index/Navbar";
+import NavbarInside from "../Index/NavbarInside";
 import {Link} from "react-router-dom"
 import FarmForm from './FarmForm';
 
@@ -61,76 +62,95 @@ class FarmsPage extends React.Component {
 
         return (
             <div>
-                <FarmForm reloadFarms={this.reloadFarms} />
-                <Navbar />
+               <Navbar />
                 <div className="ui inverted vertical masthead center aligned segment">
                     <div className="ui container">
-                    <div className="ui large secondary inverted pointing menu">
-                        <a className="toc item">
-                                <i className="sidebar icon"/>
-                                </a>
-                                <a className="item">Home</a>
-                                <a className="active item">Χωράφια</a>
-                                <a className="item">Καλλιέργιες</a>
-                                <a className="item">Έσοδα</a>
-                                <a className="item">Έξοδα</a>
-                                <a className="item">Reports</a>
-                                <div className="right item">
-                                <a className="ui inverted button">Log in</a>
-                                <a className="ui inverted button">Sign Up</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="ui text container">
+                        <NavbarInside />
+                    </div>
+                    <div className="ui text container">
                         <h1 className="ui inverted header">
                             Imagine-a-Company
                         </h1>
                         <h2>Do whatever you want when you want to.</h2>
-
-                        
-                        </div>
-                        <button class="ui huge primary button create_btn form_modal" type="button" id="form_modal">Δημιουργία Χωραφιού</button>
-                        </div>
-            
-                <div class="ui grid container">
-                    <div className='row'>
-                        <h3 className='ui header'>Διάλεξε Χωράφι</h3>
+                        <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
                     </div>
-                    <div className='row'>
+                </div>
+                <h3 class="ui center aligned header">Stackable Grid</h3>
+                <div class="ui stackable grid">
+                <div class="ten wide column">
+                    <div class="ui segment">
+                        <h2 className="ui blue header">
+                            <i className="list icon" />
+                            <div className="content">
+                                Λίστα
+                            </div>
+                        </h2>
                         <div className="ui cards">
                             {doneLoading === true && farms !== null ?
                             farms.map((farm)=>{
                                 return(
-                                    <div className="blue card">
-                                        <div className="content">
-                                        <div className="header">{farm.title}</div>
-                                        <div className="description">
-                                            Στρέμματα  {farm.area}
+                                    <div class="ui card">
+                                        <div class="content">
+                                            <div class="header">{ farm.title }</div>
                                         </div>
+                                        <div class="content">
+                                            <h4 class="ui sub header">Πληροφορίες</h4>
+                                            <div class="ui small feed">
+                                            <div class="event">
+                                                <div class="content">
+                                                <div class="summary">
+                                                    Στρέμματα  {farm.area}
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <div class="event">
+                                                <div class="content">
+                                                <div class="summary">
+                                                    <a>Stevie Feliciano</a> was added as an <a>Administrator</a>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <div class="event">
+                                                <div class="content">
+                                                <div class="summary">
+                                                    <a>Helen Troy</a> added two pictures
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
                                         </div>
+                                        <div class="extra content">
                                         <Link to={{
                                             pathname: `/farms/${farm.id}/`
                                         }}>
-                                        <div className="ui bottom attached blue button">
+                                        <div className="ui bottom fluid attached blue button">
                                         <i class="edit icon"></i>
                                         Επεξεργασία
                                         </div>
                                         </Link>
-                                    </div>
+                                        </div>
+                                    </div>  
                                 )
                             })
                         : 
                         <p>oups</p>
-                        }
-                            
-                        
-                            
+                        }  
                         </div>
                     </div>
                 </div>
-                </div>
-
-            
+                <div className="six wide column">
+                    <div className="ui segment">
+                    <h2 className="ui green header">
+                        <i className="calendar plus icon" />
+                        <div className="content">
+                            Δημιουργία
+                        </div>
+                    </h2>
+                        <FarmForm />
+                    </div>
+                </div> 
+            </div>
+        </div>
         )
     }
 }

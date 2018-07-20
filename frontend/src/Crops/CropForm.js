@@ -139,18 +139,7 @@ class CropForm extends React.Component {
         const {farms_data} = this.state;
 
         return (
-            <div>
-                <div className="row">
-                    <div className="col-lg-12">
-                        {crop !== undefined ?
-                        <h1 className="page-header">{crop.title}</h1> 
-                        : <h1 className="page-header">Δημιουργία Καλλιέργιας</h1>    
-                        }
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-lg-12 col-md-12">
-                        <form onSubmit={this.handleSubmit} className="form" role="form">
+                <form onSubmit={this.handleSubmit} className="ui form" role="form">
                             <div className="form-group">
                                 <label className="control-label">Τίτλος</label>
                                 <select onChange={this.handleChange} className="form-control" name="title">
@@ -189,13 +178,11 @@ class CropForm extends React.Component {
                                 }
                                 
                             </div>
-
-                            <button onClick={this.handleSubmit} className="btn btn-success" type='submit'>Αποθήκευση</button>
-                            <button className='btn btn-warning' >Καθαρισμός</button>
+                            <br /> <br />
+                            <button onClick={this.handleSubmit} type='submit' className="ui positive right fluid labeled icon button">Save<i className="save icon"/></button>
+                            
                         </form>
-                    </div>
-                </div>
-            </div>
+                   
         )
     }
 

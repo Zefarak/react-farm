@@ -163,62 +163,51 @@ class FarmForm extends React.Component {
         const {doneLoading} = this.state;
         const {farm} = this.props;
         return (
-            <div className="ui modal form_modal">
-                <i className="close icon"/>
-                <div className="header">
-                    {doneLoading && farm !== undefined ? <h4 className='ui header'>Επεξεργασία{farm.title}</h4>:<h4 className='ui header'>Δημιουργία</h4>} 
-                </div>
-                <div className="content">   
-                    <form className='ui form'>
-                            <div className="field">
-                                <label>Ονομασία</label>
-                                <input 
-                                    type="text" 
-                                    name="title" 
-                                    onChange={this.handleChange} 
-                                    value={title}
-                                    placeholder="First Name" 
-                                    required 
-                                    />
-                            </div>
-                            <div className="field">
-                                <label>Στρέμματα</label>
-                                <input 
-                                    type="number" 
-                                    name="area" 
-                                    onChange={this.handleChange}
-                                    value={area}
-                                    placeholder="Τρετραγωνικά Μέτρα" 
-                                    required
-                                    />
-                            </div>
-                            <div className="field">
-                                <label>Κατάσταση</label>
-                                <input
-                                    type="checkbox"
-                                    name="active"
-                                    onChange={this.handleCheckbox}
-                                    value={state.is_active}
-                                    />
-                            </div>
-                            <div className="field">
-                                <label>Δημόσιο</label>
-                                <input 
-                                    type="checkbox"
-                                    name="is_public" 
-                                    onChange={this.handleCheckbox}
-                                    value={state.is_public}
-                                    />
-                            </div>
-                            <div className="ui black deny button"> Nope</div>
-                            <div onClick={this.handleSubmit} type='submit' className="ui positive right labeled icon button">Yep, that's me<i className="checkmark icon"/></div>
-                            </form>
+                <form className='ui form'>
+                    <div className="field">
+                        <label>Ονομασία</label>
+                        <input 
+                            type="text" 
+                            name="title" 
+                            onChange={this.handleChange} 
+                            value={title}
+                            placeholder="First Name" 
+                            required 
+                        />
                     </div>
-                
-            </div>
-
-            
-        )
+                    <div className="field">
+                        <label>Στρέμματα</label>
+                        <input 
+                            type="number" 
+                            name="area" 
+                            onChange={this.handleChange}
+                            value={area}
+                            placeholder="Τρετραγωνικά Μέτρα" 
+                            required
+                        />
+                    </div>            
+                    <div className="field">
+                        <label>Κατάσταση</label>
+                        <input
+                            type="checkbox"
+                            name="active"
+                            onChange={this.handleCheckbox}
+                            value={state.is_active}
+                        />
+                    </div>
+                    <div className="field">
+                        <label>Δημόσιο</label>
+                        <input 
+                            type="checkbox"
+                            name="is_public" 
+                            onChange={this.handleCheckbox}
+                            value={state.is_public}
+                        />
+                    </div>
+                    <div className="ui black deny button"> Nope</div>
+                    <div onClick={this.handleSubmit} type='submit' className="ui positive right labeled icon button">Yep, that's me<i className="checkmark icon"/></div>
+                </form>
+            )
     }
 }
 

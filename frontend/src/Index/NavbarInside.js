@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-class Navbar extends React.Component{
+class NavbarInside extends React.Component{
 
     constructor(props){
         super(props);
@@ -40,35 +40,36 @@ class Navbar extends React.Component{
         )
         const {logged_in} = this.props;
         return (
-                <div>
-                    <div className="ui large top fixed hidden menu">
-                        <div className="ui container">
-                            <a className="active item">Homei</a>
-                            <a className="item">Work</a>
-                            <a className="item">Company</a>
-                            <a className="item">Careers</a>
-                            <div className="right menu">
-                            <div className="item">
-                                <a className="ui button">Log in</a>
-                            </div>
-                            <div className="item">
-                                <a className="ui primary button">Sign Up</a>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="ui vertical inverted sidebar menu">
-                        <a className="active item">Homeo</a>
-                        <a className="item">Work</a>
-                        <a className="item">Company</a>
-                        <a className="item">Careers</a>
-                        <a className="item">Login</a>
-                        <a className="item">Signup</a>
-                    </div>
+            <div className="ui large secondary inverted pointing menu">
+                <a className="toc item">
+                <i className="sidebar icon"/>
+                </a>
+                <Link to={{
+                    pathname: '/'
+                }}><a className="item">Homea</a></Link>
+                <Link to={{
+                    pathname: `/χωράφια/`
+                }}><a className="item">Χωράφια</a></Link>
+                <Link to={{
+                    pathname: `/καλλιέργιες/`
+                }}><a className="item">Καλλιέργιες</a></Link>
+                <Link to={{
+                    pathname: `/incomes/invoices/`
+                }}><a className="item">Έσοδα</a></Link>
+                <Link to={{
+                    pathname: `/expenses/`
+                }}><a className="item">Έξοδα</a></Link>
+                <Link to={{
+                    pathname: `/reports/`
+                }}><a className="item">Reports</a></Link>
+                <div className="right item">
+                <a className="ui inverted button">Log in</a>
+                <a className="ui inverted button">Sign Up</a>
                 </div>
+            </div>
      
         )
     }
 }
 
-export default Navbar
+export default NavbarInside;

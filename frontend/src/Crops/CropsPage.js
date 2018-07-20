@@ -1,6 +1,7 @@
 import React from 'react';
 import 'whatwg-fetch'
 import Navbar from '../Index/Navbar';
+import NavbarInside from '../Index/NavbarInside';
 import  { Link } from 'react-router-dom';
 import CropForm from './CropForm';
 
@@ -20,7 +21,7 @@ class BodyTr extends React.Component {
                     <Link to={{
                         pathname: `/καλλιέργιες/${crop.id}/`
                     }}>
-                    <button className='btn btn-primary'>Edit</button>
+                    <button className='ui blue icon button'><i className='edit icon' />Edit</button>
                     </Link>
                     </td>
             </tr>
@@ -77,22 +78,25 @@ class CropsPageBody extends React.Component {
     render(){
         const {crops} = this.state;
         return (
-            <div id='page-wrapper'>
-                <div className="row">
-                    <div className="col-lg-12">
-                        <h1 className="page-header">Καλλιέργιες</h1>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-lg-6 col-md-6">
-                        <table className="table table-striped">
-                            <thead className="thead-dark">
+
+            <div class="ui two column stackable grid">
+            <div class="column">
+                <div class="ui segment">
+                    <h2 className="ui blue header">
+                        <i className="list icon" />
+                        <div className="content">
+                            Λίστα
+                        </div>
+                    </h2>
+                    <table className="ui blue table">
+                            <thead >
                                 <tr>
-                                <th>#</th>
-                                <th scope="col">Χωράφι</th>
-                                <th scope="col">Καλλιέργια</th>
-                                <th scope="col">Στρέμματα</th>
-                                <th scope="col">Δέντρο</th>
+                                    <th>#</th>
+                                    <th>Χωράφι</th>
+                                    <th>Καλλιέργια</th>
+                                    <th>Στρέμματα</th>
+                                    <th>Ποσότητα</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -107,12 +111,20 @@ class CropsPageBody extends React.Component {
                                 }
                             </tbody>
                         </table>
-                    </div>
-                    <div className='col-lg-6 col-md-6'>
-                        <CropForm updateCrops={this.updateCrops} />
-                    </div>
                 </div>
             </div>
+            <div className="column">
+                <div className="ui segment">
+                <h2 className="ui green header">
+                    <i className="calendar plus icon" />
+                    <div className="content">
+                        Δημιουργία
+                    </div>
+                </h2>
+                <CropForm updateCrops={this.updateCrops} />
+                </div>
+            </div> 
+        </div>
         )
     }   
     
@@ -127,8 +139,21 @@ class CropsPage extends React.Component {
 
     render() {
         return (
-            <div className='wrapper'>
-                <Navbar />
+            <div>
+               <Navbar />
+                <div className="ui inverted vertical masthead center aligned segment">
+                    <div className="ui container">
+                        <NavbarInside />
+                    </div>
+                    <div className="ui text container">
+                        <h1 className="ui inverted header">
+                            Imagine-a-Company
+                        </h1>
+                        <h2>Do whatever you want when you want to.</h2>
+                        <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
+                    </div>
+                </div>
+                <h3 class="ui center aligned header">Καλλιέργιες</h3>
                 <CropsPageBody />
             </div>
         )
