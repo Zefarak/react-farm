@@ -205,7 +205,7 @@ class FarmForm extends React.Component {
                         />
                     </div>
                     <div className="ui black deny button"> Nope</div>
-                    <div onClick={this.handleSubmit} type='submit' className="ui positive right labeled icon button">Yep, that's me<i className="checkmark icon"/></div>
+                    <div onClick={this.handleSubmit} type='submit' className="ui positive right labeled icon button">Αποθήκευση<i className="checkmark icon"/></div>
                 </form>
             )
     }

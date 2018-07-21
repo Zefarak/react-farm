@@ -75,10 +75,10 @@ class FarmsPage extends React.Component {
                         <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
                     </div>
                 </div>
-                <h3 class="ui center aligned header">Stackable Grid</h3>
-                <div class="ui stackable grid">
-                <div class="ten wide column">
-                    <div class="ui segment">
+                <h3 className="ui center aligned header">Stackable Grid</h3>
+                <div className="ui stackable grid">
+                <div className="ten wide column">
+                    <div className="ui segment">
                         <h2 className="ui blue header">
                             <i className="list icon" />
                             <div className="content">

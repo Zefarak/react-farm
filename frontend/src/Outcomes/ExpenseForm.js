@@ -220,10 +220,8 @@ class ExpenseForm extends React.Component {
         const {expense} = this.props;
         console.log(is_paid, is_taxes, 'rg')
         return (
-            <div className="panel panel-default">
-                <div className="panel-heading">Δημιουργία Παραστατικού </div>
-                <div className="panel-body">
-                <form onSubmit={this.handleSubmit} className="form" role="form">
+                <div className="ui segment">
+                <form onSubmit={this.handleSubmit} className="ui form" role="form">
                     <div className="form-group">
                         <label>Ημερομηνία</label>
                         <input 
@@ -293,11 +291,11 @@ class ExpenseForm extends React.Component {
                     </div>
                    
                     <br /><br />
-                    <button onClick={this.handleSubmit} type="submit" className="btn btn-default">Submit Button</button>
-                    <button type="reset" className="btn btn-default">Reset Button</button>
+                    <button onClick={this.handleSubmit} type="submit" className="ui green icon button"><i className='save icon' /> Αποθήκευση</button>
+                    
                 </form>
-                </div>
             </div>
+
         )
     }
 }

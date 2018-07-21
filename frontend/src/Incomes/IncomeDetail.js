@@ -2,6 +2,7 @@ import React from 'react';
 import 'whatwg-fetch';
 import cookie from 'react-cookies';
 import Navbar from '../index/Navbar';
+import NavbarInside from '../index/NavbarInside';
 import IncomeForm from './IncomesForm'
 import {Link} from 'react-router-dom';
 
@@ -17,58 +18,23 @@ class BodyIncome extends React.Component{
     render(){
         const {income} = this.props;
         return (
-            <div>
-            {income !== undefined && income !== null ? 
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <i className="fa fa-bell fa-fw"></i> Πληροφορίες
+                <div>
+                    {income !== undefined && income !== null ?
+                        <div className='ui segments'>
+                            <div className='ui segment'> Καλλιέργια {income.tag_crop_related} </div>
+                            <div className='ui segment'> Ημερομηνία {income.timestamp}</div>
+                            <div className='ui segment'> Aξία {income.final_value}</div>
+                            <div className='ui segment'> Είναι Πληρωμένο- Ενημερωνει Φπα  {income.tag_paid} - {income.have_taxes} </div>
+                            <div className='ui segment'> Κατηγορία {income.tag_category}</div>
+                        </div>
+                        :<div className="panel panel-default">
+                            <div className="panel-heading">
+                                <i className="fa fa-bell fa-fw"></i> Πληροφορίες
+                            </div>
+                        </div>
+                    }
                 </div>
-                <div className="panel-body">
-                    <div className="list-group">
-                        <a href="#" class="list-group-item">
-                            <i className="fa fa-comment fa-fw"></i> {income.tag_crop_related}
-                            <span className="pull-right text-muted small"><em>Καλλιέργια</em>
-                            </span>
-                        </a>    
-                    </div>
-                    <div className="list-group">
-                        <a href="#" class="list-group-item">
-                            <i className="fa fa-euro fa-fw"></i> {income.timestamp}
-                            <span className="pull-right text-muted small"><em>Ημερομηνία</em>
-                            </span>
-                        </a>    
-                    </div>
-                    <div className="list-group">
-                        <a href="#" class="list-group-item">
-                            <i className="fa fa-euro fa-fw"></i> {income.final_value}
-                            <span className="pull-right text-muted small"><em>Aξία</em>
-                            </span>
-                        </a>    
-                    </div>
-                    <div className="list-group">
-                        <a href="#" class="list-group-item">
-                            <i className="fa fa-paypal fa-fw"></i> {income.tag_paid} - {income.have_taxes}
-                            <span className="pull-right text-muted small"><em>Είναι Πληρωμένο- Ενημερωνει Φπα</em>
-                            </span>
-                        </a>    
-                    </div>
-                    <div className="list-group">
-                        <a href="#" class="list-group-item">
-                            <i className="fa fa-comment fa-fw"></i> {income.tag_category}
-                            
-                            <span className="pull-right text-muted small"><em>Κατηγορία</em>
-                            </span>
-                        </a>    
-                    </div>
-                </div>
-            </div>       
-            :<div className="panel panel-default">
-                <div className="panel-heading">
-                    <i className="fa fa-bell fa-fw"></i> Πληροφορίες
-                </div>
-            </div>
-            }
-            </div>
+             
         )
     }
 }
@@ -126,32 +92,40 @@ class IncomeDetail extends React.Component {
         const {doneLoading} = this.state;
         const {income} = this.state;
         return (
-            <div id="wrapper">
-                <Navbar />
-                <div id="page-wrapper" >
-                    <div className="row">
-                        <div className="col-lg-12">
-                        {doneLoading === true && income !== null ? 
-                            <h1 className="page-header">{income.title}</h1>
-                        :<h1 className="page-header">Oups something is wrong</h1>
-                        } 
-                        </div> 
+            <div>
+               <Navbar />
+                <div className="ui inverted vertical masthead center aligned segment">
+                    <div className="ui container">
+                        <NavbarInside />
                     </div>
-                    <div className="row">
-                        <div className="col-lg-8">
-                            {doneLoading === true ?
-                                <BodyIncome income={income} />
-                            :<p>No data</p>
-                            }
-                        </div>
-                        <div className="col-lg-4">
-                            {doneLoading === true ?
-                            <IncomeForm income={income}  />
-                            :<p>Oups something wrong with the form!</p>
-                            }    
-                        </div>
+                    <div className="ui text container">
+                        <h1 className="ui inverted header">
+                            Imagine-a-Company
+                        </h1>
+                        <h2>Do whatever you want when you want to.</h2>
+                        <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
                     </div>
                 </div>
+                {doneLoading === true && income !== null ? 
+                    <h3 className="ui center aligned header">{income.title}</h3>
+                    :<h3 className="ui center aligned header">Stackable Grid</h3>
+                } 
+                <div className="ui two column stackable grid">
+                    <div className='column'>
+                    {doneLoading === true ?
+                        <BodyIncome income={income} />
+                        :<p>No data</p>
+                    }
+                    </div>
+                    <div className='column'>
+                        <div className='ui segment'>
+                            {doneLoading === true ?
+                                <IncomeForm income={income}  />
+                                :<p>Oups something wrong with the form!</p>
+                            }
+                        </div>
+                    </div>
+                </div> 
             </div>
         )
     }
