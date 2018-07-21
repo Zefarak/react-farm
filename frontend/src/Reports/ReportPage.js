@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../Index/Navbar';
+import NavbarInside  from '../Index/NavbarInside';
 import {Link} from 'react-router-dom';
 
 
@@ -79,117 +80,124 @@ class ReportPage extends React.Component{
         const {crops_data} = this.state;
         const {doneLoading} = this.state;
         return(
-            <div id="wrapper">
+
+            <div>
                 <Navbar />
-                <div id="page-wrapper" >
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <h1 className="page-header">Reports</h1>
-                        </div> 
+                <div className="ui inverted vertical masthead center aligned segment">
+                    <div className="ui container">
+                        <NavbarInside />
                     </div>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="col-lg-4">
-                                <div className="panel panel-default">
-                                    <div className="panel-heading">
-                                        <i v="fa fa-bell fa-fw"></i> Χωράφια
-                                    </div>
-                                    {doneLoading === true && farm_data !== null ? 
-                                    <div className="panel-body">
-                                        <div className="list-group">
-                                            <a href="#" className="list-group-item">
-                                                <i className="fa fa-comment fa-fw"></i> Συνολικά Στρέμματα {farm_data.area}
-                                                <span className="pull-right text-muted small"><em>Χωράφια {farm_data.count}</em>
-                                                </span>
-                                            </a>
-                                            <a href="#" className="list-group-item">
-                                                <i className="fa fa-comment fa-fw"></i> Έσοδα {farm_data.incomes}
-                                                <span className="pull-right text-muted small"><em>{farm_data.incomes_avg} Ανα χωράφι</em>
-                                                </span>
-                                            </a>
-                                            <a href="#" className="list-group-item">
-                                                <i className="fa fa-comment fa-fw"></i> Έξοδα {farm_data.expenses}
-                                                <span className="pull-right text-muted small"><em>{farm_data.expenses_avg} Ανα χωράφι</em>
-                                                </span>
-                                            </a>
-                                            <a href="#" className="list-group-item">
-                                                <i className="fa fa-comment fa-fw"></i> Μισθοδοσία {farm_data.payroll}
-                                                <span className="pull-right text-muted small"><em>{farm_data.payroll_avg} Ανα χωράφι</em>
-                                                </span>
-                                            </a>
-
-                                        </div>
-                                        <Link to={{
-                                            pathname: '/reports/balance-sheet/'
-                                        }}>
-                                            <button className="btn btn-default btn-block">Λεπτομέριες</button>
-                                        </Link>
-                                    </div>
-                                    :
-                                    <div className="panel-body">
-                                        <div className="list-group">
-                                            <a href="#" className="list-group-item">
-                                                <i className="fa fa-comment fa-fw"></i> No Data
-                                                <span className="pull-right text-muted small"><em>4 minutes ago</em>
-                                                </span>
-                                            </a>
-                                            
-                                        </div>
-                                        <Link to={{
-                                            pathname: '/reports/farms/'
-                                        }}>
-                                            <button className="btn btn-default btn-block">Λεπτομέριες</button>
-                                        </Link>
-                                    </div>
-                                    }
-                        
+                    <div className="ui text container">
+                        <h1 className="ui inverted header">
+                            Reports
+                        </h1>
+                        <h2>Do whatever you want when you want to.</h2>
+                        <div className="ui huge primary button">Get Started <i className="right arrow icon"/></div>
+                    </div>
+                </div>
+                <div className="ui center aligned header">Δεδομένα</div>
+                <div className="ui two column stackable grid">
+                    <div className="column">
+                        <div className="ui raised segment">
+                            <h2 className="ui header">
+                              <i className="list icon" />
+                              <div className="content">
+                               Χωράφια
+                              </div>
+                            </h2>
+                            {doneLoading === true && farm_data !== null ?
+                            <div className="ui raised segments">
+                                <div className="ui segment">
+                                    <p>Συνολικά Στρέμματα {farm_data.area}</p>
                                 </div>
-                            </div>
-                            <div className="col-lg-4">
-                                <div className="panel panel-default">
-                                    <div className="panel-heading">
-                                        <i v="fa fa-bell fa-fw"></i> Καλλιέργιες
-                                    </div>
-                                    {doneLoading === true && crops_data !== null ?
-                                    <div className="panel-body">
-                                        <div className="list-group">
-                                            <a href="#" className="list-group-item">
-                                                <i className="fa fa-comment fa-fw"></i> Καλλιεργήσιμα Στρέμματα {crops_data.area}
-                                                <span className="pull-right text-muted small">
-                                                </span>
-                                            </a>
-                                            <a href="#" className="list-group-item">
-                                                <i className="fa fa-comment fa-fw"></i> Συνολικά Δέντρα {crops_data.trees}
-                                                <span className="pull-right text-muted small">
-                                                </span>
-                                            </a>
-
-
-                                        </div>
-                                        <a href="#" className="btn btn-default btn-block">Λεπτομέριες</a>
-                                    </div>
-                                    :
-                                    <div className="panel-body">
-                                        <div className="list-group">
-                                            <a href="#" className="list-group-item">
-                                                <i className="fa fa-comment fa-fw"></i> No Data
-                                                <span className="pull-right text-muted small"><em>4 minutes ago</em>
-                                                </span>
-                                            </a>
-
-                                        </div>
-                                        <a href="#" className="btn btn-default btn-block">Λεπτομέριες</a>
-                                    </div>
-                                    }
-
+                                <div className="ui segment">
+                                    <p>Χωράφια {farm_data.count}</p>
                                 </div>
+                                <div className="ui green segment">
+                                    <div className="ui tiny statistics">
+                                        <div className="small statistic">
+                                            <div className="value">{farm_data.incomes}</div>
+                                            <div className="label">Έσοδα</div>
+                                        </div>
+                                        <div className="small statistic">
+                                            <div className="value">{farm_data.incomes_avg}</div>
+                                            <div className="label">Ανα χωράφι</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="ui red segment">
+                                    <div className="ui small statistics">
+                                        <div className="statistic">
+                                            <div className="value">{farm_data.expenses}</div>
+                                            <div className="label">Έξοδα</div>
+                                        </div>
+                                        <div className="statistic">
+                                            <div className="value">{farm_data.payroll_avg}</div>
+                                            <div className="label">Ανα χωράφι</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="ui segment">
+                                    <Link to={{
+                                        pathname: '/reports/balance-sheet/'
+                                    }}>
+                                        <button className="ui teal  button">Λεπτομέριες</button>
+                                    </Link>
+                                </div>
+
                             </div>
+                            :
+                            <p>No data</p>
+                            }
+                        </div>
+                    </div>
+
+                    <div className="column">
+                        <div className="ui raised segment">
+                            <h2 className="ui header">
+                              <i className="list icon" />
+                              <div className="content">
+                               Καλλιέργιες
+                              </div>
+                            </h2>
+                            {doneLoading === true && crops_data !== null ?
+                                <div className="ui raised segments">
+                                <div className="ui segment">
+                                    <p>Καλλιεργήσιμα Στρέμματα {crops_data.area}</p>
+                                </div>
+                                <div className="ui segment">
+                                    <p>Συνολικά Δέντρα {crops_data.trees}</p>
+                                </div>
+                                <div className="ui green segment">
+                                    <div className="ui tiny statistics">
+                                        <div className="small statistic">
+                                            <div className="value">{farm_data.incomes}</div>
+                                            <div className="label">Έσοδα</div>
+                                        </div>
+                                        <div className="small statistic">
+                                            <div className="value">{farm_data.incomes_avg}</div>
+                                            <div className="label">Ανα χωράφι</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="ui segment">
+                                    <Link to={{
+                                        pathname: '/reports/balance-sheet/'
+                                    }}>
+                                        <button className="ui teal  button">Λεπτομέριες</button>
+                                    </Link>
+                                </div>
+
+                            </div>
+                                :
+                                <p>No data</p>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
         )
     }
-}
+    }
 
 export default ReportPage;

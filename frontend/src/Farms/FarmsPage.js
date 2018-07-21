@@ -69,13 +69,13 @@ class FarmsPage extends React.Component {
                     </div>
                     <div className="ui text container">
                         <h1 className="ui inverted header">
-                            Imagine-a-Company
+                            Χωράφια
                         </h1>
-                        <h2>Do whatever you want when you want to.</h2>
-                        <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
+                        <h2>Πληροφοριες - Δημιουργία</h2>
+                        <br /> <br />
                     </div>
                 </div>
-                <h3 className="ui center aligned header">Stackable Grid</h3>
+                <h3 className="ui center aligned header">Δεδομένα</h3>
                 <div className="ui stackable grid">
                 <div className="ten wide column">
                     <div className="ui segment">
@@ -89,42 +89,42 @@ class FarmsPage extends React.Component {
                             {doneLoading === true && farms !== null ?
                             farms.map((farm)=>{
                                 return(
-                                    <div class="ui card">
-                                        <div class="content">
-                                            <div class="header">{ farm.title }</div>
+                                    <div className="ui card">
+                                        <div className="content">
+                                            <div className="header">{ farm.title }</div>
                                         </div>
-                                        <div class="content">
-                                            <h4 class="ui sub header">Πληροφορίες</h4>
-                                            <div class="ui small feed">
-                                            <div class="event">
-                                                <div class="content">
-                                                <div class="summary">
+                                        <div className="content">
+                                            <h4 className="ui sub header">Πληροφορίες</h4>
+                                            <div className="ui small feed">
+                                            <div className="event">
+                                                <div className="content">
+                                                <div className="summary">
                                                     Στρέμματα  {farm.area}
                                                 </div>
                                                 </div>
                                             </div>
-                                            <div class="event">
-                                                <div class="content">
-                                                <div class="summary">
-                                                    <a>Stevie Feliciano</a> was added as an <a>Administrator</a>
+                                            <div className="event">
+                                                <div className="content">
+                                                <div className="summary">
+                                                    <a>{farm.tag_active}</a>
                                                 </div>
                                                 </div>
                                             </div>
-                                            <div class="event">
-                                                <div class="content">
-                                                <div class="summary">
-                                                    <a>Helen Troy</a> added two pictures
+                                            <div className="event">
+                                                <div className="content">
+                                                <div className="summary">
+                                                    <a>{farm.tag_public}</a>
                                                 </div>
                                                 </div>
                                             </div>
                                             </div>
                                         </div>
-                                        <div class="extra content">
+                                        <div className="extra content">
                                         <Link to={{
                                             pathname: `/farms/${farm.id}/`
                                         }}>
                                         <div className="ui bottom fluid attached blue button">
-                                        <i class="edit icon"></i>
+                                        <i className="edit icon" />
                                         Επεξεργασία
                                         </div>
                                         </Link>
@@ -146,7 +146,7 @@ class FarmsPage extends React.Component {
                             Δημιουργία
                         </div>
                     </h2>
-                        <FarmForm />
+                        <FarmForm reloadFarms={this.reloadFarms} />
                     </div>
                 </div> 
             </div>

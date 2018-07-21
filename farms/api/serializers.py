@@ -75,7 +75,7 @@ class FarmListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Farm
-        fields = ['title', 'id', 'area', 'crops', 'url', 'is_public', 'active']
+        fields = ['title', 'id', 'area', 'crops', 'url', 'is_public', 'active', 'tag_active', 'tag_public']
         
 
 class CropSer(serializers.ModelSerializer):
@@ -89,10 +89,12 @@ class FarmDetailSerializer(serializers.ModelSerializer):
     crops_related = serializers.SerializerMethodField()
     report = serializers.SerializerMethodField()
 
-
     class Meta:
         model = Farm
-        fields = ['title', 'id', 'area', 'crops', 'is_public', 'active', 'crops_related', 'report']
+        fields = ['title', 'id', 'area', 'crops',
+                  'is_public', 'active', 'crops_related',
+                  'report', 'tag_active', 'tag_public'
+                  ]
 
     def get_crops_related(self, obj):
         queryset = Crop.objects.filter(farm=obj)

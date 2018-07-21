@@ -12,10 +12,13 @@ class FarmForm extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCheckbox = this.handleCheckbox.bind(this);
+        this.handlePublicCheckBox = this.handlePublicCheckBox.bind(this);
+        this.handleStatusCheckBox = this.handleStatusCheckBox.bind(this);
         this.handleMulti = this.handleMulti.bind(this);
         this.state = {
             title: '',
+            active: false,
+            is_public: false,
             area: '',
             crops: [],
             doneLoading: false
@@ -35,17 +38,18 @@ class FarmForm extends React.Component {
             },
             body: JSON.stringify(data),
             credentials: 'include'
-        }
+        };
         
         fetch(endpoint, lookupOptions)
           .then(function(response){
               return response.json()
           }).then(function(responseData){
+              console.log('create data', responseData);
               thisComp.props.reloadFarms();
               thisComp.clearForm()
           }).catch(function(error){
-              console.log("error", error)
-              alert("An error occured, please try again later.")
+              console.log("error", error);
+              alert("An error occured, "+ error)
           })
     }
 
@@ -53,7 +57,7 @@ class FarmForm extends React.Component {
         const {farm} = this.props;
         const endpoint = `/api/farms/${farm.id}/`;
         const thisComp = this;
-        const csrfToken = cookie.load('csrftoken')
+        const csrfToken = cookie.load('csrftoken');
         let lookupOptions = {
             method: 'PUT',
             headers: {
@@ -62,7 +66,7 @@ class FarmForm extends React.Component {
             },
             body: JSON.stringify(data),
             credentials: 'include'
-        }
+        };
 
         fetch(endpoint, lookupOptions)
         .then(function(response){
@@ -92,14 +96,7 @@ class FarmForm extends React.Component {
         })
     }
 
-    handleCheckbox(event){
-        event.preventDefault();
-        let key = event.target.name;
-        console.log(key)
-        this.setState({
-            is_active: !this.state.is_active
-        })
-    }
+
 
     handleMulti(event) {
         event.preventDefault();
@@ -125,13 +122,25 @@ class FarmForm extends React.Component {
         if (farm !== undefined) {
             this.updateFarm(data)
         } else {
+            console.log('print!');
             this.createFarm(data)
         }
         
          
     }
 
+    handlePublicCheckBox(event){
 
+        this.setState({
+            is_public: !this.state.is_public
+        })
+    }
+
+    handleStatusCheckBox(event){
+        this.setState({
+            active: !this.state.active
+        })
+    }
 
     componentDidMount() {
         const {farm} = this.props;
@@ -140,8 +149,8 @@ class FarmForm extends React.Component {
                 title: farm.title,
                 area: farm.area,
                 crops: farm.crops,
-                is_active: farm.is_active,
-                is_public: farm.is_public, 
+                active: farm.is_active,
+                public: farm.is_public,
                 doneLoading: false
             })
         } else {
@@ -149,7 +158,7 @@ class FarmForm extends React.Component {
                 crops: [],
                 title: '',
                 area: '',
-                is_active: false,
+                active: false,
                 is_public: false,
                 doneLoading: false
             })  
@@ -191,8 +200,8 @@ class FarmForm extends React.Component {
                         <input
                             type="checkbox"
                             name="active"
-                            onChange={this.handleCheckbox}
-                            value={state.is_active}
+                            onChange={this.handleStatusCheckBox}
+                            value={state.active}
                         />
                     </div>
                     <div className="field">
@@ -200,11 +209,10 @@ class FarmForm extends React.Component {
                         <input 
                             type="checkbox"
                             name="is_public" 
-                            onChange={this.handleCheckbox}
+                            onChange={this.handlePublicCheckBox}
                             value={state.is_public}
                         />
                     </div>
-                    <div className="ui black deny button"> Nope</div>
                     <div onClick={this.handleSubmit} type='submit' className="ui positive right labeled icon button">Αποθήκευση<i className="checkmark icon"/></div>
                 </form>
             )

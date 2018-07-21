@@ -35,7 +35,7 @@ class Tree(TimeStampTitleModel):
 class Farm(TimeStampTitleModel):
     date_test = models.DateField(null=True)
     active = models.BooleanField(default=True)
-    area = models.PositiveIntegerField(default=0)
+    area = models.DecimalField(max_digits=20, decimal_places=2, default=0)
     slug = models.SlugField(null=True)
     user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='farms')
     is_public = models.BooleanField(default=False)
@@ -43,6 +43,12 @@ class Farm(TimeStampTitleModel):
     def get_crops(self):
         print(self.crops.all())
         return self.crops.all().values_list('title__title', 'id', 'area', 'qty')
+
+    def tag_active(self):
+        return 'Ενεργοποιημένο' if self.active else 'Απενεργοποιημένο'
+
+    def tag_public(self):
+        return 'Δημόσιο' if self.is_public else 'Ιδιωτικό'
 
 
 class Crop(TimeStampModel):

@@ -9,7 +9,7 @@ import FarmForm from "./FarmForm";
 
 class FarmDetail extends React.Component {
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             farm: null,
             crops: [],
@@ -44,11 +44,11 @@ class FarmDetail extends React.Component {
     }
 
     componentDidMount() {
-        const {id} = this.props.match.params
+        const {id} = this.props.match.params;
         this.setState({
             farm: null,
             doneLoading:false
-        })
+        });
         this.loadFarm(id)
     }
 
@@ -63,17 +63,21 @@ class FarmDetail extends React.Component {
                         <NavbarInside />
                     </div>
                     <div className="ui text container">
-                        <h1 className="ui inverted header">
-                            Imagine-a-Company
-                        </h1>
-                        <h2>Do whatever you want when you want to.</h2>
-                        <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
+                        {doneLoading === true && farm !== null ?
+                            <h1 className="ui inverted header">{farm.title}</h1>
+                        :<p>No data</p>
+                        }
+                        <br />
+                        <Link to={{
+                            pathname:`/χωράφια/`
+                        }}>
+                            <button className="ui small yellow button">Επιστροφή</button></Link>
                     </div>
                 </div>
-                <h3 class="ui center aligned header">Stackable Grid</h3>
-                <div class="ui three column stackable grid">
-                <div class="column">
-                    <div class="ui segment">
+                <h3 className="ui center aligned header">Δεδομένα</h3>
+                <div className="ui three column stackable grid">
+                <div className="column">
+                    <div className="ui segment">
                         <h2 className="ui blue header">
                             <i className="list icon" />
                             <div className="content">
@@ -96,9 +100,15 @@ class FarmDetail extends React.Component {
                         }
                     </div>
                 </div>
-                <div className='center aligned column'>
-                        <h4 className='ui header'> Καλλιέργιες</h4>
-                        <div className='ui center aligned cards'>
+                <div className='column'>
+                    <div className="ui segment">
+                        <h2 className="ui blue header">
+                            <i className="list icon" />
+                            <div className="content">
+                                Καλλιέργιες
+                            </div>
+                        </h2>
+                         <div className='ui center aligned cards'>
                             {doneLoading === true && farm !== null?
                                 farm.crops_related.map((crop)=>{
                                     return(
@@ -111,14 +121,14 @@ class FarmDetail extends React.Component {
                                                     Στρέμματα... {crop.area}  , Ποσότητα Δέντρων... {crop.qty}
                                                 </div>
                                             </div>
-                                            <div class="extra content">
-                                                <div class="ui fluid inverted blue button">Λεπτομέριες</div>
-                                            
+                                            <div className="extra content">
+                                                <div className="ui fluid inverted blue button">Λεπτομέριες</div>
+
                                             </div>
                                         </div>
                                     )
                                 })
-                            
+
                             :<p>Δε εχείς προσθέσει καλλίεργίες</p>
                             }
                             <br />
@@ -126,17 +136,28 @@ class FarmDetail extends React.Component {
                                 <div className="content">
                                     <div className="header">
                                         Νέα Καλλιέργια
-                                    </div>           
+                                    </div>
                                 </div>
-                                <div class="extra content">
-                                    <div class="ui fluid inverted green button">Προσθήκη</div>          
+                                <div className="extra content">
+                                    <div className="ui fluid inverted green button">Προσθήκη</div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
+
                 <div className='column'>
                     <div className='ui raised segment'>
-                    <FarmForm />     
+                        <h2 className="ui blue header">
+                            <i className="edit icon" />
+                            <div className="content">
+                                Επεξεργασία
+                            </div>
+                        </h2>
+                        {doneLoading === true && farm !== null ?
+                             <FarmForm farm={farm} />
+                        :<p>Oups</p>}
+
                     </div> 
                 </div>
             </div>
