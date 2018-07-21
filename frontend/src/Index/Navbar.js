@@ -43,10 +43,24 @@ class Navbar extends React.Component{
                 <div>
                     <div className="ui large top fixed hidden menu">
                         <div className="ui container">
-                            <a className="active item">Homei</a>
-                            <a className="item">Work</a>
-                            <a className="item">Company</a>
-                            <a className="item">Careers</a>
+                            <Link to={{
+                    pathname: '/'
+                }}><a className="item">Home</a></Link>
+                <Link to={{
+                    pathname: `/χωράφια/`
+                }}><a className="item">Χωράφια</a></Link>
+                <Link to={{
+                    pathname: `/καλλιέργιες/`
+                }}><a className="item">Καλλιέργιες</a></Link>
+                <Link to={{
+                    pathname: `/incomes/invoices/`
+                }}><a className="item">Έσοδα</a></Link>
+                <Link to={{
+                    pathname: `/expenses/`
+                }}><a className="item">Έξοδα</a></Link>
+                <Link to={{
+                    pathname: `/reports/`
+                }}><a className="item">Reports</a></Link>
                             <div className="right menu">
                             <div className="item">
                                 <a className="ui button">Log in</a>
@@ -58,10 +72,24 @@ class Navbar extends React.Component{
                         </div>
                     </div>
                     <div className="ui vertical inverted sidebar menu">
-                        <a className="active item">Homeo</a>
-                        <a className="item">Work</a>
-                        <a className="item">Company</a>
-                        <a className="item">Careers</a>
+                        <Link to={{
+                    pathname: '/'
+                }}><a className="item">Home</a></Link>
+                <Link to={{
+                    pathname: `/χωράφια/`
+                }}><a className="item">Χωράφια</a></Link>
+                <Link to={{
+                    pathname: `/καλλιέργιες/`
+                }}><a className="item">Καλλιέργιες</a></Link>
+                <Link to={{
+                    pathname: `/incomes/invoices/`
+                }}><a className="item">Έσοδα</a></Link>
+                <Link to={{
+                    pathname: `/expenses/`
+                }}><a className="item">Έξοδα</a></Link>
+                <Link to={{
+                    pathname: `/reports/`
+                }}><a className="item">Reports</a></Link>
                         <a className="item">Login</a>
                         <a className="item">Signup</a>
                     </div>

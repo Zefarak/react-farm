@@ -46,7 +46,7 @@ class NavbarInside extends React.Component{
                 </a>
                 <Link to={{
                     pathname: '/'
-                }}><a className="item">Homea</a></Link>
+                }}><a className="item">Home</a></Link>
                 <Link to={{
                     pathname: `/χωράφια/`
                 }}><a className="item">Χωράφια</a></Link>
