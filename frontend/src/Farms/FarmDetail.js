@@ -10,6 +10,7 @@ import FarmForm from "./FarmForm";
 class FarmDetail extends React.Component {
     constructor(props){
         super(props);
+        this.reloadData = this.reloadData.bind(this);
         this.state = {
             farm: null,
             crops: [],
@@ -41,6 +42,11 @@ class FarmDetail extends React.Component {
         }).catch(function(error){
             console.log("error", error)
         })
+    }
+
+    reloadData(){
+        const {id} = this.props.match.params;
+        this.loadFarm(id)
     }
 
     componentDidMount() {
@@ -76,8 +82,9 @@ class FarmDetail extends React.Component {
                 </div>
                 <h3 className="ui center aligned header">Δεδομένα</h3>
                 <div className="ui three column stackable grid">
-                <div className="column">
-                    <div className="ui segment">
+
+                    <div className="four wide column">
+                        <div className="ui segment">
                         <h2 className="ui blue header">
                             <i className="list icon" />
                             <div className="content">
@@ -90,7 +97,7 @@ class FarmDetail extends React.Component {
                                 <p>Στρέμματα {farm.area}</p>
                             </div>
                             <div className="ui segment">
-                                <p>Κατάσταση {farm.tag_is_active}</p>
+                                <p>Κατάσταση {farm.tag_active}</p>
                             </div>
                             <div className="ui segment">
                                 <p>Δημόσιο {farm.tag_is_public}</p>
@@ -99,9 +106,10 @@ class FarmDetail extends React.Component {
                         :<p>oups</p>
                         }
                     </div>
-                </div>
-                <div className='column'>
-                    <div className="ui segment">
+                    </div>
+
+                    <div className='eight wide column'>
+                    <div className="ui raised segment">
                         <h2 className="ui blue header">
                             <i className="list icon" />
                             <div className="content">
@@ -122,7 +130,11 @@ class FarmDetail extends React.Component {
                                                 </div>
                                             </div>
                                             <div className="extra content">
-                                                <div className="ui fluid inverted blue button">Λεπτομέριες</div>
+                                                <Link to={{
+                                                    pathname: `/καλλιέργιες/${crop.id}/`
+                                                }}>
+                                                    <div className="ui fluid inverted icon blue button"><i className="edit icon" /> Επεξεργασία</div>
+                                                </Link>
 
                                             </div>
                                         </div>
@@ -139,14 +151,21 @@ class FarmDetail extends React.Component {
                                     </div>
                                 </div>
                                 <div className="extra content">
-                                    <div className="ui fluid inverted green button">Προσθήκη</div>
+                                    {doneLoading === true && farm !== null ?
+                                        <Link to={{
+                                            pathname: `/farms/create-crop/${farm.id}/`
+                                        }}>
+                                            <button className="ui fluid inverted green button">Προσθήκη</button>
+                                        </Link>
+                                        : <p>No data</p>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    </div>
 
-                <div className='column'>
+                <div className='four wide column'>
                     <div className='ui raised segment'>
                         <h2 className="ui blue header">
                             <i className="edit icon" />
@@ -155,7 +174,7 @@ class FarmDetail extends React.Component {
                             </div>
                         </h2>
                         {doneLoading === true && farm !== null ?
-                             <FarmForm farm={farm} />
+                             <FarmForm farm={farm} reloadData={this.reloadData} />
                         :<p>Oups</p>}
 
                     </div> 

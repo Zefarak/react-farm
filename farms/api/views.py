@@ -2,6 +2,9 @@ from rest_framework import generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
 from .serializers import (FarmListSerializer, FarmDetailSerializer,
                           CropSerializer, CropDetailSerializer,
                           TreeSerializer
@@ -60,9 +63,10 @@ class FarmApiDetailView(generics.RetrieveUpdateDestroyAPIView):
 class CropApiView(generics.ListCreateAPIView):
     queryset = Crop.objects.all()
     serializer_class = CropSerializer
-    permissions = [permissions.IsAuthenticatedOrReadOnly, ]
-    
-
+    permissions = [permissions.IsAuthenticatedOrReadOnly,]
+    filter_backends = (DjangoFilterBackend, SearchFilter,)
+    filter_fields = ('title', 'farm', 'is_public')
+    search_fields = ['title__title', 'farm__title']
     
     def get_queryset(self):
         queryset = Crop.objects.filter(user=self.request.user)
@@ -70,6 +74,8 @@ class CropApiView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
+
+
 
 
 class CropApiDetailView(generics.RetrieveUpdateDestroyAPIView):

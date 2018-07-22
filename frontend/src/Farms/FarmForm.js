@@ -72,7 +72,7 @@ class FarmForm extends React.Component {
         .then(function(response){
             return response.json()
         }).then(function(responseData){
-            
+            thisComp.props.reloadData();
         }).catch(function(error){
             console.log('error update', error)
         })
@@ -149,8 +149,8 @@ class FarmForm extends React.Component {
                 title: farm.title,
                 area: farm.area,
                 crops: farm.crops,
-                active: farm.is_active,
-                public: farm.is_public,
+                active: farm.active,
+                is_public: farm.is_public,
                 doneLoading: false
             })
         } else {
@@ -171,6 +171,7 @@ class FarmForm extends React.Component {
         const {state} = this;
         const {doneLoading} = this.state;
         const {farm} = this.props;
+        console.log('render', state);
         return (
                 <form className='ui form'>
                     <div className="field">

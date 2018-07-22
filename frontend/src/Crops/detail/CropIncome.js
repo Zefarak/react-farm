@@ -10,46 +10,26 @@ class BodyIncome extends React.Component{
         const {reports} = this.props;
         return(
             <div>
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <i className="fa fa-bell fa-fw"></i> Ανάλυση
+                <h2 className="ui blue header">
+                  <i className="list  icon" />
+                  <div className="content">
+                    Πληροφορίες
+                  </div>
+                </h2>
+                <div className="ui segments">
+                    <div className="ui segment">
+                        <p>Διαφορά {reports.total_value}</p>
                     </div>
-                    {reports !== undefined ? 
-                    <div className="panel-body">
-                        <div className="list-group">
-                            <a href="#" class="list-group-item">
-                                <i className="fa fa-comment fa-fw"></i> -600
-                                <span className="pull-right text-muted small"><em>Διαφορά</em>
-                                </span>
-                            </a>    
-                        </div>
-                        <div className="list-group">
-                            <a href="#" class="list-group-item">
-                                <i className="fa fa-comment fa-fw"></i> {reports.total_value}
-                                <span className="pull-right text-muted small"><em>Συνολικά Έξοδα</em>
-                                </span>
-                            </a>    
-                        </div>
-                        <div className="list-group">
-                            <a href="#" class="list-group-item">
-                                <i className="fa fa-comment fa-fw"></i> 0
-                                <span className="pull-right text-muted small"><em>Συνολικά Εσοδα</em>
-                                </span>
-                            </a>    
-                        </div>
+                     <div className="ui green segment">
+                        <p>Συνολικά Εσοδα {reports.total_value}</p>
                     </div>
-                    :<div className="list-group">
-                        <a href="#" class="list-group-item">
-                            <i className="fa fa-comment fa-fw"></i> Κάτι πήγε λάθος
-                            <span className="pull-right text-muted small"><em>Δέντρο-Φυτό</em>
-                            </span>
-                        </a>    
+                     <div className="ui red segment">
+                        <p>Συνολικά Έξοδα {reports.total_value}</p>
                     </div>
-                    }
                 </div>
             </div>
-            )
+        )
     }
 }
 
-export default BodyIncome
+export default BodyIncome;

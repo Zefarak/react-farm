@@ -32,7 +32,6 @@ class CropSerializer(serializers.ModelSerializer):
                   ]
 
 
-
 class CropDetailSerializer(serializers.ModelSerializer):
     # title = serializers.SlugRelatedField(slug_field='title', queryset=Tree.objects.all())
     farm = serializers.SlugRelatedField(slug_field='title', queryset=Farm.objects.all())
@@ -40,7 +39,7 @@ class CropDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Crop
-        fields = ['title', 'area', 'qty', 'farm', 'user', 'is_public', 'tag_title', 'tag_farm']
+        fields = ['title', 'area', 'qty', 'farm', 'user', 'is_public', 'tag_title', 'tag_farm', 'id']
 
     def get_fields(self, *args, **kwargs):
        fields = super(CropDetailSerializer, self).get_fields(*args, **kwargs)
@@ -57,6 +56,7 @@ class CropStatsSerializer(serializers.ModelSerializer):
     
 
 # tests
+
 
 class TestFarmSerializer(serializers.ModelSerializer):
     crops = serializers.StringRelatedField(many=True)
@@ -82,7 +82,7 @@ class CropSer(serializers.ModelSerializer):
 
     class Meta:
         model = Crop
-        fields = ['title', 'id', 'qty', 'area', 'tag_title']
+        fields = ['title', 'id', 'qty', 'area', 'tag_title', 'id']
 
 
 class FarmDetailSerializer(serializers.ModelSerializer):

@@ -11,14 +11,52 @@ class CropForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.state = {
             doneDownloading: false,
+            crop: null,
             farms_data: [],
             trees_data: [],
+
             farm: null,
             area: '',
             qty: '',
             title: '',
             is_public: false,
         }
+    }
+
+    componentDidMount() {
+        const {crop} = this.props;
+        if (crop !== undefined) {
+
+            this.setState({
+                doneDownloading: false,
+                farms_data: [],
+                trees_data: [],
+                crop: crop,
+
+                farm: crop.farm,
+                is_public: crop.is_public,
+                area: crop.area,
+                qty: crop.qty,
+                title: crop.title,
+
+            })
+        } else {
+            this.setState({
+                doneDownloading: false,
+                crop: null,
+                trees_data: [],
+                farms_data: [],
+
+                farm: null,
+                area: '',
+                qty: '',
+                title: '',
+                is_public: false,
+            })
+        }
+        this.loadTrees();
+        this.loadFarms();
+
     }
 
     loadTrees() {
@@ -29,7 +67,7 @@ class CropForm extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }
+        };
 
         fetch(endpoint, lookupOption)
         .then(function(response){
@@ -52,7 +90,7 @@ class CropForm extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
 
         fetch(endpoint, lookupOption)
         .then(function(response) {
@@ -68,10 +106,10 @@ class CropForm extends React.Component {
     }
 
     createCrop(data) {
+        console.log('create');
         const endpoint = '/api/crops/' ;
-        const csrfToken = cookie.load('csrftoken')
+        const csrfToken = cookie.load('csrftoken');
         let thisComp = this;
-        console.log('create',data, csrfToken)
         let lookupOption = {
             method: "POST",
             headers: {
@@ -80,7 +118,7 @@ class CropForm extends React.Component {
             },
             body: JSON.stringify(data),
             credentials: 'include'
-        }
+        };
         
         fetch(endpoint, lookupOption)
         .then(function(response){
@@ -92,30 +130,32 @@ class CropForm extends React.Component {
         })
     }
 
-    componentDidMount() {
+    updateCrop(data) {
         const {crop} = this.props;
-        if (crop !== undefined) {
-            this.setState({
-                area: crop.area,
-                qty: crop.qty,
-                title: crop.title,
-                trees: []
-                
-            }) 
-        } else {
-            this.setState({
-                trees_data: [],
-                farms_data: [],
-                area: null,
-                qty: null,
-                title: null,
-                farm: null
-            })
-        }
-        this.loadTrees();
-        this.loadFarms();
-        
+        console.log('update', 'crop');
+        const endpoint = `/api/crops/${crop.id}/`;
+        const csrfToken = cookie.load('csrftoken');
+        let thisComp = this;
+        let lookupOption = {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify(data),
+            credentials: 'include'
+        };
+
+        fetch(endpoint, lookupOption)
+        .then(function(response){
+            return response.json()
+        }).then(function(responseData){
+            thisComp.props.reloadData()
+        }).catch(function(erorr){
+            console.log(error)
+        })
     }
+
 
     handleChange(event) {
         event.preventDefault();
@@ -128,47 +168,52 @@ class CropForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        const {crop} = this.state;
         const data = this.state;
-        this.createCrop(data)
+        if (crop !== null){
+            this.updateCrop(data)
+        } else {
+            this.createCrop(data)
+        }
     }
+
   
     render() {
-        const {crop} = this.props;
+        const {crop} = this.state;
         const {state} = this;
         const {trees_data} = this.state;     
         const {farms_data} = this.state;
 
         return (
                 <form onSubmit={this.handleSubmit} className="ui form" role="form">
-                            <div className="form-group">
-                                <label className="control-label">Τίτλος</label>
-                                <select onChange={this.handleChange} className="form-control" name="title">
-                                    {trees_data.length > 0 ? trees_data.map((tree, index)=>{
-                                        return (
-                                            <option value={tree.id}>{tree.title}</option>
-                                        )
-                                    })
-                                    : <option>No data</option>
-                                    }
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label className="control-label">Χωράφι</label>
-                                <select onChange={this.handleChange} className="form-control" name="farm">
-                                        <option value=''>Επέλεξε</option>
-                                    {farms_data.length > 0 ? farms_data.map((farm, index)=>{
-                                        
-                                        return (
-                                            <option value={farm.id}>{farm.title}</option>
-                                        )
-                                    })
-                                    : <option>No data</option>
-                                    }
-                                </select>
+                    <div className="form-group">
+                        <label className="control-label">Τίτλος</label>
+                        <select onChange={this.handleChange} className="form-control" name="title">
+                            {trees_data.length > 0 ? trees_data.map((tree, index)=>{
+                                return (
+                                    <option value={tree.id}>{tree.title}</option>
+                                )
+                            })
+                                : <option>No data</option>
+                            }
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label className="control-label">Χωράφι</label>
+                        <select onChange={this.handleChange} className="form-control" name="farm">
+                            <option value=''>Επέλεξε</option>
+                            {farms_data.length > 0 ? farms_data.map((farm, index)=>{
+                                return (
+                                    <option value={farm.id}>{farm.title}</option>
+                                )
+                            })
+                                : <option>No data</option>
+                            }
+                        </select>
                             </div>
                             <div className="form-group">
                                 <label className='control-label'>Πόσοτητα Δέντρων</label>
-                                <input onChange={this.handleChange} name="qty" className="form-control" type="number" />
+                                <input onChange={this.handleChange} name="qty" value={state.qty} type="number" required='true' />
                             </div>
                             <div className="form-group">
                                 <label className='control-label'>Στρέμματα</label>

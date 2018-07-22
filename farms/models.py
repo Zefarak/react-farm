@@ -54,7 +54,7 @@ class Farm(TimeStampTitleModel):
 class Crop(TimeStampModel):
     title = models.ForeignKey(Tree, on_delete=models.CASCADE)
     qty = models.PositiveIntegerField(default=0)
-    area = models.PositiveIntegerField(default=0)
+    area = models.DecimalField(decimal_places=2, max_digits=20, default=0)
     user = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL, related_name='crops')
     farm = models.ForeignKey(Farm, null=True, on_delete=models.SET_NULL, related_name='crops')
     is_public = models.BooleanField(default=False)

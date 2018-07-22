@@ -13,6 +13,7 @@ class CropDetail extends React.Component {
 
     constructor(props) {
         super(props);
+        this.reloadData = this.reloadData.bind(this);
         this.state = {
             expenses: [],
             reports: null,
@@ -22,9 +23,22 @@ class CropDetail extends React.Component {
         }
     }
 
+    componentDidMount() {
+        const {id} = this.props.match.params;
+        this.setState({
+            crop: null,
+            expenses: [],
+            doneLoading: false,
+            reports: []
+        });
+        this.loadCrop(id);
+        this.loadReport(id);
+        this.loadExpenses(id);
+
+    }
 
     loadExpenses(id){
-        const endpoint = `/api/expenses/?category=&crop_related=${id}`
+        const endpoint = `/api/expenses/?category=&crop_related=${id}`;
         const thisComp = this;
         let lookupOption = {
             method: 'GET',
@@ -32,7 +46,7 @@ class CropDetail extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
 
         fetch(endpoint, lookupOption)
         .then(function(response){
@@ -47,7 +61,7 @@ class CropDetail extends React.Component {
     }
 
     loadIncomes(id) {
-        const endpoint = `/api/incomes/invoices/`
+        const endpoint = `/api/incomes/invoices/`;
         const thisComp = this;
         const lookupOption = {
             method: 'GET',
@@ -55,7 +69,7 @@ class CropDetail extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
 
         fetch(endpoint, lookupOption)
         .then(function(response){
@@ -70,7 +84,7 @@ class CropDetail extends React.Component {
     }
 
     loadReport(id){
-        const endpoint = `/api/reports/crops/${id}`
+        const endpoint = `/api/reports/crops/${id}`;
         const thisComp = this;
         let lookupOptions = {
             method: 'GET',
@@ -78,7 +92,7 @@ class CropDetail extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
 
         fetch(endpoint, lookupOptions)
         .then(function(response){
@@ -93,7 +107,7 @@ class CropDetail extends React.Component {
     }
 
     loadCrop(id){
-        const endpoint = `/api/crops/${id}/`
+        const endpoint = `/api/crops/${id}/`;
         const thisComp = this;
         let lookupOption = {
             method: 'GET',
@@ -101,7 +115,7 @@ class CropDetail extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }
+        };
 
         fetch(endpoint, lookupOption)
         .then(function(response){
@@ -118,18 +132,9 @@ class CropDetail extends React.Component {
     }
 
 
-    componentDidMount() {
+    reloadData(){
         const {id} = this.props.match.params;
-        this.setState({
-            crop: null,
-            expenses: [],
-            doneLoading: false,
-            reports: []
-        })
-        this.loadCrop(id);
-        this.loadReport(id);
-        this.loadExpenses(id);
-        
+        this.loadCrop(id)
     }
 
     render() {
@@ -150,16 +155,16 @@ class CropDetail extends React.Component {
                             </h1>
                             :<h1 className="ui inverted header">oups</h1>
                         }
-                        <h2>Do whatever you want when you want to.</h2>
-                        <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
+                        <h2>Έσοδα - Έξοδα, Πληροφορίες</h2>
+                        <br />
                     </div>
                 </div>
-                <h3 class="ui center aligned header">Καλλιέργιες</h3>
 
-                <div class="ui three column stackable grid">
+                <h3 className="ui center aligned header">Δεδομένα</h3>
+                <div className="ui three column stackable grid">
 
-                    <div class="column">
-                        <div class="ui segment">
+                    <div className="column">
+                        <div className="ui segment">
                         {doneLoading === true ?
                             <div>
                                 <CropBody crop={crop} />
@@ -170,8 +175,8 @@ class CropDetail extends React.Component {
                         </div>
                     </div>
 
-                    <div class="column">
-                        <div class="ui segment">
+                    <div className="column">
+                        <div className="ui raised segment">
                         {doneLoading === true ?
                             <BodyIncome reports={reports} />    
                             :<p>Something goes wrong! Try again later</p>
@@ -179,10 +184,10 @@ class CropDetail extends React.Component {
                         </div>
                     </div>
 
-                    <div class="column">
-                        <div class="ui segment">
-                            {doneLoading === true ? 
-                                <CropForm crop={crop} />
+                    <div className="column">
+                        <div className="ui segment">
+                            {doneLoading === true && crop !== null ?
+                                <CropForm crop={crop} reloadData={this.reloadData} />
                             :<p>ht</p>
                             }   
                         </div>

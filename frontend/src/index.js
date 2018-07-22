@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 import Index from "./Index/Index";
 import FarmDetail from "./Farms/FarmDetail";
 import FarmsPage from './Farms/FarmsPage';
+import FarmCrop from './Farms/FarmCrop';
 import CropsPage from './Crops/CropsPage';
 import CropsCreate from './Crops/CropsCreate';
 import TreePage from './Trees/TreePage';
@@ -35,6 +36,7 @@ class App extends React.Component {
                     <Route exact path="/data/" component={FarmMain} />
                     <Route exact path="/farms/:id" component={FarmDetail} />
                     <Route exact path='/χωράφια/' component={FarmsPage} />
+                    <Route exact path='/farms/create-crop/:id' component={FarmCrop} />
                     
                     <Route exact path='/δέντρα/' component={TreePage} />
                     <Route exact path='/trees/:id/' component={TreeDetail} />

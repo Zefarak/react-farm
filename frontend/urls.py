@@ -13,6 +13,7 @@ urlpatterns = [
     path('χωράφια/δημιουργία/', TemplateView.as_view(template_name='index.html')),
     path('καλλιέργιες/', TemplateView.as_view(template_name='index.html')),
     path('καλλιέργιες/<int:id>/', TemplateView.as_view(template_name='index.html')),
+    path('farms/create-crop//<int:id>/', TemplateView.as_view(template_name='index.html')),
     path('καλλιέργιες/δημιουργία/', TemplateView.as_view(template_name='index.html')),
 
     path('δέντρα/', TemplateView.as_view(template_name='index.html')),

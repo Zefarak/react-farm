@@ -34,19 +34,47 @@ class CropsPageBody extends React.Component {
 
     constructor(props) {
         super(props);
-        this.updateCrops = this.updateCrops.bind(this)
+        this.handleSearch = this.handleSearch.bind(this);
+        this.updateCrops = this.updateCrops.bind(this);
         this.state = {
-            crops: []
+            crops: [],
+            search_value: '',
+            doneLoading: false
         }
     }
 
-    loadCrops(){
-        const endpoint = '/api/crops/';
+     componentDidMount() {
+        this.setState({
+            crops: [],
+            search_value: '',
+            doneLoading: false
+        });
+        this.loadCrops('')
+    }
+
+    handleSearch(event){
+        event.preventDefault();
+        let value = event.target.value;
+        this.setState({
+            search_value: value
+        });
+        console.log('target',value);
+        if(value.length > 2) {
+            this.loadCrops(value)
+        }
+
+    }
+
+    loadCrops(value){
+        let endpoint = '/api/crops/';
+        if (value.length > 2) {
+            endpoint = `/api/crops/?search=${value}`;
+        }
         let thisComp = this;
         let lookupOptions = {
             method: 'GET',
             headers: {
-                'Conteny-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             credentials: 'include'
         };
@@ -68,20 +96,15 @@ class CropsPageBody extends React.Component {
         this.loadCrops()
     }
 
-    componentDidMount() {
-        this.setState({
-            crops: []
-        });
-        this.loadCrops()
-    }
+
 
     render(){
         const {crops} = this.state;
+        const {search_value} = this.state;
         return (
-
-            <div class="ui two column stackable grid">
-            <div class="column">
-                <div class="ui segment">
+            <div className="ui two column stackable grid">
+            <div className="column">
+                <div className="ui segment">
                     <h2 className="ui blue header">
                         <i className="list icon" />
                         <div className="content">
@@ -96,7 +119,7 @@ class CropsPageBody extends React.Component {
                                     <th>Καλλιέργια</th>
                                     <th>Στρέμματα</th>
                                     <th>Ποσότητα</th>
-                                    <th></th>
+                                    <th><form method="get" onChange={this.handleSearch} value={search_value} className="ui form"> <input type="text" placeholder="Search" className="ui inline form" /></form></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -147,10 +170,10 @@ class CropsPage extends React.Component {
                     </div>
                     <div className="ui text container">
                         <h1 className="ui inverted header">
-                            Imagine-a-Company
+                            Καλλιέργιες
                         </h1>
                         <h2>Do whatever you want when you want to.</h2>
-                        <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
+                        <br />
                     </div>
                 </div>
                 <h3 class="ui center aligned header">Καλλιέργιες</h3>
