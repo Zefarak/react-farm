@@ -1,174 +1,70 @@
 import React from 'react';
 import Navbar from './Navbar';
 import NavbarInside from './NavbarInside';
-import Homepage from './Homepage';
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
-import cookie from 'react-cookies';
-import {Link} from 'react-router-dom';
+import  {getDataResults, getData}  from './MyComponent';
+
 
 class Index extends React.Component {
 
     constructor(props){
         super(props);
-        this.handleLogout = this.handleLogout.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
-        this.display_form = this.display_form.bind(this);
-        this.handleSignUp = this.handleSignUp.bind(this);
         this.state = {
-            displayed_form: '',
-            logged_in: true,
-            username: ''
+            user: '',
+            expenses: [],
+            incomes: [],
+            doneLoading: false
         }
     }
 
     componentDidMount() {
-        if (this.state.logged_in) {
-          this.loadUser()
-      }
+        this.loadExpenses();
+        this.loadIncomes();
+        this.loadUser()
+    }
+
+    loadExpenses(){
+        const endpoint = '/api/expenses/';
+        const thisComp = this;
+        getDataResults(endpoint, thisComp, 'expenses')
+    }
+
+    loadIncomes(){
+        const endpoint = '/api/incomes/invoices/'
+        const thisComp = this;
+        getDataResults(endpoint, thisComp, 'incomes')
     }
 
     loadUser(){
-        const {logged_in} = this.state;
-        const endpoint ='/api/current-user/';
-        const lookupOptions = {
-            method: 'GET',
-            headers: {
-                Authorization: `JWT${localStorage.getItem('token')}`
-            }
-        }
-        if(logged_in){
-            fetch(endpoint, lookupOptions)
-            .then(response=>response.json())
-            .then(responseData=>{
-                this.setState({
-                    username: responseData.username
-                })
-            })
-        }
-    }
-    
-    handleLoginApi(data){
-        event.preventDefault();
+        const endpoint = '/api/current-user/';
         const thisComp = this;
-        const endpoint = '/api/user/login/';
-        const csrfToken = cookie.load('csrftoken');
-        console.log('login_api', data, csrfToken)
-        let lookupOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            },
-            body: JSON.stringify(data)
-        }
-
-        fetch(endpoint, lookupOptions)
-        .then(function(response){
-            return response.json()
-        }).then(function(responseData){
-            
-            thisComp.setState({
-                logged_in: true,
-                displayed_form:'',
-                
-            })
-        }).catch(function(error){
-            console.log('error malaka', error)
-        })  
-    }
-
-    handleLogin(event, data){
-        event.preventDefault();
-        this.handleLoginApi(data)
-        {/*
-        const thisComp = this;
-        const endpoint = '/token-auth/';
-        let lookupOptions ={
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }
-
-        fetch(endpoint, lookupOptions)
-        .then(function(response){
-            return response.json()
-        }).then(function(responseData){
-            localStorage.setItem('token', responseData.token);
-            thisComp.setState({
-                logged_in: true,
-                displayed_form:'',
-                username: responseData.user.username
-            })
-        }).catch(function(error){
-            console.log('error malaka', error)
-        })  
-    */}
-    }
-
-    handleSignUp(event){
-        let data = this.state;
-        const endpoint = '/api/users/';
-        const thisComp = this;
-        let lookupOptions ={
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }
-
-        
-        fetch(endpoint, lookupOptions)
-        .then(response=>response.json)
-        .then(responseData=>{
-            
-            thisComp.setState({
-                logged_in: true,
-                displayed_form:'',
-                username: responseData.username
-            })
-        })
-    }
-
-    handleLogout(){
-        localStorage.removeItem('token'); 
+        getData(endpoint, thisComp, 'user')
         this.setState({
-            logged_in: false,
-            username: ''
+            doneLoading: true
         })
-    }
-
-    display_form(form){
-        this.setState({
-            displayed_form: form
-        })
-    }
-
-    
-    componentDidMount(){
-
     }
 
 
     render() {
-        const {logged_in} = this.state;
-        const {displayed_form} = this.state;
-        let form;
-        switch (displayed_form){
-            case 'login':
-                form = <LoginForm handle_login={this.handleLogin} />;
-                break;
-            case 'signup':
-                form = <SignupForm handle_signup={this.handleSignUp} />;
-                break
-            default:
-                form= null;
-
-        }
-        console.log(logged_in)
+        const {user} = this.state;
+        const {doneLoading} = this.state;
+        const incomes = this.state.incomes.map((income)=>{
+            return(
+                <tr>
+                    <td>{income.timestamp}</td>
+                    <td>{income.title}</td>
+                    <td>{income.tag_value}</td>
+                </tr>
+            )
+        })
+        const expenses = this.state.incomes.map((expense)=>{
+            return(
+                <tr>
+                    <td>{expense.timestamp}</td>
+                    <td>{expense.title}</td>
+                    <td>{expense.tag_value}</td>
+                </tr>
+            )
+        })
         return(
             <div>
                <Navbar />
@@ -184,6 +80,53 @@ class Index extends React.Component {
                         <div className="ui huge primary button">Get Started <i class="right arrow icon"/></div>
                     </div>
                 </div>
+                <h3 className='ui centered blue header'>Πληροφορίες</h3>
+                {doneLoading === true && user.id !== null ? 
+                    <div className='ui two column grid'>
+                        <div className='column'>
+                            <h3 className='ui centered blue header'>Υποχρεώσεις</h3>
+                            <table className="ui red table">
+                                <thead>
+                                    <tr>
+                                        <th>Ημερομηνία</th>
+                                        <th>Τίτλος</th>
+                                        <th>Αξία</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {expenses}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className='column'>
+                            <h3 className='ui centered blue header'>Έσοδα</h3>
+                            <table className="ui green table">
+                                <thead>
+                                    <tr>
+                                        <th>Ημερομηνία</th>
+                                        <th>Τίτλος</th>
+                                        
+                                        <th>Αξία</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {incomes}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                :
+                <div className='ui two column stackable grid'>
+                    <div className='column'>
+
+                    </div>
+                    <div className='column'>
+
+                    </div>
+                </div>
+                }
+                
             </div>     
         )
     }

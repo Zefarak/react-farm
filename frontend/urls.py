@@ -1,11 +1,13 @@
 from django.urls import path, re_path
 from django.contrib import admin
 from django.views.generic import TemplateView
-from frontend.views import homepage, index
+from frontend.views import homepage, index, login_view, logout_view
 
 
 urlpatterns = [
     path('', view=homepage),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
     path('tests/', view=index),
 
     path('data/', TemplateView.as_view(template_name='index.html')),

@@ -40,7 +40,7 @@ class ExpenseListApi(generics.ListCreateAPIView):
     serializer_class = ExpenseListSerializer
     permission_classes = (permissions.IsAuthenticated, )
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-    filter_fields = ('category', 'crop_related')
+    filter_fields = ('category', 'crop_related', 'is_paid')
     search_fields = ('title',)
     ordering_fields = ('timestamp', 'category')
     pagination_class = (CostumPagination)

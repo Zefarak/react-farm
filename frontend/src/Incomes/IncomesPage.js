@@ -5,6 +5,8 @@ import Navbar from '../index/Navbar';
 import NavbarInside from '../Index/NavbarInside';
 import IncomeForm from './IncomesForm'
 import {Link} from 'react-router-dom';
+import {getDataResults} from '../Index/MyComponent';
+
 
 class BodyIncomes extends React.Component {
 
@@ -126,12 +128,53 @@ class IncomesPage extends React.Component {
                     </div>
                 </div>
                 <h3 className="ui center aligned header">Stackable Grid</h3>
-                <div className="ui two column stackable grid">
+                <div className="ui three column stackable grid">
                     <div className='column'>
                         {doneLoading === true ?
                                 <BodyIncomes incomes={incomes} />
                             :<p>No data</p>
                         }
+                    </div>
+                    <div className='column'>
+                    <form method='GET' className="ui form">
+                        <div className="field">
+                            <label>Αναζήτηση</label>
+                            <input type="text" name="search" placeholder="Αναζήτηση" />
+                        </div>
+                        <div className="field">
+                            <label>Φάρμες</label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="card[type]" />
+                                <div class="default text">Type</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="visa">
+                                            <i class="visa icon" />
+                                            Visa
+                                            </div>
+                                            <div class="item" data-value="amex">
+                                            <i class="amex icon" />
+                                            American Express
+                                            </div>
+                                    <div class="item" data-value="discover">
+                                        <i class="discover icon" />
+                                        Discover
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Ημερομηνία Έναρξης</label>
+                                <input type="date" name="date_start" maxlength="3" placeholder="CVC" />
+                            </div>
+                            <div class="field">
+                                <label>Ημερομηνία Λήξης</label>
+                                <input type="date" name="date_end" maxlength="3" placeholder="CVC" />
+                            </div>
+                        </div>
+                        <button class="ui button" type="submit">Αποθήκευση</button>
+                    </form>
                     </div>
                     <div className='column'>
                         <div className='ui raised segment'>

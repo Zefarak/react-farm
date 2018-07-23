@@ -1,11 +1,8 @@
 import 'whatwg-fetch'
 import cookie from 'react-cookies';
 
-
-function callEndpoint(url){
-    let result = null;
-    const endpoint = url;
-    let lookupOptions = {
+function getData(endpoint, thisComp, key) {
+    const lookupOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -17,41 +14,35 @@ function callEndpoint(url){
     .then(function(response){
         return response.json()
     }).then(function(responseData){
-        console.log('in fuction', responseData);
-        result = responseData;
-        
-    }).catch(function(error){
-        console.log(error)
-    });
-
-    return result
-
+        thisComp.setState({
+            [key]: responseData
+        })
+    })
 }
 
-function sentEndpoint(url, method_, data, ){
-    const csrfToken = cookie.load('csrftoken')
-    const endpoint = url;
-    let lookupOptions = {
-        method: method_,
+function getDataResults(endpoint, thisComp, key) {
+    const lookupOptions = {
+        method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken
+            'Content-Type': 'application/json'
         },
-        credentials: 'include',
-        body: JSON.stringify(data)
+        credentials: 'include'
     }
+
     fetch(endpoint, lookupOptions)
     .then(function(response){
         return response.json()
     }).then(function(responseData){
-       
-    }).catch(function(error){
-        console.log(error)
+        thisComp.setState({
+            [key]: responseData.results,
+            next: responseData.next,
+            previous: responseData.previous
+        })
     })
-    
 }
 
+
 export {
-    callEndpoint,
-    sentEndpoint
+    getData,
+    getDataResults
 }

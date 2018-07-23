@@ -2,7 +2,7 @@ import React from 'react'
 import 'whatwg-fetch';
 import cookie from 'react-cookies';
 import moment from 'moment';
-import {callEndpoint} from '../Index/MyComponent';
+import {getData, getDataResults} from '../Index/MyComponent';
 
 class IncomeForm extends React.Component {
 
@@ -28,11 +28,15 @@ class IncomeForm extends React.Component {
     }
 
     loadCrops() {
-        callEndpoint('/api/crops/', this, 'crops');
+        const endpoint = '/api/crops/';
+        const thisComp = this;
+        getData(endpoint, thisComp, 'crops')
     }
         
     loadCategories() {
-        callEndpoint('/api/incomes/invoices-category/', this, 'categories');
+        const endpoint = '/api/incomes/invoices-category/';
+        const thisComp = this;
+        getData(endpoint, thisComp, 'categories')
     }
 
     updateIncome(data) {
